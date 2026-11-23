@@ -967,7 +967,7 @@
 <h4>Services we use</h4>
 <ul>
 <li><b>Cloudflare</b> runs the game server and database. Like any web service it handles your IP address to deliver traffic and block abuse.</li>
-<li><b>Resend</b> delivers password reset emails (only if you added an email).</li>
+<li><b>EmailJS</b> and <b>Gmail</b> deliver password reset emails from feelthewrath.dev@gmail.com (only if you added an email).</li>
 <li><b>GitHub</b> hosts desktop updates; the desktop app checks it for new versions.</li>
 <li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence.</li>
 </ul>
@@ -1150,7 +1150,7 @@
 <h4>Services we use</h4>
 <ul>
 <li><b>Cloudflare</b> runs the game server and database. Like any web service it handles your IP address to deliver traffic and block abuse.</li>
-<li><b>Resend</b> delivers password reset emails (only if you added an email).</li>
+<li><b>EmailJS</b> and <b>Gmail</b> deliver password reset emails from feelthewrath.dev@gmail.com (only if you added an email).</li>
 <li><b>GitHub</b> hosts desktop updates; the desktop app checks it for new versions.</li>
 <li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence.</li>
 </ul>
@@ -1995,7 +1995,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.5.7';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.5.8';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
