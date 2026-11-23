@@ -1,0 +1,62 @@
+{
+  "name": "feel-the-wrath",
+  "productName": "Feel The Wrath",
+  "version": "0.5.0",
+  "description": "Feel The Wrath",
+  "author": "Lowpoly Devs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win nsis --x64",
+    "release": "electron-builder --win nsis --x64 --publish always"
+  },
+  "build": {
+    "appId": "com.lowpolydevs.feelthewrath",
+    "productName": "Feel The Wrath",
+    "copyright": "Lowpoly Devs",
+    "files": [
+      "main.js",
+      "preload.js",
+      "app/**/*",
+      "build/icon.png"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "artifactName": "FeelTheWrath-${version}-${arch}.${ext}",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Feel The Wrath",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "artifactName": "FeelTheWrath-Setup-${version}.${ext}",
+      "perMachine": false,
+      "runAfterFinish": true
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Aces22378-Dev",
+        "repo": "feel-the-wrath",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "devDependencies": {
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0"
+  },
+  "dependencies": {
+    "@xhayper/discord-rpc": "^1.5.1",
+    "electron-updater": "^6.8.11"
+  }
+}
