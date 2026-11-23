@@ -698,6 +698,29 @@
   .rk-msg{position:absolute;left:440px;top:628px;font-size:15px;letter-spacing:.14em;color:#8d9095}
   .q-slot .rkicon{position:absolute;top:50%;transform:translateY(-50%);right:34px}
 
+  /* ================= STAFF / TITLES ================= */
+  .s-tab.staff{display:none}.s-tab.staff.show{display:block}
+  .s-tab.staff[data-tab="owner"]{color:#ffcf7a}.s-tab.staff[data-tab="dev"]{color:#9ad8ff}
+  .s-in{height:38px;border-radius:10px;border:2px solid #6d5a48;background:#0f1012;color:#f2e6d6;padding:0 12px;
+        font:700 15px/1 "Trebuchet MS",sans-serif;box-shadow:inset 0 2px 6px #000;width:150px}
+  .s-in:focus{outline:none;border-color:#f08a1c;box-shadow:0 0 10px rgba(255,128,20,.4),inset 0 2px 6px #000}
+  .s-in.wide{width:220px}.s-in.num{width:120px}
+  .s-grid{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:flex-end;margin:4px 0 8px}
+  .s-grid label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:#8f959b;letter-spacing:.08em}
+  .s-color{width:46px;height:38px;padding:2px;border-radius:10px;border:2px solid #6d5a48;background:#0f1012;cursor:pointer}
+  .s-people{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+  .s-person{display:flex;align-items:center;gap:14px;padding:8px 12px;border-radius:10px;background:#151619;border:1px solid #2c2e33}
+  .s-person .nm{flex:1;font-weight:700;font-size:15px;color:#e4e6e8}
+  .s-person .rl{font-size:11px;letter-spacing:.14em;color:#8f959b;width:60px}
+  .s-person .s-btn{height:30px;padding:0 12px;font-size:12px}
+  .ttl{display:inline-block;padding:2px 9px;border-radius:999px;font:700 11px/1.5 "Trebuchet MS",sans-serif;letter-spacing:.12em;
+       text-transform:uppercase;color:var(--c,#e2a874);border:1.5px solid var(--c,#e2a874);background:rgba(0,0,0,.45);
+       box-shadow:0 0 8px color-mix(in srgb,var(--c,#e2a874) 40%,transparent);white-space:nowrap;vertical-align:middle}
+  .rk-row .ttl{margin-left:8px;font-size:10px}
+  .rk-ttl{margin-top:6px;min-height:20px}
+  .q-slot .ttl{position:absolute;left:50%;top:-30px;transform:translateX(-50%);font-size:12px;letter-spacing:.14em;text-indent:0}
+  .s-del-in{width:100%;box-sizing:border-box;margin:0 0 16px}
+
   /* ---------------- menu hotspots ---------------- */
   .btn{
     position:absolute;
@@ -842,6 +865,8 @@
         <button class="s-tab" data-tab="controls" role="tab">CONTROLS</button>
         <button class="s-tab" data-tab="codes" role="tab">CODES</button>
         <button class="s-tab" data-tab="data" role="tab">DATA</button>
+        <button class="s-tab staff" data-tab="dev" role="tab">DEV</button>
+        <button class="s-tab staff" data-tab="owner" role="tab">OWNER</button>
       </nav>
       <div class="s-panel">
         <div class="s-page on" data-page="audio">
@@ -884,9 +909,57 @@
           <div class="s-row"><div class="lb">Reset progress<small>Wipes coins, research, guns and loadout. Silver Wraths and redeemed codes are kept</small></div><div class="s-ctl"><button class="s-btn danger" id="s-reset-progress">RESET PROGRESS</button></div></div>
           <h3 style="margin-top:22px">ACCOUNT</h3>
           <div class="s-row"><div class="lb">Logged in as <b id="s-user" style="color:#ffc34d"></b><small>Your progress is saved to your account</small></div><div class="s-ctl"><button class="s-btn" id="s-logout">LOG OUT</button></div></div>
+          <h3 style="margin-top:22px;color:#ff7a6a">DANGER ZONE</h3>
+          <div class="s-row"><div class="lb">Delete account<small>Permanently deletes your account and everything on it</small></div><div class="s-ctl"><button class="s-btn danger" id="s-delacc">DELETE ACCOUNT</button></div></div>
+        </div>
+        <div class="s-page" data-page="dev">
+          <h3>DEV — GIVE YOURSELF RESOURCES</h3>
+          <div class="s-grid">
+            <label>COINS (MAX 10,000)<input class="s-in num" id="d-coins" type="number" min="0" max="10000" value="0"></label>
+            <label>RP (MAX 10,000)<input class="s-in num" id="d-rp" type="number" min="0" max="10000" value="0"></label>
+            <label>SILVER WRATHS (MAX 10,000)<input class="s-in num" id="d-silver" type="number" min="0" max="10000" value="0"></label>
+            <label>MERIT (MAX 100)<input class="s-in num" id="d-merit" type="number" min="0" max="100" value="0"></label>
+            <button class="s-btn" id="d-give">GIVE</button>
+          </div>
+          <div class="s-msg" id="d-msg"></div>
+          <p class="s-note">Limits are per grant. Unlocked with a dev code.</p>
+        </div>
+        <div class="s-page" data-page="owner">
+          <h3>PLAYER TOOLS</h3>
+          <div class="s-grid">
+            <label>USERNAME<input class="s-in wide" id="o-user" maxlength="16" autocomplete="off" spellcheck="false"></label>
+            <button class="s-btn" id="o-inf">GIVE INFINITE EVERYTHING</button>
+            <button class="s-btn danger" id="o-del">DELETE ACCOUNT</button>
+          </div>
+          <div class="s-grid">
+            <label>WINS<input class="s-in num" id="o-wins" type="number" min="0" placeholder="keep"></label>
+            <label>LOSSES<input class="s-in num" id="o-losses" type="number" min="0" placeholder="keep"></label>
+            <label>MERIT<input class="s-in num" id="o-merit" type="number" min="0" placeholder="keep"></label>
+            <button class="s-btn" id="o-rec">SET RECORD</button>
+          </div>
+          <div class="s-msg" id="o-msg"></div>
+          <h3 style="margin-top:14px">TITLE CREATOR</h3>
+          <div class="s-grid">
+            <label>USERNAME<input class="s-in wide" id="t-user" maxlength="16" autocomplete="off" spellcheck="false"></label>
+            <label>TITLE<input class="s-in wide" id="t-text" maxlength="20" placeholder="e.g. Tester" autocomplete="off"></label>
+            <label>COLOR<input class="s-color" id="t-color" type="color" value="#e2a874"></label>
+            <label>PREVIEW<span class="ttl" id="t-prev" style="--c:#e2a874">TITLE</span></label>
+            <button class="s-btn" id="t-add">ADD TITLE</button>
+          </div>
+          <div class="s-msg" id="t-msg"></div>
+          <h3 style="margin-top:6px">PLAYERS WITH TITLES</h3>
+          <div class="s-people" id="t-list"></div>
         </div>
       </div>
       <button class="t-back" id="s-back">BACK</button>
+      <div class="s-confirm" id="s-delc"><div class="box"><h4>Delete your account?</h4>
+        <p>This permanently deletes your account, progress, guns, Silver Wraths, rank and redeemed codes. It can't be undone.</p>
+        <input class="s-in s-del-in" id="s-delpw" type="password" placeholder="Type your password to confirm" autocomplete="current-password">
+        <div class="s-msg bad" id="s-delmsg"></div>
+        <div class="row"><button class="s-btn" id="s-delno">CANCEL</button><button class="s-btn danger" id="s-delyes">DELETE FOREVER</button></div></div></div>
+      <div class="s-confirm" id="o-delc"><div class="box"><h4>Delete <span id="o-delname"></span>?</h4>
+        <p>This permanently deletes that player's account and everything on it. It can't be undone.</p>
+        <div class="row"><button class="s-btn" id="o-delno">CANCEL</button><button class="s-btn danger" id="o-delyes">DELETE</button></div></div></div>
       <div class="s-confirm" id="s-confirm"><div class="box"><h4>Reset all progress?</h4>
         <p>This wipes your coins, research, guns and loadout on your account. Silver Wraths and redeemed codes are kept. It can't be undone.</p>
         <div class="row"><button class="s-btn" id="s-no">CANCEL</button><button class="s-btn danger" id="s-yes">RESET</button></div></div></div>
@@ -1008,6 +1081,7 @@
       <div class="rk-me">
         <span class="rkicon" id="rk-icon"></span>
         <div class="rk-name" id="rk-name">PRIVATE</div>
+        <div class="rk-ttl" id="rk-ttl"></div>
         <div class="rk-merit" id="rk-merit">0 MERIT</div>
         <div class="rk-bar"><i id="rk-bar"></i></div>
         <div class="rk-next" id="rk-next"></div>
@@ -1699,7 +1773,7 @@
         sock.onmessage = e => {
           if (ws !== sock) return;
           let m; try { m = JSON.parse(e.data); } catch(err){ return; }
-          if (m.t === 'matched'){ ws = null; this.found(m.opponent.username, m.matchId); }
+          if (m.t === 'matched'){ ws = null; this.found(m.opponent.username, m.matchId, m.opponent); }
         };
         sock.onclose = e => {
           if (ws !== sock) return;
@@ -1707,10 +1781,11 @@
         };
       },
       cancel(){ stop(); },
-      found(name, matchId){
+      found(name, matchId, opp){
         clearInterval(timer); clearInterval(ping);
         const nm = String(name).toUpperCase().slice(0, 16), o = $('q-opp');
         o.textContent = nm; o.classList.add('found');
+        { const c = opp && window.titleChip && titleChip(opp.title, opp.color); if (c) o.appendChild(c); }
         o.style.fontSize = Math.max(18, Math.min(36, 36 - (nm.length - 6) * 2.4)) + 'px';
         o.style.letterSpacing = o.style.textIndent = nm.length > 6 ? '.08em' : '';
         $('q-time').textContent = '';
@@ -1730,6 +1805,7 @@
     function slot(el, p, empty){
       const nm = p ? String(p.username).toUpperCase().slice(0, 16) : empty;
       el.textContent = nm; el.classList.toggle('found', !!p);
+      { const c = p && window.titleChip && titleChip(p.title, p.color); if (c) el.appendChild(c); }
       el.style.fontSize = p ? Math.max(18, Math.min(36, 36 - (nm.length - 6) * 2.4)) + 'px' : '';
       el.style.letterSpacing = el.style.textIndent = p && nm.length > 6 ? '.08em' : '';
     }
@@ -1792,7 +1868,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.5.5';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.5.6';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -1864,6 +1940,7 @@
     if (window.charRefresh) charRefresh();
     if (st.username) account.username = st.username;
     if (st.ranked && window.rankRefresh) rankRefresh(st.ranked);
+    if (st.staff && window.staffRefresh) staffRefresh(st.staff);
     renderTree();
   }
   async function refreshAccount(){ const r = await api('/api/me'); if (!r.error) applyServerState(r); return r; }
@@ -1919,6 +1996,8 @@
   async function logout(skipServer, msg){
     if (!skipServer && account.token) api('/api/logout', {});   // fire and forget
     account.token = ''; account.username = ''; account.codes = [];
+    if (window.staffRefresh) staffRefresh(null);
+    if (window.rankRefresh) rankRefresh({merit: 0, wins: 0, losses: 0, draws: 0, position: null});
     try { localStorage.removeItem('ftw-token'); } catch(e){}
     authMode('login'); showAuth(msg);
   }
@@ -3033,6 +3112,7 @@
       rankIcon($('rk-icon'), i, 120);
       $('rk-name').textContent = RANKS[i].name.toUpperCase();
       $('rk-merit').textContent = m + ' MERIT';
+      $('rk-ttl').innerHTML = ''; { const c = window.titleChip && account.staff && titleChip(account.staff.title, account.staff.color); if (c) $('rk-ttl').appendChild(c); }
       $('rk-bar').style.width = next ? Math.round((m - RANKS[i].min) / (next.min - RANKS[i].min) * 100) + '%' : '100%';
       $('rk-next').textContent = next ? 'NEXT: ' + next.name.toUpperCase() + ' AT ' + next.min : 'HIGHEST RANK';
       $('rk-rec').textContent = 'W ' + (r.wins | 0) + '  ·  L ' + (r.losses | 0) + (r.draws ? '  ·  D ' + r.draws : '');
@@ -3061,6 +3141,7 @@
         const i = rankOf(p.merit);
         const num = document.createElement('span'); num.className = 'n'; num.textContent = '#' + (n + 1);
         const u = document.createElement('span'); u.className = 'u'; u.textContent = p.username.toUpperCase();
+        { const c = window.titleChip && titleChip(p.title, p.color); if (c) u.appendChild(c); }
         const rn = document.createElement('span'); rn.className = 'r'; rn.textContent = RANKS[i].name.toUpperCase();
         const m = document.createElement('span'); m.className = 'm'; m.textContent = p.merit;
         row.append(num, rankSpan(i, 32), u, rn, m); box.appendChild(row);
@@ -3081,6 +3162,104 @@
     $('rk-back').addEventListener('click', close);
     addEventListener('keydown', e => { if (e.key === 'Escape' && stageEl.classList.contains('on-ranks')) close(); });
     return {open, close};
+  })();
+
+  /* ================= STAFF / TITLES ================= */
+  window.titleChip = (title, color) => {
+    if (!title) return null;
+    const s = document.createElement('span'); s.className = 'ttl'; s.textContent = title;
+    s.style.setProperty('--c', /^#[0-9a-f]{6}$/i.test(color || '') ? color : '#e2a874'); return s;
+  };
+  account.staff = {role: null, title: null, color: null};
+  window.staffRefresh = st => {
+    account.staff = {role: null, title: null, color: null, ...(st || {})};
+    const role = account.staff.role;
+    document.querySelector('#settings .s-tab[data-tab="dev"]').classList.toggle('show', role === 'dev' || role === 'owner');
+    document.querySelector('#settings .s-tab[data-tab="owner"]').classList.toggle('show', role === 'owner');
+    const cur = document.querySelector('#settings .s-tab.on');
+    if (cur && cur.classList.contains('staff') && !cur.classList.contains('show')) document.querySelector('#settings .s-tab[data-tab="audio"]').click();
+  };
+  (() => {
+    const $ = id => document.getElementById(id);
+    const say = (el, t, ok) => { $(el).textContent = t; $(el).className = 's-msg ' + (ok ? 'ok' : 'bad'); };
+    const after = r => { if (r.progress) applyServerState(r); };
+    // dev
+    $('d-give').addEventListener('click', async () => {
+      say('d-msg', 'Working…', true);
+      const r = await api('/api/dev/grant', {coins: $('d-coins').value, research: $('d-rp').value, silver: $('d-silver').value, merit: $('d-merit').value});
+      if (r.error) return say('d-msg', r.error, false);
+      after(r); say('d-msg', r.message, true);
+    });
+    // owner: players
+    const user = () => $('o-user').value.trim();
+    const need = () => { if (!user()){ say('o-msg', 'Enter a username first.', false); return false; } return true; };
+    $('o-inf').addEventListener('click', async () => {
+      if (!need()) return; say('o-msg', 'Working…', true);
+      const r = await api('/api/owner/infinite', {username: user()});
+      if (r.error) return say('o-msg', r.error, false); after(r); say('o-msg', r.message, true);
+    });
+    $('o-rec').addEventListener('click', async () => {
+      if (!need()) return; say('o-msg', 'Working…', true);
+      const r = await api('/api/owner/record', {username: user(), wins: $('o-wins').value, losses: $('o-losses').value, merit: $('o-merit').value});
+      if (r.error) return say('o-msg', r.error, false); after(r); say('o-msg', r.message, true);
+    });
+    $('o-del').addEventListener('click', () => { if (!need()) return; $('o-delname').textContent = user().toUpperCase(); $('o-delc').classList.add('on'); $('o-delno').focus(); });
+    $('o-delno').addEventListener('click', () => $('o-delc').classList.remove('on'));
+    $('o-delyes').addEventListener('click', async () => {
+      $('o-delc').classList.remove('on'); say('o-msg', 'Deleting…', true);
+      const r = await api('/api/owner/delete', {username: user()});
+      if (r.error) return say('o-msg', r.error, false); say('o-msg', r.message, true); $('o-user').value = ''; loadPeople();
+    });
+    // owner: titles
+    const prev = () => { const p = $('t-prev'); p.textContent = $('t-text').value.trim() || 'TITLE'; p.style.setProperty('--c', $('t-color').value); };
+    $('t-text').addEventListener('input', prev); $('t-color').addEventListener('input', prev);
+    async function setTitle(username, title, color){
+      say('t-msg', 'Working…', true);
+      const r = await api('/api/owner/title', {username, title, color});
+      if (r.error) return say('t-msg', r.error, false);
+      after(r); say('t-msg', r.message, true); loadPeople();
+    }
+    $('t-add').addEventListener('click', () => {
+      if (!$('t-user').value.trim() || !$('t-text').value.trim()) return say('t-msg', 'Enter a username and a title.', false);
+      setTitle($('t-user').value.trim(), $('t-text').value.trim(), $('t-color').value);
+    });
+    async function loadPeople(){
+      const box = $('t-list');
+      if (account.staff.role !== 'owner'){ box.innerHTML = ''; return; }
+      box.innerHTML = '<div class="s-note">Loading…</div>';
+      const r = await api('/api/owner/titles');
+      box.innerHTML = '';
+      if (r.error){ box.innerHTML = '<div class="s-note"></div>'; box.firstChild.textContent = r.error; return; }
+      if (!r.people.length){ box.innerHTML = '<div class="s-note">Nobody has a title yet.</div>'; return; }
+      r.people.forEach(p => {
+        const row = document.createElement('div'); row.className = 's-person';
+        const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.username;
+        const rl = document.createElement('span'); rl.className = 'rl'; rl.textContent = (p.role || '').toUpperCase();
+        row.append(nm, rl);
+        const chip = titleChip(p.title, p.color); if (chip) row.appendChild(chip);
+        const edit = document.createElement('button'); edit.className = 's-btn'; edit.textContent = 'EDIT';
+        edit.onclick = () => { $('t-user').value = p.username; $('t-text').value = p.title || ''; $('t-color').value = p.color || '#e2a874'; prev(); $('t-text').focus(); };
+        row.appendChild(edit);
+        if (p.title){ const rm = document.createElement('button'); rm.className = 's-btn danger'; rm.textContent = 'REMOVE TITLE'; rm.onclick = () => setTitle(p.username, '', ''); row.appendChild(rm); }
+        if (p.role === 'dev'){ const rd = document.createElement('button'); rd.className = 's-btn danger'; rd.textContent = 'REMOVE DEV';
+          rd.onclick = async () => { const x = await api('/api/owner/role', {username: p.username, role: null}); say('t-msg', x.error || x.message, !x.error); loadPeople(); }; row.appendChild(rd); }
+        box.appendChild(row);
+      });
+    }
+    document.querySelector('#settings .s-tab[data-tab="owner"]').addEventListener('click', loadPeople);
+    // delete own account
+    $('s-delacc').addEventListener('click', () => { $('s-delpw').value = ''; $('s-delmsg').textContent = ''; $('s-delc').classList.add('on'); $('s-delpw').focus(); });
+    $('s-delno').addEventListener('click', () => $('s-delc').classList.remove('on'));
+    const doDelete = async () => {
+      if (!$('s-delpw').value) return $('s-delmsg').textContent = 'Enter your password.';
+      $('s-delmsg').textContent = '';
+      const r = await api('/api/account/delete', {password: $('s-delpw').value});
+      if (r.error) return $('s-delmsg').textContent = r.error;
+      $('s-delc').classList.remove('on'); closeSettings(); logout(true, 'Your account was deleted.');
+    };
+    $('s-delyes').addEventListener('click', doDelete);
+    $('s-delpw').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') doDelete(); if (e.key === 'Escape') $('s-delc').classList.remove('on'); });
+    ['o-user', 'o-wins', 'o-losses', 'o-merit', 't-user', 't-text', 'd-coins', 'd-rp', 'd-silver', 'd-merit'].forEach(id => $(id).addEventListener('keydown', e => e.stopPropagation()));
   })();
 
   /* menu -> placeholder panels (swap these for real scene changes) */
