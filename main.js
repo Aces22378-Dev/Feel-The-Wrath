@@ -17,8 +17,8 @@ process.on('uncaughtException', e => fail('crashed', e));
 // ---- Discord Rich Presence ----
 // DISCORD_CLIENT_ID: "Application ID" from https://discord.com/developers/applications (app named "Feel The Wrath",
 // with an image named "logo" under Rich Presence -> Art Assets). ITCH_URL: the game's itch.io page.
-const DISCORD_CLIENT_ID = 'PUT_YOUR_APPLICATION_ID_HERE';
-const ITCH_URL = 'https://PUT-YOUR-NAME.itch.io/feel-the-wrath';
+const DISCORD_CLIENT_ID = '1574371364960346233';
+const ITCH_URL = 'https://aces22378-dev.itch.io/feel-the-wrath';
 const RELEASES_URL = 'https://github.com/Aces22378-Dev/feel-the-wrath/releases/latest';
 const rpc = (() => {
   let client = null, ready = false, want = {details: 'In the menu', state: '', since: 0}, retry = null;

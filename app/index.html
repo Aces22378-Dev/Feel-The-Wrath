@@ -1613,7 +1613,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.5.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.5.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
