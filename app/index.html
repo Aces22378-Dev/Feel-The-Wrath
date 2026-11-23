@@ -529,6 +529,14 @@
   .a-rules{margin-top:-6px;margin-bottom:10px;font-size:13px;letter-spacing:.12em;color:#6f7378;text-align:center}
   #stage.signup .a-only-login,#stage:not(.signup) .a-only-signup{display:none}
   .a-busy #a-submit{animation:apulse 1s ease-in-out infinite}
+  .a-opt{letter-spacing:.12em;font-size:11px;color:#6f7378}
+  .a-small{margin-top:12px;font-size:13px}.a-small button{font-size:13px}
+  #stage.signup .a-form{top:250px}
+  #stage.signup .a-field{margin-bottom:7px}
+  #stage.signup .a-field label{margin-bottom:4px;font-size:12px}
+  #stage.signup .a-field input{height:42px;font-size:20px}
+  #stage.signup .a-err{margin:0 0 8px;min-height:20px}
+  #stage.signup .a-switch{margin-top:12px}
   @keyframes apulse{50%{opacity:.6}}
 
   /* ================= SOLO MATCH ================= */
@@ -721,6 +729,34 @@
   .q-slot .ttl{position:absolute;left:50%;top:-30px;transform:translateX(-50%);font-size:12px;letter-spacing:.14em;text-indent:0}
   .s-del-in{width:100%;box-sizing:border-box;margin:0 0 16px}
 
+  /* ================= ACCOUNT RECOVERY + PRIVACY ================= */
+  #a-reset{display:none}
+  #stage.resetting #a-form{display:none}
+  #stage.resetting #a-reset{display:flex}
+  #a-reset .a-step2{display:none}
+  #a-reset.step2 .a-step1{display:none}
+  #a-reset.step2 .a-step2{display:block}
+  #a-reset.step2 button.a-step2{display:inline-block}
+  #a-reset #r-send,#a-reset #r-done{position:relative;width:400px;height:58px;font-size:24px;white-space:nowrap}
+  #stage.resetting .a-field{margin-bottom:7px}
+  #stage.resetting .a-field label{margin-bottom:4px;font-size:12px}
+  #stage.resetting .a-field input{height:42px;font-size:20px}
+  #stage.resetting .a-err{margin:0 0 8px;min-height:20px}
+  #stage.resetting .a-switch{margin-top:12px}
+  #a-reset .a-field input{padding-right:26px}
+  .pp-box{color:#cfd3d8;font:15px/1.5 "Trebuchet MS","Segoe UI",sans-serif}
+  .pp-box h3{font-size:13px;letter-spacing:.2em;color:#ffa04a;margin:4px 0 4px}
+  .pp-box h4{font-size:15px;color:#ffc34d;margin:16px 0 4px;letter-spacing:.04em}
+  .pp-box p{margin:0 0 6px}.pp-box ul{margin:0 0 6px 20px;padding:0}.pp-box li{margin:3px 0}
+  .pp-box b{color:#f2e6d6}.pp-upd{font-size:12px;color:#8f959b}
+  #a-ppv{position:absolute;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.72)}
+  #a-ppv.on{display:flex}
+  #a-ppv .pp-wrap{width:820px;height:560px;border-radius:14px;border:2px solid #8a5228;padding:22px 30px;box-sizing:border-box;
+    background:linear-gradient(180deg,#2e3135,#1c1e21);box-shadow:0 0 22px rgba(255,120,20,.3);display:flex;flex-direction:column}
+  #a-ppv .pp-box{flex:1;overflow:auto;padding-right:10px;scrollbar-width:thin;scrollbar-color:#c8641a #151619}
+  #a-ppv .pp-close{align-self:center;margin-top:14px}
+  .s-email-val{color:#ffc34d}.s-email-val.none{color:#ff8a7a}
+
   /* ---------------- menu hotspots ---------------- */
   .btn{
     position:absolute;
@@ -865,6 +901,7 @@
         <button class="s-tab" data-tab="controls" role="tab">CONTROLS</button>
         <button class="s-tab" data-tab="codes" role="tab">CODES</button>
         <button class="s-tab" data-tab="data" role="tab">DATA</button>
+        <button class="s-tab" data-tab="privacy" role="tab">PRIVACY</button>
         <button class="s-tab staff" data-tab="dev" role="tab">DEV</button>
         <button class="s-tab staff" data-tab="owner" role="tab">OWNER</button>
       </nav>
@@ -908,10 +945,43 @@
           <div class="s-row"><div class="lb">Reset settings<small>Restore audio, video and control defaults</small></div><div class="s-ctl"><button class="s-btn" id="s-reset-settings">RESET</button></div></div>
           <div class="s-row"><div class="lb">Reset progress<small>Wipes coins, research, guns and loadout. Silver Wraths and redeemed codes are kept</small></div><div class="s-ctl"><button class="s-btn danger" id="s-reset-progress">RESET PROGRESS</button></div></div>
           <h3 style="margin-top:22px">ACCOUNT</h3>
-          <div class="s-row"><div class="lb">Logged in as <b id="s-user" style="color:#ffc34d"></b><small>Your progress is saved to your account</small></div><div class="s-ctl"><button class="s-btn" id="s-logout">LOG OUT</button></div></div>
+          <div class="s-row"><div class="lb">Logged in as <b id="s-user" style="color:#ffc34d"></b><small>Your progress is saved to your account</small></div><div class="s-ctl"><button class="s-btn" id="s-logout">LOG OUT</button></div></div><div class="s-row"><div class="lb">Recovery email: <span class="s-email-val" id="s-email"></span><small>Needed to reset your password if you forget it. Never shown to other players.</small></div><div class="s-ctl"><button class="s-btn" id="s-email-btn">CHANGE</button></div></div>
           <h3 style="margin-top:22px;color:#ff7a6a">DANGER ZONE</h3>
           <div class="s-row"><div class="lb">Delete account<small>Permanently deletes your account and everything on it</small></div><div class="s-ctl"><button class="s-btn danger" id="s-delacc">DELETE ACCOUNT</button></div></div>
         </div>
+        <div class="s-page pp-box" data-page="privacy">
+<h3>PRIVACY POLICY</h3>
+<p class="pp-upd">Feel The Wrath · Lowpoly Devs · Last updated November 23, 2026</p>
+<p>This explains what Feel The Wrath ("the game") stores about you, why, and what you can do about it.</p>
+<h4>What we store</h4>
+<ul>
+<li><b>Account:</b> your username and your password. Passwords are never stored as text — only a salted, one-way hash (PBKDF2).</li>
+<li><b>Recovery email (optional):</b> only if you add one. It is used for one thing: sending you a code to reset your password.</li>
+<li><b>Game progress:</b> coins, research points, Silver Wraths, researched / owned / equipped weapons, your character, and codes you've redeemed.</li>
+<li><b>PvP and ranked:</b> match results (who played, who won, when), your Merit, wins, losses and any title you have.</li>
+<li><b>Login sessions:</b> a login token so you stay signed in (stored on the server only as a hash).</li>
+<li><b>On your device only:</b> settings (volume, keys, video) are saved locally and never sent to us.</li>
+</ul>
+<h4>What other players can see</h4>
+<p>Your username, character, rank, Merit, win/loss record and title can appear on the leaderboard, in lobbies and in matches.</p>
+<h4>Services we use</h4>
+<ul>
+<li><b>Cloudflare</b> runs the game server and database. Like any web service it handles your IP address to deliver traffic and block abuse.</li>
+<li><b>Resend</b> delivers password reset emails (only if you added an email).</li>
+<li><b>GitHub</b> hosts desktop updates; the desktop app checks it for new versions.</li>
+<li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence.</li>
+</ul>
+<p>We don't sell your data, show ads, or send marketing email.</p>
+<h4>How long we keep it</h4>
+<p>Until you delete your account. <b>Settings → DATA → Delete Account</b> permanently removes your account, progress, rank, title and email. Past match results may remain, but no longer linked to a username.</p>
+<h4>Children</h4>
+<p>The game isn't meant for children under 13. If you're under 13, don't create an account.</p>
+<h4>Your choices</h4>
+<ul><li>Add, change or remove your recovery email in <b>Settings → DATA</b>.</li><li>Delete your account at any time in <b>Settings → DATA</b>.</li>
+<li>Ask us about your data or this policy on our Discord: <b>discord.gg/zEzJUzzAPj</b></li></ul>
+<h4>Changes</h4>
+<p>If this policy changes, the date at the top changes too. Big changes will be announced in the game or on our Discord.</p>
+</div>
         <div class="s-page" data-page="dev">
           <h3>DEV — GIVE YOURSELF RESOURCES</h3>
           <div class="s-grid">
@@ -952,6 +1022,12 @@
         </div>
       </div>
       <button class="t-back" id="s-back">BACK</button>
+      <div class="s-confirm" id="s-emc"><div class="box" style="border-color:#f08a1c;box-shadow:0 0 30px rgba(255,128,20,.35)"><h4 style="color:#ffc34d">Recovery email</h4>
+        <p>Used only to send you a password reset code. Leave it empty and press SAVE to remove it.</p>
+        <input class="s-in s-del-in" id="s-emin" type="email" placeholder="you@example.com" maxlength="254" autocomplete="email">
+        <input class="s-in s-del-in" id="s-empw" type="password" placeholder="Your password" autocomplete="current-password">
+        <div class="s-msg bad" id="s-emmsg"></div>
+        <div class="row"><button class="s-btn" id="s-emno">CANCEL</button><button class="s-btn" id="s-emyes">SAVE</button></div></div></div>
       <div class="s-confirm" id="s-delc"><div class="box"><h4>Delete your account?</h4>
         <p>This permanently deletes your account, progress, guns, Silver Wraths, rank and redeemed codes. It can't be undone.</p>
         <input class="s-in s-del-in" id="s-delpw" type="password" placeholder="Type your password to confirm" autocomplete="current-password">
@@ -1033,12 +1109,63 @@
           <button type="button" class="a-show" id="a-show" aria-label="Show password">SHOW</button></div></div>
         <div class="a-field a-only-signup"><label for="a-pass2">CONFIRM PASSWORD</label>
           <div class="a-wrap"><input id="a-pass2" type="password" autocomplete="new-password" maxlength="128"></div></div>
-        <div class="a-rules a-only-signup">USERNAME 3–16 LETTERS, NUMBERS OR _ · PASSWORD 8+ CHARACTERS</div>
+        <div class="a-field a-only-signup"><label for="a-email">EMAIL <span class="a-opt">— OPTIONAL, ONLY USED TO RESET YOUR PASSWORD</span></label>
+          <div class="a-wrap"><input id="a-email" type="email" autocomplete="email" maxlength="254" spellcheck="false"></div></div>
+        <div class="a-rules a-only-signup">USERNAME 3–16 LETTERS, NUMBERS OR _ · PASSWORD 8+ CHARACTERS · NO EMAIL = NO PASSWORD RESET</div>
         <div class="a-err" id="a-err" role="alert"></div>
         <button class="q-btn" id="a-submit" type="submit">LOG IN</button>
         <div class="a-switch a-only-login">NO ACCOUNT? <button type="button" data-mode="signup">SIGN UP</button></div>
-        <div class="a-switch a-only-signup">HAVE AN ACCOUNT? <button type="button" data-mode="login">LOG IN</button></div>
+        <div class="a-switch a-only-login a-small"><button type="button" id="a-forgot">FORGOT PASSWORD?</button>  ·  <button type="button" class="a-pp">PRIVACY POLICY</button></div>
+        <div class="a-switch a-only-signup">HAVE AN ACCOUNT? <button type="button" data-mode="login">LOG IN</button>  ·  <button type="button" class="a-pp">PRIVACY POLICY</button></div>
       </form>
+      <form class="a-form" id="a-reset" autocomplete="on" novalidate>
+        <div class="a-field"><label for="r-user">USERNAME</label>
+          <div class="a-wrap"><input id="r-user" autocomplete="username" maxlength="16" spellcheck="false"></div></div>
+        <div class="a-field a-step2"><label for="r-code">6-DIGIT CODE FROM YOUR EMAIL</label>
+          <div class="a-wrap"><input id="r-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" spellcheck="false"></div></div>
+        <div class="a-field a-step2"><label for="r-pass">NEW PASSWORD</label>
+          <div class="a-wrap"><input id="r-pass" type="password" autocomplete="new-password" maxlength="128"></div></div>
+        <div class="a-field a-step2"><label for="r-pass2">CONFIRM NEW PASSWORD</label>
+          <div class="a-wrap"><input id="r-pass2" type="password" autocomplete="new-password" maxlength="128"></div></div>
+        <div class="a-err" id="r-err" role="alert"></div>
+        <button class="q-btn a-step1" id="r-send" type="submit">SEND CODE</button>
+        <button class="q-btn a-step2" id="r-done" type="submit">CHANGE PASSWORD</button>
+        <div class="a-switch a-small"><button type="button" class="a-step2" id="r-again">SEND A NEW CODE</button><span class="a-step2" style="display:inline"> · </span><button type="button" id="r-back">BACK TO LOG IN</button></div>
+      </form>
+      <div id="a-ppv" role="dialog" aria-label="Privacy policy"><div class="pp-wrap"><div class="pp-box">
+<h3>PRIVACY POLICY</h3>
+<p class="pp-upd">Feel The Wrath · Lowpoly Devs · Last updated November 23, 2026</p>
+<p>This explains what Feel The Wrath ("the game") stores about you, why, and what you can do about it.</p>
+<h4>What we store</h4>
+<ul>
+<li><b>Account:</b> your username and your password. Passwords are never stored as text — only a salted, one-way hash (PBKDF2).</li>
+<li><b>Recovery email (optional):</b> only if you add one. It is used for one thing: sending you a code to reset your password.</li>
+<li><b>Game progress:</b> coins, research points, Silver Wraths, researched / owned / equipped weapons, your character, and codes you've redeemed.</li>
+<li><b>PvP and ranked:</b> match results (who played, who won, when), your Merit, wins, losses and any title you have.</li>
+<li><b>Login sessions:</b> a login token so you stay signed in (stored on the server only as a hash).</li>
+<li><b>On your device only:</b> settings (volume, keys, video) are saved locally and never sent to us.</li>
+</ul>
+<h4>What other players can see</h4>
+<p>Your username, character, rank, Merit, win/loss record and title can appear on the leaderboard, in lobbies and in matches.</p>
+<h4>Services we use</h4>
+<ul>
+<li><b>Cloudflare</b> runs the game server and database. Like any web service it handles your IP address to deliver traffic and block abuse.</li>
+<li><b>Resend</b> delivers password reset emails (only if you added an email).</li>
+<li><b>GitHub</b> hosts desktop updates; the desktop app checks it for new versions.</li>
+<li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence.</li>
+</ul>
+<p>We don't sell your data, show ads, or send marketing email.</p>
+<h4>How long we keep it</h4>
+<p>Until you delete your account. <b>Settings → DATA → Delete Account</b> permanently removes your account, progress, rank, title and email. Past match results may remain, but no longer linked to a username.</p>
+<h4>Children</h4>
+<p>The game isn't meant for children under 13. If you're under 13, don't create an account.</p>
+<h4>Your choices</h4>
+<ul><li>Add, change or remove your recovery email in <b>Settings → DATA</b>.</li><li>Delete your account at any time in <b>Settings → DATA</b>.</li>
+<li>Ask us about your data or this policy on our Discord: <b>discord.gg/zEzJUzzAPj</b></li></ul>
+<h4>Changes</h4>
+<p>If this policy changes, the date at the top changes too. Big changes will be announced in the game or on our Discord.</p>
+</div>
+        <button class="q-btn pp-close" id="a-ppclose" style="position:relative;width:220px;height:50px;font-size:22px">CLOSE</button></div></div>
     </section>
 
     <!-- ================= SOLO MATCH ================= -->
@@ -1868,7 +1995,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.5.6';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.5.7';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -1941,6 +2068,7 @@
     if (st.username) account.username = st.username;
     if (st.ranked && window.rankRefresh) rankRefresh(st.ranked);
     if (st.staff && window.staffRefresh) staffRefresh(st.staff);
+    if ('email' in st) account.email = st.email;
     renderTree();
   }
   async function refreshAccount(){ const r = await api('/api/me'); if (!r.error) applyServerState(r); return r; }
@@ -1990,7 +2118,7 @@
   function enterGame(st){
     applyServerState(st);
     stageEl.classList.remove('on-auth', 'signup');
-    $a('a-pass').value = $a('a-pass2').value = '';
+    $a('a-pass').value = $a('a-pass2').value = $a('a-email').value = '';
     document.querySelector('.b-match').focus();
   }
   async function logout(skipServer, msg){
@@ -2021,7 +2149,9 @@
     }
     $a('a-submit').disabled = true; $a('a-form').classList.add('a-busy');
     $a('a-err').textContent = su ? 'Creating account…' : 'Logging in…'; $a('a-err').className = 'a-err ok';
-    const r = await api(su ? '/api/signup' : '/api/login', {username, password});
+    const email = su ? $a('a-email').value.trim() : '';
+    if (su && email && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return err('That email doesn\'t look right');
+    const r = await api(su ? '/api/signup' : '/api/login', su ? {username, password, email} : {username, password});
     $a('a-submit').disabled = false; $a('a-form').classList.remove('a-busy');
     if (r.error) return err(r.error);
     account.token = r.token;
@@ -3260,6 +3390,69 @@
     $('s-delyes').addEventListener('click', doDelete);
     $('s-delpw').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') doDelete(); if (e.key === 'Escape') $('s-delc').classList.remove('on'); });
     ['o-user', 'o-wins', 'o-losses', 'o-merit', 't-user', 't-text', 'd-coins', 'd-rp', 'd-silver', 'd-merit'].forEach(id => $(id).addEventListener('keydown', e => e.stopPropagation()));
+  })();
+
+  /* ================= ACCOUNT RECOVERY + PRIVACY ================= */
+  (() => {
+    const $ = id => document.getElementById(id);
+    const rf = $('a-reset');
+    const rerr = (t, ok) => { $('r-err').textContent = t; $('r-err').className = 'a-err' + (ok ? ' ok' : ''); };
+    function openReset(){
+      stageEl.classList.add('resetting'); rf.classList.remove('step2');
+      $('a-title').textContent = 'RESET PASSWORD'; $('a-sub').textContent = 'WE\'LL EMAIL YOU A CODE';
+      $('r-user').value = $('a-user').value.trim(); rerr(''); setTimeout(() => $('r-user').focus(), 30);
+    }
+    function closeReset(){ stageEl.classList.remove('resetting'); authMode('login'); }
+    $('a-forgot').addEventListener('click', openReset);
+    $('r-back').addEventListener('click', closeReset);
+    async function sendCode(){
+      const username = $('r-user').value.trim();
+      if (!username) return rerr('Enter your username');
+      rerr('Sending…', true);
+      const r = await api('/api/reset/request', {username});
+      if (r.error) return rerr(r.error);
+      rf.classList.add('step2'); $('a-sub').textContent = 'CHECK YOUR EMAIL';
+      rerr(r.message, true); $('r-code').focus();
+    }
+    $('r-again').addEventListener('click', sendCode);
+    rf.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!rf.classList.contains('step2')) return sendCode();
+      const code = $('r-code').value.trim(), password = $('r-pass').value;
+      if (!/^\d{6}$/.test(code)) return rerr('Enter the 6-digit code from the email');
+      if (password.length < 8) return rerr('Password must be at least 8 characters');
+      if (password !== $('r-pass2').value) return rerr('Passwords don\'t match');
+      rerr('Changing password…', true);
+      const r = await api('/api/reset/confirm', {username: $('r-user').value.trim(), code, password});
+      if (r.error) return rerr(r.error);
+      account.token = r.token; try { localStorage.setItem('ftw-token', r.token); } catch(err){}
+      $('r-code').value = $('r-pass').value = $('r-pass2').value = '';
+      stageEl.classList.remove('resetting');
+      enterGame(r); refreshAccount();
+    });
+    $('r-code').addEventListener('input', () => { $('r-code').value = $('r-code').value.replace(/\D/g, '').slice(0, 6); });
+    // privacy policy on the login screen
+    document.querySelectorAll('#auth .a-pp').forEach(b => b.addEventListener('click', () => { $('a-ppv').classList.add('on'); $('a-ppclose').focus(); }));
+    $('a-ppclose').addEventListener('click', () => $('a-ppv').classList.remove('on'));
+    addEventListener('keydown', e => { if (e.key === 'Escape' && $('a-ppv').classList.contains('on')){ e.stopImmediatePropagation(); $('a-ppv').classList.remove('on'); } }, true);
+    // recovery email in Settings → DATA
+    window.emailRefresh = () => {
+      const v = $('s-email'); v.textContent = account.email || 'NOT SET'; v.className = 's-email-val' + (account.email ? '' : ' none');
+      $('s-email-btn').textContent = account.email ? 'CHANGE' : 'ADD EMAIL';
+    };
+    $('gear').addEventListener('click', () => emailRefresh());
+    $('s-email-btn').addEventListener('click', () => { $('s-emin').value = account.email || ''; $('s-empw').value = ''; $('s-emmsg').textContent = ''; $('s-emc').classList.add('on'); $('s-emin').focus(); });
+    $('s-emno').addEventListener('click', () => $('s-emc').classList.remove('on'));
+    const save = async () => {
+      const email = $('s-emin').value.trim();
+      if (email && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(email)) return $('s-emmsg').textContent = 'That email doesn\'t look right';
+      if (!$('s-empw').value) return $('s-emmsg').textContent = 'Enter your password';
+      const r = await api('/api/email', {email, password: $('s-empw').value});
+      if (r.error) return $('s-emmsg').textContent = r.error;
+      account.email = r.email; emailRefresh(); $('s-emc').classList.remove('on');
+    };
+    $('s-emyes').addEventListener('click', save);
+    ['s-emin', 's-empw'].forEach(id => $(id).addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') save(); if (e.key === 'Escape') $('s-emc').classList.remove('on'); }));
   })();
 
   /* menu -> placeholder panels (swap these for real scene changes) */
