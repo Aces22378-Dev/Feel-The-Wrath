@@ -11,6 +11,8 @@ contextBridge.exposeInMainWorld('ftwDesktop', {
     state: String((p && p.state) || '').slice(0, 128),
     since: Number((p && p.since) || 0),
   }),
+  // account stats for the Rich Presence (rank badge, W/L, Merit, Gold/Silver/RP)
+  stats: (s) => ipcRenderer.send('ftw:stats', s || null),
   // auto-updater: the game shows the "outdated" screen, these drive it
   onUpdate: (cb) => {
     const prev = updateCb;

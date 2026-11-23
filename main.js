@@ -21,7 +21,8 @@ const DISCORD_CLIENT_ID = '1574371364960346233';
 const ITCH_URL = 'https://aces22378-dev.itch.io/feel-the-wrath';
 const RELEASES_URL = 'https://github.com/Aces22378-Dev/feel-the-wrath/releases/latest';
 const rpc = (() => {
-  let client = null, ready = false, want = {details: 'In the menu', state: '', since: 0}, retry = null;
+  let client = null, ready = false, want = {details: 'In the menu', state: '', since: 0}, retry = null, stats = null;
+  const big = n => n >= 999999999 ? '∞' : n >= 1e6 ? (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : n.toLocaleString('en-US');
   const appStart = Date.now();
   function push() {
     if (!ready || !client || !client.user) return;
@@ -32,6 +33,16 @@ const rpc = (() => {
       instance: false,
     };
     if (want.state) a.state = want.state;
+    if (stats) {                         // account stats: rank badge + hover text, and full stats while in the menu
+      const rec = `${stats.wins}W ${stats.losses}L · ${big(stats.merit)} Merit`;
+      const money = `${big(stats.coins)} Gold · ${big(stats.silver)} Silver · ${big(stats.rp)} RP`;
+      a.smallImageKey = 'rank_' + stats.rank; a.smallImageText = `${stats.rankName} · ${rec}`.slice(0, 128);
+      a.largeImageText = money.slice(0, 128);
+      if (!want.state && (!want.details || want.details === 'In the menu')) {
+        a.details = `${stats.rankName} · ${big(stats.merit)} Merit`.slice(0, 128);
+        a.state = `${stats.wins}W ${stats.losses}L · ${money}`.slice(0, 128);
+      }
+    }
     if (/^https:\/\/[a-z0-9-]+\.itch\.io\//i.test(ITCH_URL) && !ITCH_URL.includes('PUT-YOUR')) a.buttons = [{label: 'Buy on itch.io', url: ITCH_URL}];
     client.user.setActivity(a).catch(e => log('rpc setActivity failed', e && e.message));
   }
@@ -49,10 +60,16 @@ const rpc = (() => {
   return {
     start: connect,
     set(p) { want = p; push(); },
+    setStats(s) { stats = s; push(); },
     stop() { clearTimeout(retry); try { client && client.user && client.user.clearActivity(); client && client.destroy(); } catch {} },
   };
 })();
 ipcMain.on('ftw:presence', (e, p) => rpc.set(p || {}));
+ipcMain.on('ftw:stats', (e, s) => {
+  const n = v => Math.max(0, Math.floor(Number(v) || 0));
+  rpc.setStats(s ? { rank: Math.min(28, n(s.rank)), rankName: String(s.rankName || '').slice(0, 60), merit: n(s.merit), wins: n(s.wins),
+                     losses: n(s.losses), coins: n(s.coins), silver: n(s.silver), rp: n(s.rp) } : null);
+});
 
 // ---- auto-updater (GitHub Releases, see "publish" in package.json) ----
 // A newer release = this version is outdated: the game is blocked until the player clicks Update.

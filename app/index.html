@@ -1995,7 +1995,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.5.9';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.6.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2069,6 +2069,7 @@
     if (st.ranked && window.rankRefresh) rankRefresh(st.ranked);
     if (st.staff && window.staffRefresh) staffRefresh(st.staff);
     if ('email' in st) account.email = st.email;
+    if (window.sendStats) setTimeout(sendStats, 0);
     renderTree();
   }
   async function refreshAccount(){ const r = await api('/api/me'); if (!r.error) applyServerState(r); return r; }
@@ -3222,8 +3223,20 @@
   window.rankRefresh = r => {
     if (r) account.ranked = {...account.ranked, ...r};
     rankIcon(document.getElementById('rkbtn-icon'), rankOf(account.ranked.merit | 0), 38);
+    sendStats();
     document.getElementById('rkbtn').title = RANKS[rankOf(account.ranked.merit | 0)].name + ' — rank & leaderboard';
   };
+  // desktop app: share stats with Discord Rich Presence
+  function sendStats(){
+    try {
+      if (!window.ftwDesktop || !window.ftwDesktop.stats) return;
+      if (!account.token) return ftwDesktop.stats(null);
+      const m = account.ranked.merit | 0, i = rankOf(m);
+      ftwDesktop.stats({rank: i, rankName: RANKS[i].name, merit: m, wins: account.ranked.wins | 0, losses: account.ranked.losses | 0,
+                        coins: wallet.coins, silver: silverWraths.get(), rp: wallet.research});
+    } catch(e){}
+  }
+  window.sendStats = sendStats;
   rankRefresh();
   // used by the PvP result screen
   window.meritLine = mr => {
