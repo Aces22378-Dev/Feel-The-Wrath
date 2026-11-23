@@ -70,7 +70,7 @@ function setupUpdater() {
   autoUpdater.on('error', e => { log('update error', e && e.message); sendUpdate({ state: 'error', message: String((e && e.message) || e).slice(0, 160) }); });
   const check = () => autoUpdater.checkForUpdates().catch(e => log('update check failed', e && e.message));   // offline: just keep playing
   check();
-  setInterval(check, 30 * 60 * 1000);              // check again every 30 minutes
+  setInterval(check, 5 * 60 * 1000);               // check again every 5 minutes
 }
 ipcMain.on('ftw:update-now', () => {
   if (!autoUpdater) { shell.openExternal(RELEASES_URL); return; }

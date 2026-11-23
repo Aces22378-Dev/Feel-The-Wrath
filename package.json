@@ -1,9 +1,9 @@
 {
   "name": "feel-the-wrath",
   "productName": "Feel The Wrath",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Feel The Wrath",
-  "author": "Lowpoly Devs",
+  "author": "Feel The Wrath Development",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -11,9 +11,9 @@
     "release": "electron-builder --win nsis --x64 --publish always"
   },
   "build": {
-    "appId": "com.lowpolydevs.feelthewrath",
+    "appId": "com.feelthewrathdev.feelthewrath",
     "productName": "Feel The Wrath",
-    "copyright": "Lowpoly Devs",
+    "copyright": "Feel The Wrath Development",
     "files": [
       "main.js",
       "preload.js",
