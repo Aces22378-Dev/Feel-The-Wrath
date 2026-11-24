@@ -2235,13 +2235,24 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.9.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.9.2';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
 
-  /* ---- outdated version: block the game until it's updated ---- */
+  /* ---- outdated version: block the game until it's updated ----
+     Never in the middle of a match: it waits until the match is over and you've left the result screen. */
+  let outdatedWait = 0;
+  const inMatch = () => { try { return !!(typeof Solo !== 'undefined' && Solo.state); } catch(e){ return false; } };
   function showOutdated(){
+    if (document.getElementById('ftw-outdated') || outdatedWait) return;
+    if (inMatch()){
+      outdatedWait = setInterval(() => { if (!inMatch()){ clearInterval(outdatedWait); outdatedWait = 0; showOutdated(); } }, 500);
+      return;
+    }
+    openOutdated();
+  }
+  function openOutdated(){
     if (document.getElementById('ftw-outdated')) return;
     const desk = window.ftwDesktop && window.ftwDesktop.update;
     const o = document.createElement('div'); o.id = 'ftw-outdated';
@@ -2263,7 +2274,6 @@
     ['keydown', 'keyup', 'pointerdown', 'mousedown', 'click', 'wheel', 'contextmenu'].forEach(ev => addEventListener(ev, e => {
       if (!o.contains(e.target) || ev.startsWith('key')) { e.stopImmediatePropagation(); if (ev !== 'wheel') e.preventDefault(); }
     }, true));
-    try { if (Solo.state) Solo.quit(); } catch(e){}
     if (desk) window.ftwDesktop.onUpdate(u => {
       if (u.state === 'progress'){ bar.style.display = 'block'; fill.style.width = u.percent + '%'; s.textContent = 'Downloading ' + u.percent + '%'; }
       else if (u.state === 'ready'){ fill.style.width = '100%'; s.textContent = 'Installing — the game will restart'; }
@@ -2276,6 +2286,7 @@
     };
   }
   window.ftwOutdated = showOutdated;
+  window.ftwUpdatePending = () => !!outdatedWait;
   // the desktop app also checks GitHub for a newer release when it starts
   if (window.ftwDesktop && window.ftwDesktop.onUpdate) window.ftwDesktop.onUpdate(u => { if (u.state === 'available') showOutdated(); });
 
@@ -3311,6 +3322,7 @@
     $m('m-quit').addEventListener('click', quit);
     $m('m-menu').addEventListener('click', quit);
     $m('m-again').addEventListener('click', () => {
+      if (window.ftwUpdatePending && ftwUpdatePending()){ quit(); return; }   // an update is waiting: go to the menu so it can install
       if (G && G.mode === 'coop'){ const pc = G.partyCode; const g = G; G = null; try { g.ws && g.ws.close(1000); } catch(e){}
         stageEl.classList.remove('on-match'); presence('In the menu', '', 0); audio.music.mode('menu'); window.coopParty.rejoin(pc); return; }
       if (G && G.mode === 'pvp'){ const pc = G.privCode; G = null; stageEl.classList.remove('on-match'); presence('In the menu', '', 0);
