@@ -693,7 +693,7 @@
   .rk-row .n{width:40px;text-align:right;color:#8d9095;letter-spacing:.06em}
   .rk-row .u{flex:1;font-weight:600;letter-spacing:.08em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .rk-row .r{width:250px;font-size:14px;letter-spacing:.1em;color:#9d8a68;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .rk-row .m{width:90px;text-align:right;color:#e2a874;letter-spacing:.08em}
+  .rk-row .m{width:110px;text-align:right;color:#e2a874;letter-spacing:.08em}
   .rk-row.me{background:linear-gradient(90deg,rgba(226,168,116,.14),transparent);color:#ffe2bf}
   .rk-row.top1 .n{color:#f0c766}.rk-row.top2 .n{color:#cfd3d8}.rk-row.top3 .n{color:#c8875a}
   .rk-empty{padding:40px;text-align:center;color:#6f7378;letter-spacing:.2em;font-size:15px}
@@ -1127,8 +1127,10 @@
     <section class="qscreen" id="solo" aria-label="Solo difficulty">
       <svg class="c-deco" viewBox="0 0 1392 752" aria-hidden="true"><defs><filter id="q-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9 0.06" numOctaves="3" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/></filter><linearGradient id="q-bl" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4a070b"/><stop offset=".6" stop-color="#6e0e13"/><stop offset="1" stop-color="#6e0e13" stop-opacity="0"/></linearGradient></defs><g filter="url(#q-rough)" fill="url(#q-bl)"><path d="M-20 650 Q80 600 196 548 L204 556 Q90 618 -10 682 Z" opacity=".85"/><path d="M0 712 Q120 640 270 572 L280 584 Q140 662 14 740 Z"/><path d="M50 760 Q170 690 318 612 L326 622 Q190 706 80 770 Z" opacity=".7"/><path d="M-10 600 Q60 572 120 548 L124 553 Q64 582 -6 618 Z" opacity=".5"/></g></svg><div class="c-deco" id="q-emb2"></div>
       <div class="q-title">SOLO</div><div class="q-rule"></div><div class="q-sub">SELECT DIFFICULTY</div>
-      <button class="q-btn mid" data-diff="EASY" style="left:441px;top:283px;width:520px;height:79px">EASY</button><button class="q-btn mid" data-diff="NORMAL" style="left:441px;top:398px;width:520px;height:79px">NORMAL</button><button class="q-btn mid" data-diff="HARD" style="left:441px;top:514px;width:520px;height:79px">HARD</button>
-      <div class="q-msg" id="q-solo-msg" style="top:620px"></div>
+      <button class="q-btn mid" data-diff="EASY" style="left:441px;top:247px;width:520px;height:79px">EASY</button><button class="q-btn mid" data-diff="NORMAL" style="left:441px;top:340px;width:520px;height:79px">NORMAL</button><button class="q-btn mid" data-diff="HARD" style="left:441px;top:432px;width:520px;height:79px">HARD</button>
+      <button class="q-btn mid" data-diff="ENDLESS" style="left:441px;top:536px;width:520px;height:79px;box-shadow:0 0 0 5px rgba(8,8,9,.95),0 0 0 6.5px #c23a22,0 0 22px 8px rgba(220,60,30,.3),0 10px 20px rgba(0,0,0,.8)">ENDLESS</button>
+      <div class="q-cap" style="left:441px;top:627px;width:520px">HOW LONG CAN YOU LAST?</div>
+      <div class="q-msg" id="q-solo-msg" style="top:670px"></div>
       <button class="q-btn q-back" data-back="quick">BACK</button>
       
     </section>
@@ -1285,7 +1287,7 @@
         <div class="rk-rec" id="rk-rec"></div>
         <div class="rk-pos" id="rk-pos"></div>
       </div>
-      <div class="rk-tabs"><button class="rk-tab on" data-tab="board">LEADERBOARD</button><button class="rk-tab" data-tab="all">ALL RANKS</button></div>
+      <div class="rk-tabs"><button class="rk-tab on" data-tab="board">LEADERBOARD</button><button class="rk-tab" data-tab="all">ALL RANKS</button><button class="rk-tab" data-tab="endless">ENDLESS</button></div>
       <div class="rk-box" id="rk-box"></div>
       <div class="rk-msg" id="rk-msg">WIN PUBLIC PVP MATCHES TO EARN MERIT · PRIVATE LOBBIES DON'T COUNT</div>
       <button class="q-btn q-back" id="rk-back">BACK</button>
@@ -2079,7 +2081,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.7.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.8.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2276,6 +2278,16 @@
       hard:   {label: 'HARD',   waves: [[6,2],[8,3],[9,4],[10,5],[12,6],[13,7],[14,8]], hp: 1.8, speed: 118, dmg: 16, windup: .3, atkCd: .85, hurtT: .12,
                spitCd: 1.6, orbSpeed: 310, lead: 1, flank: .85, dodge: .55, strafe: 1, spawnEvery: .55, maxAlive: 14},
     };
+    DIFF.endless = {label: 'ENDLESS', waves: [], endless: true};
+    // Endless: wave n (0 = first) gets more enemies and tougher stats, forever
+    function endlessCount(n){ return [Math.min(30, 4 + Math.floor(n * 1.5)), Math.min(20, Math.floor(n * .8))]; }
+    function endlessD(n){
+      return {label: 'ENDLESS', waves: [], endless: true,
+        hp: 1 + .07 * n, speed: Math.min(150, 85 + 2.5 * n), dmg: Math.min(26, 10 + .6 * n), windup: Math.max(.22, .5 - .012 * n),
+        atkCd: Math.max(.7, 1.2 - .02 * n), hurtT: Math.max(.1, .3 - .01 * n), spitCd: Math.max(1.2, 2.4 - .05 * n), orbSpeed: Math.min(360, 240 + 5 * n),
+        lead: Math.min(1, .3 + .04 * n), flank: Math.min(.9, .3 + .03 * n), dodge: Math.min(.6, .1 + .025 * n), strafe: Math.min(1, .4 + .03 * n),
+        spawnEvery: Math.max(.4, .9 - .025 * n), maxAlive: Math.min(18, 7 + Math.floor(n / 2)), elite: n < 5 ? 0 : Math.min(.3, .02 * (n - 4))};
+    }
     const BASE = {demon: {hp: 50, r: 13, speed: 1}, blood: {hp: 70, r: 14, speed: .85}};
 
     /* ---- weapon handling per category (fire rate, damage and spread come from the gun's stats) ---- */
@@ -2364,16 +2376,16 @@
       try { window.ftwDesktop && window.ftwDesktop.presence({details, state, since}); } catch(e){}
     }
     async function start(diff){
-      const D = DIFF[diff]; if (!D) return;
+      const D = diff === 'endless' ? endlessD(0) : DIFF[diff]; if (!D) return;
       const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair;
       paintFloor();
       G = {mode: 'solo', pools: [], mines: [], diff, D, state: 'intro', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
            p: {x: W / 2, y: H / 2 + 120, vx: 0, vy: 0, hp: 100, max: 100, inv: 0},
            weapons: equipped.map(mkWeapon), cur: 0, enemies: [], bullets: [], orbs: [], parts: [],
-           wave: -1, queue: [], spawnT: 0, matchId: null, net: '', lastShot: -9, paused: false};
+           wave: -1, queue: [], spawnT: 0, matchId: null, net: '', lastShot: -9, paused: false, endless: diff === 'endless', cleared: 0};
       buildWeaponBar();
       G.since = Date.now();
-      presence('Playing solo: ' + diff[0].toUpperCase() + diff.slice(1) + ' mode', 'Getting ready', G.since);
+      presence(diff === 'endless' ? 'Playing Endless' : 'Playing solo: ' + diff[0].toUpperCase() + diff.slice(1) + ' mode', 'Getting ready', G.since);
       $m('m-diff').textContent = D.label; $m('m-net').textContent = ''; $m('m-pause').classList.remove('on'); $m('m-ff').classList.remove('on'); $m('m-result').classList.remove('on');
       const kb = c => keyName(c);
       $m('m-hint').textContent = `${kb(binds.forward)}${kb(binds.left)}${kb(binds.back)}${kb(binds.right)} MOVE · MOUSE AIM / SHOOT · ${kb(binds.reload)} RELOAD · 1-5 WEAPONS · 6-9 UTILITY · ${kb(binds.swap)} / WHEEL SWAP · ESC PAUSE`;
@@ -2386,15 +2398,16 @@
       const r = await api('/api/match/start', {mode: 'solo', difficulty: diff});
       if (!G) return;
       if (r.error) { G.net = 'Offline — this match won\'t give rewards'; $m('m-net').textContent = G.net; }
-      else G.matchId = r.matchId;
+      else { G.matchId = r.matchId; if (r.best) G.best = r.best; }
     }
     function nextWave(){
       G.wave++;
-      if (G.mode === 'solo') presence('Playing solo: ' + G.diff[0].toUpperCase() + G.diff.slice(1) + ' mode', 'Wave ' + (G.wave + 1) + ' of ' + G.D.waves.length, G.since);
-      const [d, b] = G.D.waves[G.wave];
+      if (G.endless){ G.D = endlessD(G.wave); presence('Playing Endless', 'Wave ' + (G.wave + 1) + (G.best ? ' · best ' + G.best : ''), G.since); }
+      else if (G.mode === 'solo') presence('Playing solo: ' + G.diff[0].toUpperCase() + G.diff.slice(1) + ' mode', 'Wave ' + (G.wave + 1) + ' of ' + G.D.waves.length, G.since);
+      const [d, b] = G.endless ? endlessCount(G.wave) : G.D.waves[G.wave];
       G.queue = [...Array(d).fill('demon'), ...Array(b).fill('blood')].sort(() => Math.random() - .5);
       G.spawnT = .5; G.state = 'play';
-      banner('WAVE ' + (G.wave + 1), G.wave === G.D.waves.length - 1 ? 'FINAL WAVE' : '');
+      banner('WAVE ' + (G.wave + 1), G.endless ? (G.best && G.wave + 1 === G.best + 1 ? 'NEW BEST' : '') : G.wave === G.D.waves.length - 1 ? 'FINAL WAVE' : '');
       audio.play('wave');
     }
     let bannerT = 0;
@@ -2413,7 +2426,7 @@
         y = side === 2 ? 30 : side === 3 ? H - 30 : rnd(30, H - 30);
         tries++;
       } while (tries < 30 && (Math.hypot(x - G.p.x, y - G.p.y) < 300 || PILLARS.some(p => Math.hypot(x - p.x, y - p.y) < p.r + 30)));
-      const elite = G.diff === 'hard' && Math.random() < .12;
+      const elite = G.endless ? Math.random() < (D.elite || 0) : G.diff === 'hard' && Math.random() < .12;
       G.enemies.push({type, x, y, vx: 0, vy: 0, r: B.r, hp: B.hp * D.hp * (elite ? 1.8 : 1), max: B.hp * D.hp * (elite ? 1.8 : 1),
         speed: D.speed * B.speed * rnd(.9, 1.1) * (elite ? 1.1 : 1), elite, state: 'spawn', t: 0, anim: rnd(0, 1), face: 1,
         atkCd: rnd(.4, 1.2), side: Math.random() < .5 ? -1 : 1, flank: Math.random() * D.flank, strafeDir: Math.random() < .5 ? -1 : 1,
@@ -2728,7 +2741,7 @@
         if (G.queue.length && G.spawnT <= 0 && alive < G.D.maxAlive){ spawn(G.queue.pop()); G.spawnT = G.D.spawnEvery * rnd(.7, 1.3); }
         if (!G.queue.length && alive === 0){
           G.cleared = (G.cleared || 0) + 1;
-          if (G.wave >= G.D.waves.length - 1) end(true);
+          if (!G.endless && G.wave >= G.D.waves.length - 1) end(true);
           else {
             G.state = 'between'; G.t = 0;
             const p = G.p, healed = p.hp <= 80 ? Math.min(p.max, p.hp + 10) - p.hp : 0;
@@ -2970,7 +2983,7 @@
         const left = G.endsAt ? Math.max(0, (G.endsAt - performance.now()) / 1000) : 0;
         $m('m-left').textContent = G.state === 'play' ? fmtT(left) + ' LEFT · FIRST TO ' + (G.killsToWin || 3) : G.state === 'connecting' ? 'CONNECTING…' : '';
       } else {
-        $m('m-wave').textContent = 'WAVE ' + Math.max(1, G.wave + 1) + ' / ' + D.waves.length;
+        $m('m-wave').textContent = G.endless ? 'WAVE ' + Math.max(1, G.wave + 1) + (G.best ? '  ·  BEST ' + G.best : '') : 'WAVE ' + Math.max(1, G.wave + 1) + ' / ' + D.waves.length;
         const left = G.queue.length + G.enemies.filter(e => e.state !== 'death').length;
         $m('m-left').textContent = G.state === 'play' ? left + ' ENEMIES LEFT' : '';
       }
@@ -2997,8 +3010,13 @@
       if (G.state === 'end') return;
       G.state = 'end'; mouse.down = false;
       audio.play(won ? 'win' : 'lose');
+      if (G.endless){
+        banner('RUN OVER', 'WAVE ' + Math.max(1, G.wave + 1));
+        $m('m-rtitle').textContent = 'WAVE ' + G.cleared + ' CLEARED'; $m('m-rtitle').className = '';
+      } else {
       banner(won ? 'VICTORY' : 'DEFEATED', '');
       $m('m-rtitle').textContent = won ? 'VICTORY' : 'DEFEAT'; $m('m-rtitle').className = won ? '' : 'lose';
+      }
       $m('m-rkills').textContent = G.kills; $m('m-rtime').textContent = fmtT(G.time);
       $m('m-racc').textContent = (G.shots ? Math.round(G.hits / G.shots * 100) : 0) + '%';
       const rw = $m('m-rreward'); rw.className = 'm-reward'; rw.textContent = 'Saving result…';
@@ -3014,6 +3032,7 @@
       if (r.reward.research) parts.push('+' + r.reward.research + ' RP');
       rw.textContent = parts.length ? parts.join('   ·   ') : 'NO REWARD';
       if (won && !r.won){ rw.textContent += '  (win not verified)'; }
+      if (g.endless && r.endless) rw.textContent += r.endless.newBest ? '   ·   NEW BEST: WAVE ' + r.endless.best : '   ·   BEST: WAVE ' + r.endless.best;
     }
     function quit(){
       cancelAnimationFrame(raf);
@@ -3338,7 +3357,8 @@
 
   const ranksUI = (() => {
     const $ = id => document.getElementById(id);
-    let tab = 'board', data = null;
+    let tab = 'board', data = null, endless = null;
+    const MSG = "WIN PUBLIC PVP MATCHES TO EARN MERIT · PRIVATE LOBBIES DON'T COUNT";
     function paintMe(){
       const r = account.ranked, m = r.merit | 0, i = rankOf(m), next = RANKS[i + 1];
       rankIcon($('rk-icon'), i, 120);
@@ -3352,6 +3372,25 @@
     }
     function paintBox(){
       const box = $('rk-box'); box.innerHTML = '';
+      $('rk-msg').textContent = MSG;
+      if (tab === 'endless'){
+        if (!endless){ box.innerHTML = '<div class="rk-empty">LOADING…</div>'; api('/api/endless/leaderboard').then(r => { endless = r.error ? {error: r.error} : r; if (tab === 'endless') paintBox(); }); return; }
+        if (endless.error){ box.innerHTML = '<div class="rk-empty"></div>'; box.firstChild.textContent = String(endless.error).toUpperCase(); return; }
+        const me = endless.me;
+        $('rk-msg').textContent = me && me.best ? 'YOUR BEST: WAVE ' + me.best + ' (' + me.kills + ' KILLS)' + (me.position ? ' · #' + me.position : '') : 'PLAY ENDLESS (SOLO → ENDLESS) TO GET ON THIS BOARD';
+        if (!endless.top.length){ box.innerHTML = '<div class="rk-empty">NO ENDLESS RUNS YET — BE THE FIRST</div>'; return; }
+        endless.top.forEach((p, n) => {
+          const row = document.createElement('div'); row.className = 'rk-row' + (n < 3 ? ' top' + (n + 1) : '') +
+            (account.username && p.username.toLowerCase() === account.username.toLowerCase() ? ' me' : '');
+          const num = document.createElement('span'); num.className = 'n'; num.textContent = '#' + (n + 1);
+          const u = document.createElement('span'); u.className = 'u'; u.textContent = p.username.toUpperCase();
+          { const c = window.titleChip && titleChip(p.title, p.color); if (c) u.appendChild(c); }
+          const k = document.createElement('span'); k.className = 'r'; k.textContent = p.kills + ' KILLS';
+          const w = document.createElement('span'); w.className = 'm'; w.textContent = 'WAVE ' + p.wave;
+          row.append(num, u, k, w); box.appendChild(row);
+        });
+        return;
+      }
       if (tab === 'all'){
         const g = document.createElement('div'); g.className = 'rk-grid';
         const cur = rankOf(account.ranked.merit | 0);
@@ -3380,7 +3419,7 @@
       });
     }
     async function open(){
-      stageEl.classList.add('on-ranks'); data = null; paintMe(); paintBox();
+      stageEl.classList.add('on-ranks'); data = null; endless = null; paintMe(); paintBox();
       const r = await api('/api/leaderboard');
       data = r.error ? {error: r.error} : r;
       if (r.me) rankRefresh(r.me);
