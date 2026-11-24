@@ -33,13 +33,14 @@ const rpc = (() => {
       instance: false,
     };
     if (want.state) a.state = want.state;
-    if (stats) {                         // account stats: hover text, and full stats while in the menu (no rank badge)
+    if (stats) {                         // line 1: rank · Merit   line 2: what they're doing   corner: rank badge
       const money = `${big(stats.coins)} Coins · ${big(stats.silver)} Silver Wraths · ${big(stats.rp)} RP`;
-      a.largeImageText = `${stats.rankName} · ${money}`.slice(0, 128);
-      if (!want.state && (!want.details || want.details === 'In the menu')) {
-        a.details = `${stats.rankName} · ${big(stats.merit)} Merit`.slice(0, 128);
-        a.state = `${stats.wins}W ${stats.losses}L · ${money}`.slice(0, 128);
-      }
+      const doing = [want.details || 'In the menu', want.state].filter(Boolean).join(' · ');
+      a.details = `${stats.rankName} · ${big(stats.merit)} Merit`.slice(0, 128);
+      a.state = doing.slice(0, 128);
+      a.smallImageKey = 'rank_' + stats.rank;
+      a.smallImageText = `${stats.rankName} · ${stats.wins}W ${stats.losses}L`.slice(0, 128);
+      a.largeImageText = money.slice(0, 128);
     }
     if (/^https:\/\/[a-z0-9-]+\.itch\.io\//i.test(ITCH_URL) && !ITCH_URL.includes('PUT-YOUR')) a.buttons = [{label: 'Buy on itch.io', url: ITCH_URL}];
     client.user.setActivity(a).catch(e => log('rpc setActivity failed', e && e.message));

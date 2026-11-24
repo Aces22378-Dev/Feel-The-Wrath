@@ -479,6 +479,7 @@
     box-shadow:0 0 0 5px rgba(8,8,9,.95),0 0 0 6.5px #b8764a,0 0 18px 6px rgba(255,140,50,.18)}
   .q-slot.opp{left:955px;color:#8d9095;background:rgba(10,10,12,.6);box-shadow:0 0 0 1.5px #3e4146;transition:all .4s ease}
   .q-slot.opp.found{color:#efe6da;background:linear-gradient(180deg,#2a2b2e,#0e0f11);box-shadow:0 0 0 5px rgba(8,8,9,.95),0 0 0 6.5px #b8764a,0 0 22px 8px rgba(255,140,50,.3)}
+  .q-rk{position:absolute;left:50%;top:calc(100% + 14px);transform:translateX(-50%);display:flex;align-items:center;gap:10px;white-space:nowrap;font-size:17px;letter-spacing:.14em;text-indent:0;color:#c8875a;font-weight:600}
   .q-vs{position:absolute;left:0;right:0;top:320px;text-align:center;font-size:36px;font-weight:600;color:#d99a5e;letter-spacing:.06em}
   .q-spin{position:absolute;left:666px;top:447px;width:68px;height:68px;animation:spin 1.4s linear infinite}
   .q-spin.done{animation:none;opacity:0;transition:opacity .3s}
@@ -728,7 +729,7 @@
   .rk-cell.locked{opacity:.38;filter:grayscale(.7)}
   .rk-cell.cur{background:rgba(226,168,116,.12);box-shadow:0 0 0 1.5px #b8764a}
   .rk-msg{position:absolute;left:440px;top:628px;font-size:15px;letter-spacing:.14em;color:#8d9095}
-  .q-slot .rkicon{position:absolute;top:50%;transform:translateY(-50%);right:34px}
+  .q-slot .q-rk .rkicon{position:static;transform:none;filter:drop-shadow(0 2px 3px #000)}
 
   /* ================= STAFF / TITLES ================= */
   .s-tab.staff{display:none}.s-tab.staff.show{display:block}
@@ -1176,7 +1177,7 @@
     <section class="qscreen" id="pvp" aria-label="PvP matchmaking">
       <svg class="c-deco" viewBox="0 0 1392 752" aria-hidden="true"><defs><filter id="q-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9 0.06" numOctaves="3" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/></filter><linearGradient id="q-bl" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#4a070b"/><stop offset=".6" stop-color="#6e0e13"/><stop offset="1" stop-color="#6e0e13" stop-opacity="0"/></linearGradient></defs><g filter="url(#q-rough)" fill="url(#q-bl)"><path d="M-20 650 Q80 600 196 548 L204 556 Q90 618 -10 682 Z" opacity=".85"/><path d="M0 712 Q120 640 270 572 L280 584 Q140 662 14 740 Z"/><path d="M50 760 Q170 690 318 612 L326 622 Q190 706 80 770 Z" opacity=".7"/><path d="M-10 600 Q60 572 120 548 L124 553 Q64 582 -6 618 Z" opacity=".5"/></g></svg><div class="c-deco" id="q-emb3"></div>
       <div class="q-title">PVP</div><div class="q-rule"></div><div class="q-sub">MATCHMAKING</div>
-      <div class="q-slot you">YOU</div>
+      <div class="q-slot you" id="q-you">YOU</div>
       <div class="q-vs">VS</div>
       <div class="q-slot opp" id="q-opp">???</div>
       <svg class="q-spin" id="q-spin" viewBox="0 0 68 68" aria-hidden="true"><circle cx="62.0" cy="34.0" r="1.20" fill="#e2a874" opacity="0.25"/><circle cx="61.0" cy="41.2" r="1.33" fill="#e2a874" opacity="0.28"/><circle cx="58.2" cy="48.0" r="1.46" fill="#e2a874" opacity="0.31"/><circle cx="53.8" cy="53.8" r="1.59" fill="#e2a874" opacity="0.35"/><circle cx="48.0" cy="58.2" r="1.72" fill="#e2a874" opacity="0.38"/><circle cx="41.2" cy="61.0" r="1.85" fill="#e2a874" opacity="0.41"/><circle cx="34.0" cy="62.0" r="1.98" fill="#e2a874" opacity="0.44"/><circle cx="26.8" cy="61.0" r="2.11" fill="#e2a874" opacity="0.47"/><circle cx="20.0" cy="58.2" r="2.24" fill="#e2a874" opacity="0.51"/><circle cx="14.2" cy="53.8" r="2.37" fill="#e2a874" opacity="0.54"/><circle cx="9.8" cy="48.0" r="2.50" fill="#e2a874" opacity="0.57"/><circle cx="7.0" cy="41.2" r="2.63" fill="#e2a874" opacity="0.60"/><circle cx="6.0" cy="34.0" r="2.76" fill="#e2a874" opacity="0.63"/><circle cx="7.0" cy="26.8" r="2.89" fill="#e2a874" opacity="0.67"/><circle cx="9.8" cy="20.0" r="3.02" fill="#e2a874" opacity="0.70"/><circle cx="14.2" cy="14.2" r="3.15" fill="#e2a874" opacity="0.73"/><circle cx="20.0" cy="9.8" r="3.28" fill="#e2a874" opacity="0.76"/><circle cx="26.8" cy="7.0" r="3.41" fill="#e2a874" opacity="0.79"/><circle cx="34.0" cy="6.0" r="3.54" fill="#e2a874" opacity="0.83"/><circle cx="41.2" cy="7.0" r="3.67" fill="#e2a874" opacity="0.86"/><circle cx="48.0" cy="9.8" r="3.80" fill="#e2a874" opacity="0.89"/><circle cx="53.8" cy="14.2" r="3.93" fill="#e2a874" opacity="0.92"/><circle cx="58.2" cy="20.0" r="4.06" fill="#e2a874" opacity="0.95"/><circle cx="61.0" cy="26.8" r="4.19" fill="#e2a874" opacity="0.99"/></svg>
@@ -2026,6 +2027,15 @@
                     : matchScene ? 'DEPLOYING…' : b.dataset.diff + ' SELECTED — THE MATCH SCENE ISN\'T BUILT YET';
   }));
 
+  // rank badge + name under a matchmaking slot
+  function rankTag(slot, merit){
+    const old = slot.querySelector('.q-rk'); if (old) old.remove();
+    if (!window.rankInfo) return;
+    const i = rankInfo.rankOf(merit), d = document.createElement('div'); d.className = 'q-rk';
+    d.append(rankInfo.rankSpan(i, 34), document.createTextNode(rankInfo.RANKS[i].name.toUpperCase()));
+    slot.appendChild(d);
+  }
+
   /* PvP matchmaking over a WebSocket to the server's lobby. When two players are searching,
      the server pairs them and both clients join the same match room. */
   const pvp = (() => {
@@ -2043,6 +2053,7 @@
     return {
       search(){
         stop();
+        rankTag($('q-you'), account.ranked ? account.ranked.merit | 0 : 0);
         $('q-opp').textContent = '???'; $('q-opp').classList.remove('found'); $('q-opp').style.fontSize = $('q-opp').style.letterSpacing = $('q-opp').style.textIndent = '';
         if (!equipped.length){ status('NO GUN EQUIPPED', 'EQUIP A GUN IN THE TECH TREE FIRST', false); $('q-time').textContent = ''; return; }
         status('SEARCHING FOR OPPONENT', 'CONNECTING…', true);
@@ -2053,6 +2064,11 @@
         sock.onmessage = e => {
           if (ws !== sock) return;
           let m; try { m = JSON.parse(e.data); } catch(err){ return; }
+          if (m.t === 'queued' && window.rankInfo){
+            const R = rankInfo.RANKS, lo = Math.max(0, m.rank - m.range), hi = Math.min(R.length - 1, m.rank + m.range);
+            $('q-note').textContent = 'MATCHING ' + rankInfo.RANK_ABBR[lo] + ' – ' + rankInfo.RANK_ABBR[hi] + ' · ALL RANKS AFTER ' + Math.round(m.widenMs / 1000) + 'S';
+          }
+          if (m.t === 'widen') $('q-note').textContent = 'NO ONE NEAR YOUR RANK — SEARCHING ALL RANKS';
           if (m.t === 'matched'){ ws = null; this.found(m.opponent.username, m.matchId, m.opponent); }
         };
         sock.onclose = e => {
@@ -2066,11 +2082,12 @@
         const nm = String(name).toUpperCase().slice(0, 16), o = $('q-opp');
         o.textContent = nm; o.classList.add('found');
         { const c = opp && window.titleChip && titleChip(opp.title, opp.color); if (c) o.appendChild(c); }
+        if (opp) rankTag(o, opp.merit | 0);
         o.style.fontSize = Math.max(18, Math.min(36, 36 - (nm.length - 6) * 2.4)) + 'px';
         o.style.letterSpacing = o.style.textIndent = nm.length > 6 ? '.08em' : '';
         $('q-time').textContent = '';
         status('OPPONENT FOUND', 'GET READY', false);
-        setTimeout(() => { if (stageEl.classList.contains('on-pvp')) startMatch({mode: 'pvp', matchId, opponent: name}); }, 1600);
+        setTimeout(() => { if (stageEl.classList.contains('on-pvp')) startMatch({mode: 'pvp', matchId, opponent: name}); }, 2200);
       }
     };
   })();
@@ -2235,7 +2252,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.9.4';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.0.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -3068,6 +3085,11 @@
       if (f.tag){                              // opponent: name + health bar
         ctx.font = 'bold 12px Trebuchet MS'; ctx.textAlign = 'center';
         ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.8)'; ctx.strokeText(f.tag, f.x, f.y - 44); ctx.fillStyle = f.ally ? '#9fe0a8' : '#ff9a7a'; ctx.fillText(f.tag, f.x, f.y - 44);
+        const RI = window.rankInfo;
+        if (f.rank != null && RI && RI.img && RI.img.complete){    // rank badge left of the name (cells are 96px)
+          const w = ctx.measureText(f.tag).width;
+          ctx.drawImage(RI.img, f.rank * 96, 0, 96, 96, f.x - w / 2 - 22, f.y - 58, 18, 18);
+        }
         ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(f.x - 21, f.y - 39, 42, 6);
         ctx.fillStyle = f.ally ? '#4fbf5f' : '#e0352a'; ctx.fillRect(f.x - 20, f.y - 38, 40 * Math.max(0, f.hp / 100), 4);
       }
@@ -3088,7 +3110,7 @@
     function drawOpponent(){
       const o = G.o;
       drawFighter({x: o.x, y: o.y, ang: o.a, weapon: o.weapons[o.w] || o.weapons[0], moving: o.mv, character: o.character,
-                   inv: o.inv, alive: o.alive, flash: o.flash, tag: o.name, hp: o.hp});
+                   inv: o.inv, alive: o.alive, flash: o.flash, tag: o.name, hp: o.hp, rank: o.rank});
     }
     function drawPillar(pl){
       ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.beginPath(); ctx.ellipse(pl.x + 6, pl.y + 10, pl.r, pl.r * .8, 0, 0, 7); ctx.fill();
@@ -3382,9 +3404,11 @@
           const sp = m.spawns[m.you], os = m.spawns[1 - m.you], op = m.players[1 - m.you];
           Object.assign(p, {x: sp.x, y: sp.y, vx: 0, vy: 0, hp: 100, alive: true, inv: 0});
           G.o = {x: os.x, y: os.y, tx: os.x, ty: os.y, a: Math.PI, w: 0, mv: false, hp: 100, alive: true, inv: 0, flash: 0,
-                 name: op.username, character: op.character, weapons: op.loadout.filter(k => TECH[k]).map(mkWeapon)};
+                 name: op.username, character: op.character, weapons: op.loadout.filter(k => TECH[k]).map(mkWeapon), rank: op.rank};
           G.score = [0, 0];
-          banner('3', op.username.toUpperCase());
+          const RI = window.rankInfo, rk = RI && op.rank != null ? RI.RANKS[op.rank].name.toUpperCase() : '';
+          if (RI && op.rank != null) $m('m-diff').textContent = (G.privCode ? 'PRIVATE · ' : 'PVP · ') + RI.RANK_ABBR[op.rank] + ' ' + op.username.toUpperCase();
+          banner('3', op.username.toUpperCase() + (rk ? ' · ' + rk : ''));
           setTimeout(() => G && G.state === 'intro' && banner('2', ''), 1000);
           setTimeout(() => G && G.state === 'intro' && banner('1', ''), 2000);
           break;
@@ -3774,6 +3798,13 @@
     el.style.backgroundPosition = (-i * size) + 'px 0';
   }
   function rankSpan(i, size){ const s = document.createElement('span'); s.className = 'rkicon'; rankIcon(s, i, size); s.title = RANKS[i].name; return s; }
+  // shared with matchmaking and the match: short rank names + the sheet as an image for the canvas
+  const RANK_ABBR = ['PVT','PV2','PFC','SPC','CPL','SGT','SSG','SFC','MSG','1SG','SGM','CSM','SMA','WO1','CW2','CW3','CW4','CW5',
+                     '2LT','1LT','CPT','MAJ','LTC','COL','BG','MG','LTG','GEN','GA'];
+  window.rankInfo = {RANKS, RANK_ABBR, rankOf, rankSpan, img: null};
+  { const probe = rankSpan(0, 8); probe.style.position = 'absolute'; probe.style.left = '-99px'; document.body.appendChild(probe);
+    const u = (getComputedStyle(probe).backgroundImage.match(/url\("?(.*?)"?\)$/) || [])[1]; probe.remove();
+    if (u){ const im = new Image(); im.src = u; window.rankInfo.img = im; } }
   account.ranked = {merit: 0, wins: 0, losses: 0, draws: 0};
   window.rankRefresh = r => {
     if (r) account.ranked = {...account.ranked, ...r};
@@ -3792,6 +3823,22 @@
     } catch(e){}
   }
   window.sendStats = sendStats;
+  // Discord: say which screen you're on (matches, lobbies and parties report their own status)
+  { const SCREENS = [['tech', 'In the Tech Tree'], ['settings', 'In Settings'], ['credits', 'Reading the credits'], ['ranks', 'Checking the ranks'],
+                     ['quests', 'Checking quests'], ['char', 'Picking a character'], ['pvp', 'Searching for a PvP match'], ['solo', 'Picking a solo mode'],
+                     ['priv', 'In a private lobby'], ['coop', 'In a co-op party'], ['quick', 'Choosing a match'], ['auth', 'Logging in']];
+    let last = '';
+    const report = () => {
+      const c = stageEl.classList;
+      if (c.contains('on-match')) { last = ''; return; }
+      const hit = SCREENS.find(([k]) => c.contains('on-' + k)), what = hit ? hit[1] : 'In the menu';
+      if ((what === 'In a private lobby' || what === 'In a co-op party') && last === what) return;   // the lobby keeps its player count
+      if (what === last) return;
+      last = what;
+      try { window.ftwDesktop && window.ftwDesktop.presence({details: what, state: '', since: 0}); } catch(e){}
+    };
+    new MutationObserver(report).observe(stageEl, {attributes: true, attributeFilter: ['class']});
+    report(); }
   rankRefresh();
   // used by the PvP result screen
   window.meritLine = mr => {
