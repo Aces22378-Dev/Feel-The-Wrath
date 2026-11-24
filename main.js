@@ -35,7 +35,7 @@ const rpc = (() => {
     if (want.state) a.state = want.state;
     if (stats) {                         // account stats: rank badge + hover text, and full stats while in the menu
       const rec = `${stats.wins}W ${stats.losses}L · ${big(stats.merit)} Merit`;
-      const money = `${big(stats.coins)} Coins · ${big(stats.silver)} Silver · ${big(stats.rp)} RP`;
+      const money = `${big(stats.coins)} Coins · ${big(stats.silver)} Silver Wraths · ${big(stats.rp)} RP`;
       a.smallImageKey = 'rank_' + stats.rank; a.smallImageText = `${stats.rankName} · ${rec}`.slice(0, 128);
       a.largeImageText = money.slice(0, 128);
       if (!want.state && (!want.details || want.details === 'In the menu')) {
