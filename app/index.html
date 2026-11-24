@@ -737,6 +737,8 @@
         font:700 15px/1 "Trebuchet MS",sans-serif;box-shadow:inset 0 2px 6px #000;width:150px}
   .s-in:focus{outline:none;border-color:#f08a1c;box-shadow:0 0 10px rgba(255,128,20,.4),inset 0 2px 6px #000}
   .s-in.wide{width:220px}.s-in.num{width:120px}
+  select.s-in{width:260px;cursor:pointer;font-weight:600}
+  select.s-in option{background:#0f1012;color:#f2e6d6}
   .s-grid{display:flex;flex-wrap:wrap;gap:14px 20px;align-items:flex-end;margin:4px 0 8px}
   .s-grid label{display:flex;flex-direction:column;gap:5px;font-size:12px;color:#8f959b;letter-spacing:.08em}
   .s-color{width:46px;height:38px;padding:2px;border-radius:10px;border:2px solid #6d5a48;background:#0f1012;cursor:pointer}
@@ -1093,7 +1095,15 @@
           <div class="s-grid">
             <label>USERNAME<input class="s-in wide" id="o-user" maxlength="16" autocomplete="off" spellcheck="false"></label>
             <button class="s-btn" id="o-inf">GIVE INFINITE EVERYTHING</button>
+            <button class="s-btn danger" id="o-reset">RESET DATA</button>
             <button class="s-btn danger" id="o-del">DELETE ACCOUNT</button>
+          </div>
+          <div class="s-grid">
+            <label>COINS<input class="s-in num" id="g-coins" type="number" min="0" placeholder="0"></label>
+            <label>RP<input class="s-in num" id="g-rp" type="number" min="0" placeholder="0"></label>
+            <label>SILVER WRATHS<input class="s-in num" id="g-silver" type="number" min="0" placeholder="0"></label>
+            <label>GUN<select class="s-in" id="g-gun"></select></label>
+            <button class="s-btn" id="g-give">GIVE</button>
           </div>
           <div class="s-grid">
             <label>WINS<input class="s-in num" id="o-wins" type="number" min="0" placeholder="keep"></label>
@@ -1130,6 +1140,9 @@
       <div class="s-confirm" id="o-delc"><div class="box"><h4>Delete <span id="o-delname"></span>?</h4>
         <p>This permanently deletes that player's account and everything on it. It can't be undone.</p>
         <div class="row"><button class="s-btn" id="o-delno">CANCEL</button><button class="s-btn danger" id="o-delyes">DELETE</button></div></div></div>
+      <div class="s-confirm" id="o-resc"><div class="box"><h4>Reset <span id="o-resname"></span>?</h4>
+        <p>This wipes their coins, RP, Silver Wraths, guns, Merit, wins/losses, quests and Endless best. Their account, username, title and redeemed codes stay. It can't be undone.</p>
+        <div class="row"><button class="s-btn" id="o-resno">CANCEL</button><button class="s-btn danger" id="o-resyes">RESET</button></div></div></div>
       <div class="s-confirm" id="s-confirm"><div class="box"><h4>Reset all progress?</h4>
         <p>This wipes your coins, research, guns and loadout on your account. Silver Wraths and redeemed codes are kept. It can't be undone.</p>
         <div class="row"><button class="s-btn" id="s-no">CANCEL</button><button class="s-btn danger" id="s-yes">RESET</button></div></div></div>
@@ -2222,7 +2235,7 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '0.9.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '0.9.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -3896,6 +3909,25 @@
       const r = await api('/api/owner/record', {username: user(), wins: $('o-wins').value, losses: $('o-losses').value, merit: $('o-merit').value});
       if (r.error) return say('o-msg', r.error, false); after(r); say('o-msg', r.message, true);
     });
+    // owner: give coins / RP / Silver Wraths / a gun
+    { const sel = $('g-gun');
+      const opt = (v, t) => { const o = document.createElement('option'); o.value = v; o.textContent = t; sel.appendChild(o); };
+      opt('', '— No gun —'); opt('all', '★ ALL GUNS');
+      Object.keys(TECH).sort((a, b) => TECH[a].name.localeCompare(TECH[b].name)).forEach(k => opt(k, TECH[k].name + ' — ' + TECH[k].cat)); }
+    $('g-give').addEventListener('click', async () => {
+      if (!need()) return; say('o-msg', 'Working…', true);
+      const r = await api('/api/owner/give', {username: user(), coins: $('g-coins').value, research: $('g-rp').value, silver: $('g-silver').value, gun: $('g-gun').value});
+      if (r.error) return say('o-msg', r.error, false); after(r); say('o-msg', r.message, true);
+      ['g-coins', 'g-rp', 'g-silver'].forEach(id => $(id).value = ''); $('g-gun').value = '';
+    });
+    // owner: reset a player's data
+    $('o-reset').addEventListener('click', () => { if (!need()) return; $('o-resname').textContent = user().toUpperCase(); $('o-resc').classList.add('on'); $('o-resno').focus(); });
+    $('o-resno').addEventListener('click', () => $('o-resc').classList.remove('on'));
+    $('o-resyes').addEventListener('click', async () => {
+      $('o-resc').classList.remove('on'); say('o-msg', 'Resetting…', true);
+      const r = await api('/api/owner/reset', {username: user()});
+      if (r.error) return say('o-msg', r.error, false); after(r); say('o-msg', r.message, true);
+    });
     $('o-del').addEventListener('click', () => { if (!need()) return; $('o-delname').textContent = user().toUpperCase(); $('o-delc').classList.add('on'); $('o-delno').focus(); });
     $('o-delno').addEventListener('click', () => $('o-delc').classList.remove('on'));
     $('o-delyes').addEventListener('click', async () => {
@@ -3952,7 +3984,7 @@
     };
     $('s-delyes').addEventListener('click', doDelete);
     $('s-delpw').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') doDelete(); if (e.key === 'Escape') $('s-delc').classList.remove('on'); });
-    ['o-user', 'o-wins', 'o-losses', 'o-merit', 't-user', 't-text', 'd-coins', 'd-rp', 'd-silver', 'd-merit'].forEach(id => $(id).addEventListener('keydown', e => e.stopPropagation()));
+    ['o-user', 'g-coins', 'g-rp', 'g-silver', 'o-wins', 'o-losses', 'o-merit', 't-user', 't-text', 'd-coins', 'd-rp', 'd-silver', 'd-merit'].forEach(id => $(id).addEventListener('keydown', e => e.stopPropagation()));
   })();
 
   /* ================= ACCOUNT RECOVERY + PRIVACY ================= */
