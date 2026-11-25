@@ -621,6 +621,23 @@
     opacity:0;transition:opacity .5s;pointer-events:none}
   .m-map small{display:block;margin-top:10px;font-size:12px;letter-spacing:.2em;color:#ffd25a;text-align:center}
   .m-map.on{opacity:1}
+  .m-over.m-vote{background:radial-gradient(ellipse at center,rgba(12,10,12,.88),rgba(6,5,7,.96));z-index:5;cursor:default}
+  .m-vote h2{font:600 44px/1 "FTW Serif",Georgia,serif;letter-spacing:.3em;text-indent:.3em;color:#e2a874;margin:0}
+  .m-vote .vt{margin:14px 0 26px;font-size:16px;font-weight:700;letter-spacing:.22em;color:#c9cdd1}
+  .m-vote .vt b{color:#ffc34d}
+  .m-vcards{display:flex;gap:18px;justify-content:center}
+  .m-vcard{position:relative;width:272px;padding:8px 8px 12px;border-radius:14px;background:#17181b;border:2px solid #4a3a2c;cursor:pointer;color:#fff;
+    font-family:"FTW Pixel",monospace;font-size:13px;letter-spacing:.04em;transition:transform .12s,border-color .12s,opacity .3s}
+  .m-vcard:hover{transform:translateY(-3px);border-color:#c8875a}
+  .m-vcard:focus-visible{outline:2px solid #ffc34d;outline-offset:3px}
+  .m-vcard img{display:block;width:100%;aspect-ratio:1286/675;border-radius:8px;image-rendering:pixelated;margin-bottom:10px}
+  .m-vcard .k{position:absolute;left:14px;top:14px;width:22px;height:22px;border-radius:6px;background:rgba(0,0,0,.7);font-size:11px;line-height:22px;color:#c9cdd1}
+  .m-vcard .tags{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+  .m-vcard .tags i{font-style:normal;font-size:9px;padding:5px 7px;border-radius:5px;background:#c8875a;color:#140d08}
+  .m-vcard .tags i.op{background:#d9473c;color:#fff}
+  .m-vcard.mine{border-color:#ffc34d}
+  .m-vote.picked .m-vcard{cursor:default;opacity:.28;transform:none}
+  .m-vote.picked .m-vcard.win{opacity:1;border-color:#ffc34d;box-shadow:0 0 24px rgba(255,195,77,.45);transform:scale(1.05)}
 
   .m-over{position:absolute;left:50px;top:33px;width:1286px;height:675px;display:none;align-items:center;justify-content:center;
     background:rgba(0,0,0,.62);font-family:"FTW Serif",Georgia,serif;font-variant-numeric:lining-nums}
@@ -1486,6 +1503,7 @@
       <div class="m-ui m-utils" id="m-utils"></div>
       <div class="m-ui m-hint" id="m-hint"></div>
       <div class="m-ui m-banner" id="m-banner"></div>
+      <div class="m-over m-vote" id="m-vote"><div class="m-box"><h2>VOTE FOR A MAP</h2><div class="vt" id="m-vtime"></div><div class="m-vcards" id="m-vcards"></div></div></div>
 
       <div id="tc" aria-hidden="true">
         <div class="tc-stick" id="tc-move"><i></i></div>
@@ -2474,7 +2492,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.2.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.3.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -3541,6 +3559,7 @@
         stageEl.classList.remove('on-match'); presence('In the menu', '', 0); audio.music.mode('menu'); showQ('quick'); return;
       }
       if (G && G.mode === 'pvp'){
+        hideVote();
         const g = G; G = null; keys.clear(); mouse.down = false;
         try { g.ws && g.ws.close(1000, 'quit'); } catch(e){}
         stageEl.classList.remove('on-match'); presence('In the menu', '', 0); audio.music.mode('menu'); showQ('quick'); return;
@@ -3649,11 +3668,52 @@
       G.parts.push({k: 'flash', x: mx, y: my, life: .05, max: .05, s: pr.splash ? 16 : 10});
       audio.play(pr.snd, .55);
     }
+    /* ---- PvP map vote ---- */
+    function showVote(m){
+      const box = $m('m-vote'); G.voteEnds = performance.now() + (m.seconds || 10) * 1000; G.voted = null;
+      box.classList.remove('picked');
+      $m('m-vcards').innerHTML = MAPS.map((mp, i) => '<button type="button" class="m-vcard" data-map="' + i + '"><span class="k">' + (i + 1) + '</span><span class="tags"></span>' +
+        '<img alt="" src="' + mp.src + '">' + mp.name + '</button>').join('');
+      $m('m-vcards').querySelectorAll('.m-vcard').forEach(b => b.addEventListener('pointerdown', e => { e.preventDefault(); castVote(+b.dataset.map); }));
+      box.classList.add('on'); $m('m-banner').classList.remove('on');
+      markVotes(m.votes || []);
+      clearInterval(G.voteTick); const g = G;
+      g.voteTick = setInterval(() => { if (G !== g || !box.classList.contains('on')){ clearInterval(g.voteTick); return; }
+        if (!box.classList.contains('picked')) $m('m-vtime').innerHTML = 'PICK ONE · <b>' + Math.max(0, Math.ceil((g.voteEnds - performance.now()) / 1000)) + '</b>s'; }, 200);
+    }
+    function castVote(i){
+      if (!G || G.mode !== 'pvp' || $m('m-vote').classList.contains('picked') || !$m('m-vote').classList.contains('on')) return;
+      G.voted = i; pvpSend({t: 'vote', map: i});
+      markVotes(G.lastVotes || []);
+    }
+    function markVotes(votes){
+      G.lastVotes = votes; const me = G.you | 0;
+      $m('m-vcards').querySelectorAll('.m-vcard').forEach(b => {
+        const i = +b.dataset.map, mine = votes[me] === i || (votes[me] == null && G.voted === i), opp = votes[1 - me] === i;
+        b.classList.toggle('mine', mine);
+        b.querySelector('.tags').innerHTML = (mine ? '<i>YOU</i>' : '') + (opp ? '<i class="op">OPPONENT</i>' : '');
+      });
+    }
+    function hideVote(){ const b = $m('m-vote'); b.classList.remove('on', 'picked'); if (G) clearInterval(G.voteTick); }
+    addEventListener('keydown', e => {
+      if (!G || G.mode !== 'pvp' || !$m('m-vote').classList.contains('on')) return;
+      const n = +e.key; if (n >= 1 && n <= MAPS.length){ e.preventDefault(); castVote(n - 1); }
+    });
+
     function onNet(m){
       if (!G || G.mode !== 'pvp') return;
       const p = G.p, me = G.you;
       switch (m.t){
+        case 'vote': G.you = m.you | 0; showVote(m); break;
+        case 'voted': markVotes(m.votes || []); break;
+        case 'votePick': {
+          markVotes(m.votes || []); const box = $m('m-vote'); box.classList.add('picked');
+          box.querySelectorAll('.m-vcard').forEach(b => b.classList.toggle('win', +b.dataset.map === m.map));
+          $m('m-vtime').innerHTML = '<b>' + (MAPS[m.map] || MAPS[0]).name + '</b>';
+          break;
+        }
         case 'start': {
+          hideVote();
           G.you = m.you; G.killsToWin = m.killsToWin; G.state = 'intro'; G.t = 0; useMap(m.map | 0);
           G.endsAt = performance.now() + (m.seconds + 3) * 1000;
           const sp = m.spawns[m.you], os = m.spawns[1 - m.you], op = m.players[1 - m.you];
@@ -3704,6 +3764,7 @@
       }
     }
     function pvpEnd(m){
+      hideVote();
       if (G.state === 'end') return;
       G.state = 'end'; G.menu = false; mouse.down = false; $m('m-pause').classList.remove('on'); $m('m-ff').classList.remove('on');
       const me = G.you, won = m.winner === me, draw = m.winner === -1;
@@ -3741,7 +3802,7 @@
       presence((G.privCode ? 'Private match: V.S. ' : 'PVP: V.S. ') + (opponent || 'Unknown'), 'First to 3 kills', Date.now());
       $m('m-diff').textContent = 'PVP · ' + String(opponent || '').toUpperCase(); $m('m-net').textContent = '';
       $m('m-pause').classList.remove('on'); $m('m-ff').classList.remove('on'); $m('m-result').classList.remove('on'); $m('m-again').textContent = 'PLAY AGAIN';
-      $m('m-ff').textContent = 'PRESS ESC AGAIN TO FORFEIT';
+      $m('m-ff').textContent = 'PRESS ESC AGAIN TO FORFEIT'; hideVote();
       const kb = c => keyName(c);
       $m('m-hint').textContent = `${kb(binds.forward)}${kb(binds.left)}${kb(binds.back)}${kb(binds.right)} MOVE · MOUSE AIM / SHOOT · ${kb(binds.reload)} RELOAD · 1-5 WEAPONS · 6-9 UTILITY · ${kb(binds.swap)} / WHEEL SWAP · ESC MENU`;
       ['on-quick', 'on-solo', 'on-pvp'].forEach(c => stageEl.classList.remove(c));
