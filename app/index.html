@@ -2458,7 +2458,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.1.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.1.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2505,13 +2505,26 @@
     btn.onclick = () => {
       btn.disabled = true;
       if (desk){ s.textContent = 'Starting download…'; window.ftwDesktop.update(); }
-      else { s.textContent = 'Reloading…'; location.reload(); }
+      else { s.textContent = 'Reloading…'; location.replace(location.pathname + '?u=' + Date.now()); }   // skip the cached page
     };
   }
   window.ftwOutdated = showOutdated;
   window.ftwUpdatePending = () => !!outdatedWait;
   // the desktop app also checks GitHub for a newer release when it starts
   if (window.ftwDesktop && window.ftwDesktop.onUpdate) window.ftwDesktop.onUpdate(u => { if (u.state === 'available') showOutdated(); });
+  // the browser / mobile version checks the site for a newer build every 5 minutes (waits until the match is over)
+  if (FTW_CLIENT === 'web' && /^https?:/.test(location.protocol)){
+    const checkWeb = async () => {
+      try {
+        const r = await fetch('version.json?t=' + Date.now(), {cache: 'no-store'});
+        if (!r.ok) return;
+        const v = (await r.json()).version;
+        if (v && v !== GAME_VERSION) showOutdated();
+      } catch(e){}
+    };
+    setTimeout(checkWeb, 20000); setInterval(checkWeb, 5 * 60 * 1000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) checkWeb(); });   // phone unlocked / app reopened
+  }
 
   async function api(path, body){
     try {
