@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Feel The Wrath — Start Screen</title>
 <style>
   /* The reference art (embedded below, 1392x752) is the screen itself, so it
@@ -933,6 +933,53 @@
   .mod-r .t{font-size:15px}.mod-r .t b{color:#ffb38a}.mod-r .d{grid-column:1;font-size:13px;color:#a9a094}
   .mod-r .a{grid-row:1 / span 2;grid-column:2;display:flex;gap:8px;align-items:center}
 
+  /* ================= TOUCH / MOBILE ================= */
+  html,body{overscroll-behavior:none}
+  body.touch{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+  body.touch input,body.touch textarea{-webkit-user-select:text;user-select:text}
+  #tc{position:absolute;inset:0;z-index:2;display:none;touch-action:none}
+  body.touch #tc{display:block}
+  body.touch #match .m-hint{display:none}
+  body.touch #match .m-wep{pointer-events:auto;cursor:pointer}
+  .tc-stick{position:absolute;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;pointer-events:none;display:none;
+    background:radial-gradient(circle,rgba(255,255,255,.05),rgba(255,255,255,.02) 60%,transparent 70%);box-shadow:inset 0 0 0 2px rgba(226,168,116,.45)}
+  .tc-stick.on{display:block}
+  .tc-stick i{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;
+    background:radial-gradient(circle at 40% 35%,rgba(255,220,180,.55),rgba(184,118,74,.45));box-shadow:0 0 14px rgba(255,140,50,.45)}
+  .tc-stick.aim{box-shadow:inset 0 0 0 2px rgba(224,80,60,.55)}
+  .tc-stick.aim i{background:radial-gradient(circle at 40% 35%,rgba(255,190,170,.6),rgba(200,60,40,.5))}
+  .tc-hint{position:absolute;bottom:150px;font:600 13px/1 "FTW Serif",Georgia,serif;letter-spacing:.24em;color:rgba(239,230,218,.32);pointer-events:none}
+  .tc-btn{position:absolute;width:84px;height:84px;border-radius:50%;border:0;padding:0;display:flex;align-items:center;justify-content:center;
+    font:700 14px/1 "FTW Serif",Georgia,serif;letter-spacing:.14em;color:#efe6da;background:rgba(14,14,16,.62);
+    box-shadow:inset 0 0 0 2px rgba(226,168,116,.6),0 4px 12px rgba(0,0,0,.6)}
+  .tc-btn:active,.tc-btn.down{background:rgba(184,118,74,.45)}
+  .tc-btn.sm{width:64px;height:64px;font-size:20px}
+
+  #rotate{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:#050506;
+    color:#efe6da;font:600 20px/1.3 "FTW Serif",Georgia,serif;letter-spacing:.2em;text-align:center;padding:30px}
+  #rotate svg{animation:rot 2s ease-in-out infinite}
+  @keyframes rot{0%,30%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
+  @media (orientation:portrait){ body.touch #rotate{display:flex} }
+  @media (prefers-reduced-motion:reduce){ #rotate svg{animation:none} }
+
+  #unlock{position:absolute;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(5,5,6,.94);
+    font-family:"FTW Serif","Cormorant Garamond",Garamond,Georgia,serif;color:#efe6da}
+  #unlock.on{display:flex}
+  #unlock .box{width:760px;border-radius:18px;padding:34px 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;
+    background:linear-gradient(180deg,#1b1d20,#0f1012);box-shadow:inset 0 0 0 2px #b8764a,0 20px 50px rgba(0,0,0,.8)}
+  #unlock h2{margin:0;font-size:30px;letter-spacing:.24em;color:#e2a874;font-weight:600;text-align:center}
+  #unlock ol{margin:0;padding-left:26px;font-size:19px;line-height:1.5;color:#d9cdb6}
+  #unlock ol b{color:#ffd9b0}
+  #unlock .row{display:flex;gap:12px}
+  #unlock input{flex:1;height:52px;border-radius:999px;border:0;padding:0 22px;font:600 18px/1 "FTW Serif",Georgia,serif;color:#efe6da;
+    background:rgba(8,8,10,.9);box-shadow:inset 0 0 0 1.5px #3e4146}
+  #unlock input:focus{outline:none;box-shadow:inset 0 0 0 2px #e2a874}
+  #unlock .msg{min-height:22px;font-size:17px;color:#c8875a;text-align:center}
+  #unlock .msg.bad{color:#ff7a6a}
+  #unlock .foot{display:flex;justify-content:space-between;align-items:center}
+  #unlock .link{background:none;border:0;color:#8d9095;font:600 15px/1 "FTW Serif",Georgia,serif;letter-spacing:.18em;cursor:pointer;padding:6px}
+  #unlock .link:hover,#unlock .link:focus-visible{outline:none;color:#ffd9b0}
+
   /* ---------------- menu hotspots ---------------- */
   .btn{
     position:absolute;
@@ -969,6 +1016,7 @@
 </style>
 </head>
 <body>
+<div id="rotate"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#e2a874" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>TURN YOUR PHONE SIDEWAYS</div>
   <div id="stage">
     <div class="hud">
       <div class="plate coins" title="Coins">
@@ -1203,6 +1251,8 @@
             <label>DAYS (0 = FOREVER)<input class="s-in num" id="m-days" type="number" min="0" max="3650" value="0"></label>
             <button class="s-btn danger" id="m-ban">BAN</button>
             <button class="s-btn" id="m-unban">UNBAN</button>
+            <button class="s-btn" id="m-unlock">UNLOCK BROWSER</button>
+            <button class="s-btn" id="m-lock">REMOVE BROWSER</button>
           </div>
           <div class="s-msg" id="m-msg"></div>
           <h3 style="margin-top:14px">REPORTS <button class="s-btn" id="m-refresh" style="margin-left:12px;padding:5px 12px;font-size:12px">REFRESH</button></h3>
@@ -1420,6 +1470,16 @@
       <div class="m-ui m-utils" id="m-utils"></div>
       <div class="m-ui m-hint" id="m-hint"></div>
       <div class="m-ui m-banner" id="m-banner"></div>
+
+      <div id="tc" aria-hidden="true">
+        <div class="tc-stick" id="tc-move"><i></i></div>
+        <div class="tc-stick aim" id="tc-aim"><i></i></div>
+        <div class="tc-hint" style="left:150px">MOVE</div>
+        <div class="tc-hint" style="right:150px">AIM + FIRE</div>
+        <button class="tc-btn sm" id="tc-esc" style="right:64px;top:96px" aria-label="Pause">II</button>
+        <button class="tc-btn" id="tc-reload" style="right:60px;top:200px">RELOAD</button>
+        <button class="tc-btn" id="tc-swap" style="right:60px;top:300px">SWAP</button>
+      </div>
       <div class="m-over" id="m-pause"><div class="m-box"><h2>PAUSED</h2><div class="rule"></div>
         <div class="m-np">NOW PLAYING · <span id="m-now"></span><button id="m-skip">SKIP ▸</button></div>
         <div class="m-btns"><button class="q-btn" id="m-resume">RESUME</button><button class="q-btn" id="m-quit">QUIT</button></div></div></div>
@@ -1504,6 +1564,18 @@
       <textarea id="rp-det" maxlength="200" placeholder="What happened? (optional)"></textarea>
       <div class="fr-msg" id="rp-msg" style="position:static;width:auto"></div>
       <div class="row"><button class="fr-b ghost" id="rp-no">CANCEL</button><button class="fr-b go" id="rp-send">SEND REPORT</button></div></div></div>
+
+    <div id="unlock" role="dialog" aria-label="Unlock the browser version"><div class="box">
+      <h2>UNLOCK FEEL THE WRATH</h2>
+      <ol>
+        <li>Buy Feel The Wrath on itch.io (<b>$2.50</b>), if you haven't yet.</li>
+        <li>On itch.io, open <b>My Library → Feel The Wrath</b> and copy the download page link. It has <b>/download/</b> in it.</li>
+        <li>Paste it below. Each key unlocks one account, forever.</li>
+      </ol>
+      <div class="row"><input id="ul-key" placeholder="Paste your download link or key" autocomplete="off" spellcheck="false"><button class="fr-b go" id="ul-go" style="padding:0 26px">UNLOCK</button></div>
+      <div class="msg" id="ul-msg"></div>
+      <div class="foot"><button class="link" id="ul-buy">BUY ON ITCH.IO</button><button class="link" id="ul-out">LOG OUT</button></div>
+    </div></div>
     <!-- ================= CREDITS SCREEN ================= -->
     <section id="credits" aria-label="Credits">
       <svg class="c-deco" viewBox="0 0 1392 752" aria-hidden="true"><g transform="translate(250 560) rotate(-58)"><g fill="#232528" stroke="#2e3034" stroke-width="2" opacity=".35"><path d="M0 0 L120 -14 Q150 -10 160 0 Q150 10 120 14 Z"/><rect x="-60" y="-8" width="60" height="16" rx="5" fill="#1d1e21"/><rect x="-4" y="-22" width="8" height="44" rx="3"/></g></g><g transform="translate(330 560) rotate(-122) scale(1 -1)"><g fill="#232528" stroke="#2e3034" stroke-width="2" opacity=".35"><path d="M0 0 L120 -14 Q150 -10 160 0 Q150 10 120 14 Z"/><rect x="-60" y="-8" width="60" height="16" rx="5" fill="#1d1e21"/><rect x="-4" y="-22" width="8" height="44" rx="3"/></g></g><g transform="translate(1080 560) rotate(-58)"><g fill="#232528" stroke="#2e3034" stroke-width="2" opacity=".35"><path d="M0 0 L120 -14 Q150 -10 160 0 Q150 10 120 14 Z"/><rect x="-60" y="-8" width="60" height="16" rx="5" fill="#1d1e21"/><rect x="-4" y="-22" width="8" height="44" rx="3"/></g></g><g transform="translate(1160 560) rotate(-122) scale(1 -1)"><g fill="#232528" stroke="#2e3034" stroke-width="2" opacity=".35"><path d="M0 0 L120 -14 Q150 -10 160 0 Q150 10 120 14 Z"/><rect x="-60" y="-8" width="60" height="16" rx="5" fill="#1d1e21"/><rect x="-4" y="-22" width="8" height="44" rx="3"/></g></g><g fill="#5e0b10" opacity=".75"><circle cx="40" cy="700" r="26"/><circle cx="72" cy="690" r="12"/><circle cx="20" cy="668" r="9"/><circle cx="96" cy="708" r="6"/><path d="M60 700 q4 30 0 44 q-4 -14 -6 -44z"/><circle cx="58" cy="745" r="4"/></g></svg>
@@ -2190,7 +2262,7 @@
         if (!equipped.length){ status('NO GUN EQUIPPED', 'EQUIP A GUN IN THE TECH TREE FIRST', false); $('q-time').textContent = ''; return; }
         status('SEARCHING FOR OPPONENT', 'CONNECTING…', true);
         t0 = Date.now(); timer = setInterval(tick, 250); tick();
-        const sock = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/queue?v=' + GAME_VERSION + '&token=' + account.token);
+        const sock = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/queue?v=' + GAME_VERSION + '&token=' + account.token + '&c=' + FTW_CLIENT);
         ws = sock;
         sock.onopen = () => { if (ws === sock) $('q-note').textContent = 'WAITING FOR ANOTHER PLAYER'; ping = setInterval(() => { try { sock.send('ping'); } catch(e){} }, 20000); };
         sock.onmessage = e => {
@@ -2244,7 +2316,7 @@
       if (!account.token){ msg('LOG IN TO PLAY ONLINE', true); return; }
       if (!equipped.length){ msg('EQUIP A GUN IN THE TECH TREE FIRST', true); return; }
       msg('CONNECTING…');
-      const sock = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/private?' + query + '&v=' + GAME_VERSION + '&token=' + account.token);
+      const sock = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/private?' + query + '&v=' + GAME_VERSION + '&token=' + account.token + '&c=' + FTW_CLIENT);
       ws = sock; let errored = false;
       sock.onopen = () => { ping = setInterval(() => { try { sock.send('ping'); } catch(e){} }, 20000); };
       sock.onmessage = e => {
@@ -2333,7 +2405,7 @@
       if (!account.token){ msg('LOG IN TO PLAY ONLINE', true); return; }
       if (!equipped.length){ msg('EQUIP A GUN IN THE TECH TREE FIRST', true); return; }
       msg('CONNECTING…');
-      const sock = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/coop/party?' + query + '&v=' + GAME_VERSION + '&token=' + account.token);
+      const sock = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/coop/party?' + query + '&v=' + GAME_VERSION + '&token=' + account.token + '&c=' + FTW_CLIENT);
       ws = sock; let errored = false;
       sock.onopen = () => { ping = setInterval(() => { try { sock.send('ping'); } catch(e){} }, 20000); };
       sock.onmessage = e => {
@@ -2385,7 +2457,8 @@
 
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
-  const GAME_VERSION = '1.0.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
+  const GAME_VERSION = '1.1.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2444,13 +2517,14 @@
     try {
       const r = await fetch(API_BASE + path, {
         method: body ? 'POST' : 'GET',
-        headers: {'Content-Type': 'application/json', 'X-FTW-Version': GAME_VERSION, ...(account.token ? {Authorization: 'Bearer ' + account.token} : {})},
+        headers: {'Content-Type': 'application/json', 'X-FTW-Version': GAME_VERSION, 'X-FTW-Client': FTW_CLIENT, ...(account.token ? {Authorization: 'Bearer ' + account.token} : {})},
         body: body ? JSON.stringify(body) : undefined,
       });
       const d = await r.json().catch(() => ({error: 'Bad response from server'}));
       if (r.status === 426 || d.outdated){ showOutdated(); return {error: d.error || 'Outdated version', outdated: true, status: 426}; }
       if (r.status === 401 && account.token && !/\/api\/(login|signup)$/.test(path)){ logout(true, 'Session expired — log in again'); }
       if (r.status === 403 && account.token && /banned/i.test(d.error || '')){ logout(true, d.error); }
+      if (r.status === 402 && window.showUnlock) showUnlock();
       return r.ok ? d : {error: d.error || ('Server error ' + r.status), status: r.status};
     } catch(e){
       return {error: 'Can\'t reach the server', offline: true};
@@ -2471,6 +2545,7 @@
     if (st.ranked && window.rankRefresh) rankRefresh(st.ranked);
     if (st.staff && window.staffRefresh) staffRefresh(st.staff);
     if ('email' in st) account.email = st.email;
+    if ('unlocked' in st){ account.unlocked = !!st.unlocked; if (window.unlockCheck) unlockCheck(); }
     if (window.sendStats) setTimeout(sendStats, 0);
     renderTree();
   }
@@ -2521,6 +2596,7 @@
   function enterGame(st){
     applyServerState(st);
     if (window.questsLoad) setTimeout(questsLoad, 300);
+    if (FTW_CLIENT === 'web' && !('unlocked' in st)) refreshAccount();       // learn whether this account is unlocked
     stageEl.classList.remove('on-auth', 'signup');
     $a('a-pass').value = $a('a-pass2').value = $a('a-email').value = '';
     document.querySelector('.b-match').focus();
@@ -2683,6 +2759,7 @@
         const d = document.createElement('div'); d.className = 'm-wep' + (util ? ' util' : '');
         d.innerHTML = '<span class="k">' + key + '</span><img alt=""><span class="am"></span><div class="rl"><i></i></div>';
         const im = d.querySelector('img'); im.src = TECH[w.id].img; im.style.width = Math.min(util ? 56 : 96, w.w * (w.w > 40 ? 2 : 3)) + 'px';
+        d.addEventListener('pointerdown', e => { if (G && G.weapons[i] === w){ G.cur = i; e.stopPropagation(); e.preventDefault(); } });   // tap a slot (touch)
         (util ? ub : wb).appendChild(d); w.el = d;
       });
       ub.style.display = nu ? '' : 'none';
@@ -3628,7 +3705,7 @@
       banner('CONNECTING', '');
       resize(); last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
       audio.music.mode('match');
-      const ws = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/match?id=' + encodeURIComponent(matchId) + '&v=' + GAME_VERSION + '&token=' + account.token);
+      const ws = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/match?id=' + encodeURIComponent(matchId) + '&v=' + GAME_VERSION + '&token=' + account.token + '&c=' + FTW_CLIENT);
       G.ws = ws;
       const g = G;
       ws.onmessage = e => { if (G === g) { try { onNet(JSON.parse(e.data)); } catch(err){ console.error(err); } } };
@@ -3842,7 +3919,7 @@
       banner('CONNECTING', '');
       resize(); last = performance.now(); cancelAnimationFrame(raf); raf = requestAnimationFrame(loop);
       audio.music.mode('match');
-      const ws = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/match?id=' + encodeURIComponent(matchId) + '&v=' + GAME_VERSION + '&token=' + account.token);
+      const ws = new WebSocket(API_BASE.replace(/^http/, 'ws') + '/api/pvp/match?id=' + encodeURIComponent(matchId) + '&v=' + GAME_VERSION + '&token=' + account.token + '&c=' + FTW_CLIENT);
       G.ws = ws;
       const g = G;
       ws.onopen = () => { g.ping = setInterval(() => { try { ws.send('ping'); } catch(e){} }, 20000); };
@@ -3858,7 +3935,15 @@
     }
     addEventListener('resize', () => { if (G) resize(); });
 
-    return {start, startPvp, startCoop, quit, get state(){ return G; }};
+    // used by the touch controls (mobile / browser version)
+    const touch = {
+      keys, mouse,
+      get binds(){ return binds; },
+      reload(){ if (G && G.weapons[G.cur]) startReload(G.weapons[G.cur]); },
+      swap(){ if (G && G.weapons.length) G.cur = (G.cur + 1) % G.weapons.length; },
+      esc(){ dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape', code: 'Escape'})); },
+    };
+    return {start, startPvp, startCoop, quit, touch, get state(){ return G; }};
   })();
   matchScene = true;
   addEventListener('ftw:start-match', e => { if (e.detail.mode === 'solo') Solo.start(e.detail.difficulty); else if (e.detail.mode === 'pvp') Solo.startPvp(e.detail.matchId, e.detail.opponent, e.detail.privateCode);
@@ -4577,6 +4662,112 @@
 
     // first heartbeat once logged in
     setTimeout(() => beat(true), 2500);
+  })();
+
+  /* ================= TOUCH CONTROLS + BROWSER UNLOCK ================= */
+  (() => {
+    const $ = id => document.getElementById(id);
+    const IS_WEB = typeof FTW_CLIENT !== 'undefined' && FTW_CLIENT === 'web';
+
+    // ---- touch mode turns on at the first touch (desktop players never see it) ----
+    let fsTried = false;
+    function goTouch(){
+      if (!document.body.classList.contains('touch')) document.body.classList.add('touch');
+      if (IS_WEB && !fsTried && document.fullscreenEnabled && !document.fullscreenElement){     // Android: full screen + landscape
+        fsTried = true;
+        document.documentElement.requestFullscreen({navigationUI: 'hide'})
+          .then(() => screen.orientation && screen.orientation.lock && screen.orientation.lock('landscape').catch(() => {}))
+          .catch(() => {});
+      }
+    }
+    addEventListener('touchstart', goTouch, {passive: true, capture: true});
+    if (matchMedia('(hover: none) and (pointer: coarse)').matches) document.body.classList.add('touch');
+
+    // ---- twin sticks ----
+    const T = Solo.touch, tc = $('tc'), mv = $('tc-move'), am = $('tc-aim');
+    const R = 60;                                   // stick radius (stage px)
+    let moveId = null, aimId = null, mOrig = null, aOrig = null, aimVec = null;
+    const stagePt = t => { const r = stageEl.getBoundingClientRect(), k = r.width / 1392; return {x: (t.clientX - r.left) / k, y: (t.clientY - r.top) / k}; };
+    function setKnob(el, o, p){
+      let dx = p.x - o.x, dy = p.y - o.y; const d = Math.hypot(dx, dy);
+      if (d > R){ dx = dx / d * R; dy = dy / d * R; }
+      el.firstChild.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      return {x: dx / R, y: dy / R, m: Math.min(1, d / R)};
+    }
+    function setMove(v){
+      const b = T.binds, k = T.keys;
+      [b.left, b.right, b.forward, b.back].forEach(c => k.delete(c));
+      if (!v || v.m < .25) return;
+      if (v.x < -.38) k.add(b.left); if (v.x > .38) k.add(b.right);
+      if (v.y < -.38) k.add(b.forward); if (v.y > .38) k.add(b.back);
+    }
+    function aimTick(){
+      const G = Solo.state;
+      if (aimVec && G && G.p){
+        const L = Math.hypot(aimVec.x, aimVec.y) || 1, dist = 120 + 380 * aimVec.m;
+        T.mouse.x = G.p.x + aimVec.x / L * dist; T.mouse.y = G.p.y + aimVec.y / L * dist; T.mouse.inside = true;
+        T.mouse.down = aimVec.m > .3 && !G.paused && G.state !== 'end';
+      }
+      if (aimVec) requestAnimationFrame(aimTick);
+    }
+    tc.addEventListener('touchstart', e => {
+      if (e.target.closest('.tc-btn')) return;
+      e.preventDefault();
+      for (const t of e.changedTouches){
+        const p = stagePt(t);
+        if (p.x < 560 && moveId === null){ moveId = t.identifier; mOrig = p; mv.style.left = p.x + 'px'; mv.style.top = p.y + 'px'; mv.classList.add('on'); setKnob(mv, p, p); }
+        else if (p.x > 832 && aimId === null){ aimId = t.identifier; aOrig = p; am.style.left = p.x + 'px'; am.style.top = p.y + 'px'; am.classList.add('on'); setKnob(am, p, p);
+          aimVec = {x: 0, y: 0, m: 0}; requestAnimationFrame(aimTick); }
+      }
+    }, {passive: false});
+    tc.addEventListener('touchmove', e => {
+      e.preventDefault();
+      for (const t of e.changedTouches){
+        const p = stagePt(t);
+        if (t.identifier === moveId) setMove(setKnob(mv, mOrig, p));
+        if (t.identifier === aimId) aimVec = setKnob(am, aOrig, p);
+      }
+    }, {passive: false});
+    const end = e => {
+      for (const t of e.changedTouches){
+        if (t.identifier === moveId){ moveId = null; mv.classList.remove('on'); setMove(null); }
+        if (t.identifier === aimId){ aimId = null; am.classList.remove('on'); aimVec = null; T.mouse.down = false; }
+      }
+    };
+    tc.addEventListener('touchend', end); tc.addEventListener('touchcancel', end);
+    const tap = (id, fn) => $(id).addEventListener('touchstart', e => { e.preventDefault(); e.stopPropagation(); fn(); }, {passive: false});
+    tap('tc-reload', () => T.reload());
+    tap('tc-swap', () => T.swap());
+    tap('tc-esc', () => T.esc());
+    ['tc-reload', 'tc-swap', 'tc-esc'].forEach(id => $(id).addEventListener('click', e => e.preventDefault()));
+    // reset sticks whenever a match starts or ends
+    new MutationObserver(() => { if (!stageEl.classList.contains('on-match')){ moveId = aimId = null; aimVec = null; mv.classList.remove('on'); am.classList.remove('on'); } })
+      .observe(stageEl, {attributes: true, attributeFilter: ['class']});
+
+    // ---- browser unlock (itch download key) ----
+    const msg = (t, bad) => { $('ul-msg').textContent = t || ''; $('ul-msg').className = 'msg' + (bad ? ' bad' : ''); };
+    window.showUnlock = () => { if (!IS_WEB) return; account.unlocked = false; $('unlock').classList.add('on'); };
+    window.unlockCheck = () => { $('unlock').classList.toggle('on', IS_WEB && !!account.token && account.unlocked === false); };
+    $('ul-go').addEventListener('click', async () => {
+      const key = $('ul-key').value.trim();
+      if (!key) return msg('Paste your download link or key first', true);
+      msg('Checking with itch.io…');
+      const r = await api('/api/unlock', {key});
+      if (r.error) return msg(r.error, true);
+      msg(r.message); account.unlocked = true; $('ul-key').value = '';
+      setTimeout(() => { $('unlock').classList.remove('on'); refreshAccount(); }, 900);
+    });
+    $('ul-key').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') $('ul-go').click(); });
+    $('ul-buy').addEventListener('click', () => window.open('https://aces22378-dev.itch.io/feel-the-wrath', '_blank', 'noopener'));
+    $('ul-out').addEventListener('click', () => { $('unlock').classList.remove('on'); logout(); });
+
+    // ---- owner: unlock / lock browser access by hand ----
+    { const m = (t, ok) => { $('m-msg').textContent = t; $('m-msg').className = 's-msg ' + (ok ? 'ok' : 'bad'); };
+      const who = () => $('o-user').value.trim();
+      [['m-unlock', '/api/owner/unlock'], ['m-lock', '/api/owner/lock']].forEach(([id, path]) => $(id).addEventListener('click', async () => {
+        if (!who()) return m('Enter the player\'s username in PLAYER TOOLS first.');
+        const r = await api(path, {username: who()}); if (r.error) return m(r.error); m(r.message, true);
+      })); }
   })();
 
   /* menu -> placeholder panels (swap these for real scene changes) */
