@@ -1,19 +1,19 @@
-# Posts TikTok updates to Discord through a webhook (not the bot).
+# Posts TikTok updates to Discord through the "Feel The Wrath" webhook.
 #
-# Automatic: every 15 minutes it checks your TikTok RSS feed and posts any new video.
-# By hand:   Actions → "TikTok Post" → Run workflow → pick video or story (stories can only be posted by hand).
+# Automatic (videos): IFTTT (free) → TikTok "New video" → GitHub "Create an issue" in this repo,
+#   title  TikTok: {{ShareUrl}}
+#   This workflow posts the link to Discord and closes the issue.
+# By hand: Actions → "TikTok Post" → Run workflow → pick video or story (stories can only be posted by hand).
 #
-# One-time setup — GitHub repo → Settings → Secrets and variables → Actions:
+# Setup — Settings → Secrets and variables → Actions:
 #   Secret   TIKTOK_WEBHOOK_URL   = the Discord webhook URL (keep it secret)
 #   Variable TIKTOK_PROFILE       = https://www.tiktok.com/@yourname   (used for stories when no link is given)
-#   Variable TIKTOK_RSS_URL       = an RSS feed of your TikTok (e.g. from rss.app) — needed for the automatic check
 #   Variable TIKTOK_PING_ROLE_ID  = a role ID to ping (optional)
-# The first automatic check only remembers the videos already there, so old ones aren't reposted.
 name: TikTok Post
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'      # GitHub may start scheduled runs a few minutes late
+  issues:
+    types: [opened]
   workflow_dispatch:
     inputs:
       kind:
@@ -26,90 +26,56 @@ on:
         required: false
         type: string
 
-permissions: {}
-
-concurrency:
-  group: tiktok-post
-  cancel-in-progress: false
+permissions:
+  issues: write
 
 jobs:
   post:
+    # Issues only count when they start with "TikTok:" and were opened by the repo owner (you, through IFTTT)
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (startsWith(github.event.issue.title, 'TikTok:') && github.event.issue.user.login == github.repository_owner)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Load the list of videos already posted
-        uses: actions/cache/restore@v4
-        with:
-          path: seen.txt
-          key: tiktok-seen-${{ github.run_id }}
-          restore-keys: tiktok-seen-
-
       - name: Post to Discord
         env:
           WEBHOOK: ${{ secrets.TIKTOK_WEBHOOK_URL }}
           EVENT: ${{ github.event_name }}
           KIND: ${{ inputs.kind }}
           LINK: ${{ inputs.link }}
+          ISSUE_TEXT: ${{ github.event.issue.title }} ${{ github.event.issue.body }}
           PROFILE: ${{ vars.TIKTOK_PROFILE }}
-          RSS: ${{ vars.TIKTOK_RSS_URL }}
           ROLE: ${{ vars.TIKTOK_PING_ROLE_ID }}
         shell: python
         run: |
-          import json, os, re, sys, urllib.request, xml.etree.ElementTree as ET
+          import json, os, re, sys, urllib.request
           env = lambda k: (os.environ.get(k) or "").strip()
-          hook, event, role = env("WEBHOOK"), env("EVENT"), env("ROLE")
-          LINK_OK = re.compile(r"^https?://([a-z]+\.)?tiktok\.com/\S+$", re.I)
-          seen = open("seen.txt").read().split() if os.path.exists("seen.txt") else None
-
-          def save():
-              open("seen.txt", "w").write("\n".join((seen or [])[:200]))
-
-          def post(title, link):
-              text = (f"<@&{role}>\n" if role else "") + f"**{title}**\n\n{link}"
-              body = json.dumps({"content": text, "allowed_mentions": {"parse": [], "roles": [role] if role else []}}).encode()
-              req = urllib.request.Request(hook, body, {"Content-Type": "application/json", "User-Agent": "FTW-TikTok-Webhook"})
-              urllib.request.urlopen(req, timeout=20).read()
-              print("Posted:", title, link)
-
+          hook, role = env("WEBHOOK"), env("ROLE")
+          LINK = re.compile(r"https?://([a-z]+\.)?tiktok\.com/[^\s\"'<>)\]]+", re.I)
           if not hook:
-              if event == "schedule": sys.exit(0)
               sys.exit("::error::Add the TIKTOK_WEBHOOK_URL secret first (Settings → Secrets and variables → Actions).")
 
-          if event == "schedule":
-              rss = env("RSS")
-              if not rss: print("No TIKTOK_RSS_URL variable, nothing to check."); sys.exit(0)
-              try:
-                  req = urllib.request.Request(rss, headers={"User-Agent": "Mozilla/5.0 FTW-TikTok-Webhook"})
-                  root = ET.fromstring(urllib.request.urlopen(req, timeout=20).read())
-              except Exception as e:
-                  print("::warning::Couldn't read the TikTok feed:", e); sys.exit(0)
-              links = [(i.findtext("link") or "").strip() for i in root.iter("item")]
-              links += [a.get("href", "") for a in root.iter("{http://www.w3.org/2005/Atom}link")]
-              vids = [l.split("?")[0] for l in dict.fromkeys(links) if "/video/" in l and LINK_OK.match(l)]
-              vids = list(dict.fromkeys(vids))
-              if seen is None:
-                  seen = vids; save(); print(f"First check: remembered {len(vids)} videos, posted nothing."); sys.exit(0)
-              for v in reversed([v for v in vids if v not in seen]):    # oldest new video first
-                  post("Feel The Wrath has posted a new video!", v)
-                  seen.insert(0, v); save()
-              save(); sys.exit(0)
-
-          kind, link = env("KIND") or "video", re.sub(r"\s+", "", env("LINK"))
-          if kind == "story" and not link: link = env("PROFILE")
-          if not link: sys.exit("::error::Paste the TikTok link (or set the TIKTOK_PROFILE variable for stories).")
-          if not LINK_OK.match(link): sys.exit(f"::error::That doesn't look like a TikTok link: {link}")
-          if kind == "story":
-              post("Feel The Wrath added to its story!", link)
+          if env("EVENT") == "issues":
+              m = LINK.search(env("ISSUE_TEXT"))
+              if not m: sys.exit("::error::No TikTok link found in the issue.")
+              kind, link = "video", m.group(0)
           else:
-              post("Feel The Wrath has posted a new video!", link)
-              clean = link.split("?")[0]
-              if seen is not None and clean not in seen:    # so the automatic check won't post it again
-                  seen.insert(0, clean)
-          save()
+              kind, link = env("KIND") or "video", re.sub(r"\s+", "", env("LINK"))
+              if kind == "story" and not link: link = env("PROFILE")
+              if not link: sys.exit("::error::Paste the TikTok link (or set the TIKTOK_PROFILE variable for stories).")
+              if not LINK.fullmatch(link): sys.exit(f"::error::That doesn't look like a TikTok link: {link}")
 
-      - name: Save the list
-        if: always() && hashFiles('seen.txt') != ''
-        uses: actions/cache/save@v4
-        with:
-          path: seen.txt
-          key: tiktok-seen-${{ github.run_id }}
+          title = "Feel The Wrath added to its story!" if kind == "story" else "Feel The Wrath has posted a new video!"
+          text = (f"<@&{role}>\n" if role else "") + f"**{title}**\n\n{link}"
+          body = json.dumps({"content": text, "allowed_mentions": {"parse": [], "roles": [role] if role else []}}).encode()
+          req = urllib.request.Request(hook, body, {"Content-Type": "application/json", "User-Agent": "FTW-TikTok-Webhook"})
+          urllib.request.urlopen(req, timeout=20).read()
+          print("Posted:", title, link)
+
+      - name: Close the IFTTT issue
+        if: success() && github.event_name == 'issues'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NUM: ${{ github.event.issue.number }}
+        run: gh issue close "$NUM" --repo "$GITHUB_REPOSITORY" --reason completed --comment "Posted to Discord ✅"
