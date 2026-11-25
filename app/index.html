@@ -404,6 +404,7 @@
   .s-swatches{display:flex;gap:8px}
   .s-sw{width:30px;height:30px;border-radius:8px;cursor:pointer;border:2px solid #2a2c30;box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)}
   .s-sw[aria-checked="true"]{border-color:#fff;box-shadow:0 0 10px rgba(255,255,255,.5)}
+  .s-xs{background:#0c0d0f;color:#e4e7ea;display:flex;align-items:center;justify-content:center;padding:0}
   .s-cur{width:46px;height:46px;background:#3a3d42;display:flex;align-items:center;justify-content:center;padding:0}
   .s-cur img{width:32px;height:32px;image-rendering:pixelated}
   .s-xh{width:46px;height:46px;border-radius:10px;background:#0c0d0f;display:flex;align-items:center;justify-content:center;border:1px solid #3a3d42}
@@ -603,6 +604,16 @@
   .m-banner.on{opacity:1}
   .m-banner small{display:block;margin-top:14px;font-size:20px;letter-spacing:.34em;color:#f0a874;text-shadow:0 0 3px #000,2px 2px 0 #000,-2px -2px 0 #000,2px -2px 0 #000,-2px 2px 0 #000}
   .m-hint{left:0;right:0;bottom:24px;text-align:center;font-size:12px;letter-spacing:.14em;color:#b9bdc2;text-shadow:0 0 2px #000,1px 1px 0 #000,-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,0 2px 4px rgba(0,0,0,.9)}
+  .m-feed{right:70px;top:74px;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+  .m-feed div{font-size:13px;font-weight:700;letter-spacing:.08em;color:#e4e7ea;background:rgba(8,6,10,.72);padding:5px 10px;border-radius:7px;border-left:3px solid #c8875a;
+    transition:opacity .4s}
+  .m-feed div.bad{border-left-color:#d9473c}
+  .m-feed div.fade{opacity:0}
+  .m-feed b{color:#ffc34d;font-weight:700}
+  .m-feed i{font-style:normal;color:#9da2a8}
+  .m-left.warn{color:#ff5a46;animation:mwarn 1s steps(2) infinite}
+  @keyframes mwarn{50%{color:#ffb3a8}}
+  #m-ping.ok b{color:#7fdc8a} #m-ping.mid b{color:#ffc34d} #m-ping.bad b{color:#ff6a4a}
   .m-net{right:70px;top:48px;font-size:12px;letter-spacing:.1em;color:#ff8a7a;text-align:right;max-width:300px}
   .m-ff{left:50%;top:120px;transform:translateX(-50%);font-size:18px;letter-spacing:.2em;color:#ffd9b0;background:rgba(0,0,0,.6);padding:8px 18px;border-radius:999px;box-shadow:0 0 0 1.5px #b8764a;display:none}
   .m-ff.on{display:block}
@@ -1159,6 +1170,7 @@
           <div class="s-row"><div class="lb">Music<small>Menu ambience</small></div><div class="s-ctl"><input class="s-range" type="range" min="0" max="100" step="1" data-set="music" aria-label="music"><span class="s-val" data-out="music"></span></div></div>
           <div class="s-row"><div class="lb">Sound Effects<small>Button clicks, unlocks</small></div><div class="s-ctl"><input class="s-range" type="range" min="0" max="100" step="1" data-set="sfx" aria-label="sfx"><span class="s-val" data-out="sfx"></span></div></div>
           <div class="s-row"><div class="lb">Combat Sounds<small>Gunfire, hits and explosions</small></div><div class="s-ctl"><input class="s-range" type="range" min="0" max="100" step="1" data-set="combat" aria-label="combat"><span class="s-val" data-out="combat"></span></div></div>
+          <div class="s-row"><div class="lb">Hit sound<small>Plays when your shots land</small></div><div class="s-ctl"><button class="s-tog" role="switch" aria-checked="false" data-set="hitSound" aria-label="hitSound"></button></div></div>
           <div class="s-row"><div class="lb">Mute when unfocused<small>Silence audio when the window is in the background</small></div><div class="s-ctl"><button class="s-tog" role="switch" aria-checked="false" data-set="muteBg" aria-label="muteBg"></button></div></div>
           <div class="s-note" id="s-music-note"></div>
         </div>
@@ -1174,7 +1186,8 @@
           <h3>AIM</h3>
           <div class="s-row"><div class="lb">Mouse sensitivity</div><div class="s-ctl"><input class="s-range" type="range" min="0.1" max="5" step="0.1" data-set="sens" aria-label="sens"><span class="s-val" data-out="sens"></span></div></div>
           <div class="s-row"><div class="lb">Invert Y axis</div><div class="s-ctl"><button class="s-tog" role="switch" aria-checked="false" data-set="invertY" aria-label="invertY"></button></div></div>
-          <div class="s-row"><div class="lb">Crosshair color</div><div class="s-ctl"><div class="s-swatches"><button class="s-sw" role="radio" aria-checked="false" data-xh="#ffffff" style="background:#ffffff" aria-label="crosshair #ffffff"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#ff3b30" style="background:#ff3b30" aria-label="crosshair #ff3b30"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#ffb35a" style="background:#ffb35a" aria-label="crosshair #ffb35a"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#4cd964" style="background:#4cd964" aria-label="crosshair #4cd964"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#33c6ff" style="background:#33c6ff" aria-label="crosshair #33c6ff"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#ff4fd8" style="background:#ff4fd8" aria-label="crosshair #ff4fd8"></button></div><div class="s-xh"><svg width="30" height="30" viewBox="0 0 30 30"><g id="xh-prev" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><path d="M15 3v8M15 19v8M3 15h8M19 15h8"/></g><circle cx="15" cy="15" r="1.6" id="xh-dot" fill="#fff"/></svg></div></div></div>
+          <div class="s-row"><div class="lb">Crosshair style</div><div class="s-ctl"><div class="s-swatches"><button class="s-sw s-xs" role="radio" aria-checked="false" data-xs="cross" aria-label="Cross crosshair" title="Cross"><svg width="22" height="22" viewBox="0 0 30 30" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 3v8M15 19v8M3 15h8M19 15h8"/><circle cx="15" cy="15" r="1.4" stroke="none" fill="currentColor"/></svg></button><button class="s-sw s-xs" role="radio" aria-checked="false" data-xs="dot" aria-label="Dot crosshair" title="Dot"><svg width="22" height="22" viewBox="0 0 30 30" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="15" cy="15" r="3.2" stroke="none" fill="currentColor"/></svg></button><button class="s-sw s-xs" role="radio" aria-checked="false" data-xs="circle" aria-label="Circle crosshair" title="Circle"><svg width="22" height="22" viewBox="0 0 30 30" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><circle cx="15" cy="15" r="8" fill="none"/><circle cx="15" cy="15" r="1.4" stroke="none" fill="currentColor"/></svg></button><button class="s-sw s-xs" role="radio" aria-checked="false" data-xs="t" aria-label="T crosshair" title="T"><svg width="22" height="22" viewBox="0 0 30 30" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M15 19v8M3 15h8M19 15h8"/><circle cx="15" cy="15" r="1.4" stroke="none" fill="currentColor"/></svg></button></div></div></div>
+          <div class="s-row"><div class="lb">Crosshair color</div><div class="s-ctl"><div class="s-swatches"><button class="s-sw" role="radio" aria-checked="false" data-xh="#ffffff" style="background:#ffffff" aria-label="crosshair #ffffff"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#ff3b30" style="background:#ff3b30" aria-label="crosshair #ff3b30"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#ffb35a" style="background:#ffb35a" aria-label="crosshair #ffb35a"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#4cd964" style="background:#4cd964" aria-label="crosshair #4cd964"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#33c6ff" style="background:#33c6ff" aria-label="crosshair #33c6ff"></button><button class="s-sw" role="radio" aria-checked="false" data-xh="#ff4fd8" style="background:#ff4fd8" aria-label="crosshair #ff4fd8"></button></div><div class="s-xh"><svg width="30" height="30" viewBox="0 0 30 30"><g id="xh-prev" stroke="#fff" stroke-width="2.5" stroke-linecap="round" style="color:#fff"><path d="M15 3v8M15 19v8M3 15h8M19 15h8"/></g><circle cx="15" cy="15" r="1.6" id="xh-dot" fill="#fff" style="display:none"/></svg></div></div></div>
           <h3 style="margin-top:22px">KEY BINDINGS</h3>
           <div class="s-row"><div class="lb">Move Forward</div><div class="s-ctl"><button class="s-key" data-bind="forward"></button></div></div><div class="s-row"><div class="lb">Move Back</div><div class="s-ctl"><button class="s-key" data-bind="back"></button></div></div><div class="s-row"><div class="lb">Move Left</div><div class="s-ctl"><button class="s-key" data-bind="left"></button></div></div><div class="s-row"><div class="lb">Move Right</div><div class="s-ctl"><button class="s-key" data-bind="right"></button></div></div><div class="s-row"><div class="lb">Jump</div><div class="s-ctl"><button class="s-key" data-bind="jump"></button></div></div><div class="s-row"><div class="lb">Reload</div><div class="s-ctl"><button class="s-key" data-bind="reload"></button></div></div><div class="s-row"><div class="lb">Interact</div><div class="s-ctl"><button class="s-key" data-bind="interact"></button></div></div><div class="s-row"><div class="lb">Next Weapon</div><div class="s-ctl"><button class="s-key" data-bind="swap"></button></div></div><div class="s-row"><div class="lb">Scoreboard</div><div class="s-ctl"><button class="s-key" data-bind="score"></button></div></div>
           <div style="margin-top:16px"><button class="s-btn" id="s-binds-reset">RESET KEYS</button></div>
@@ -1485,8 +1498,9 @@
     <section id="match" aria-label="Solo match">
       <canvas id="m-canvas" width="1286" height="675"></canvas>
       <div class="m-ui m-top"><div class="m-wave" id="m-wave">WAVE 1 / 3</div><div class="m-left" id="m-left"></div></div>
-      <div class="m-ui m-tl"><div>TIME <b id="m-time">0:00</b></div><div>KILLS <b id="m-kills">0</b></div><div id="m-diff"></div></div>
+      <div class="m-ui m-tl"><div>TIME <b id="m-time">0:00</b></div><div>KILLS <b id="m-kills">0</b></div><div id="m-diff"></div><div id="m-ping" style="display:none">PING <b>--</b></div></div>
       <div class="m-ui m-net" id="m-net"></div>
+      <div class="m-ui m-feed" id="m-feed"></div>
       <div class="m-ui m-ff" id="m-ff">PRESS ESC AGAIN TO FORFEIT</div>
       <div class="m-ui m-map" id="m-map"></div>
       <div class="m-ui m-hp"><div class="lb"><span>HEALTH</span><b id="m-hpv">100</b></div><div class="m-hpbar"><i id="m-hpbar"></i></div></div>
@@ -1899,7 +1913,7 @@
   /* Redeem codes are checked on the server (ftw-server/src/index.js) so players can't read them. */
   const BIND_DEFAULTS = {"forward": "KeyW", "back": "KeyS", "left": "KeyA", "right": "KeyD", "jump": "Space", "reload": "KeyR", "interact": "KeyE", "swap": "KeyQ", "score": "Tab"};
   const SET_DEFAULTS = {master: 80, music: 60, sfx: 5, combat: 60, muteBg: false, fullscreen: false, fps: false, calm: false,
-                        brightness: 100, sens: 1.0, invertY: false, crosshair: '#ffffff', cursor: 'dark', binds: {...BIND_DEFAULTS}};
+                        brightness: 100, sens: 1.0, invertY: false, crosshair: '#ffffff', xhStyle: 'cross', hitSound: true, cursor: 'dark', binds: {...BIND_DEFAULTS}};
   const store = {
     get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
     set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
@@ -2026,6 +2040,7 @@
     }
     function play(kind, vol = 1){
       if (!ctx) return;
+      if (kind === 'hit' && settings.hitSound === false) return;      // Settings → Hit sound
       const t = ctx.currentTime;
       if (lastPlay[kind] && t - lastPlay[kind] < .025) return;     // don't stack 1000 sounds a second
       lastPlay[kind] = t;
@@ -2093,11 +2108,12 @@
     stageEl.classList.toggle('calm', settings.calm);
     document.documentElement.classList.toggle('cur-light', settings.cursor === 'light');
     stageEl.style.filter = settings.brightness === 100 ? '' : 'brightness(' + settings.brightness / 100 + ')';
-    document.getElementById('xh-prev').setAttribute('stroke', settings.crosshair);
-    document.getElementById('xh-dot').setAttribute('fill', settings.crosshair);
+    { const xp = document.getElementById('xh-prev'); xp.setAttribute('stroke', settings.crosshair); xp.style.color = settings.crosshair;
+      xp.innerHTML = XH_SVG[settings.xhStyle] || XH_SVG.cross; }
     audio.apply();
     store.set('ftw-settings', settings);
   }
+  const XH_SVG = {"cross": "<path d=\"M15 3v8M15 19v8M3 15h8M19 15h8\"/><circle cx=\"15\" cy=\"15\" r=\"1.4\" stroke=\"none\" fill=\"currentColor\"/>", "dot": "<circle cx=\"15\" cy=\"15\" r=\"3.2\" stroke=\"none\" fill=\"currentColor\"/>", "circle": "<circle cx=\"15\" cy=\"15\" r=\"8\" fill=\"none\"/><circle cx=\"15\" cy=\"15\" r=\"1.4\" stroke=\"none\" fill=\"currentColor\"/>", "t": "<path d=\"M15 19v8M3 15h8M19 15h8\"/><circle cx=\"15\" cy=\"15\" r=\"1.4\" stroke=\"none\" fill=\"currentColor\"/>"};
   const fmt = {master: v => v, music: v => v, sfx: v => v, combat: v => v, brightness: v => v + '%', sens: v => (+v).toFixed(1)};
   function syncControls(){
     document.querySelectorAll('#settings .s-range').forEach(r => {
@@ -2107,6 +2123,7 @@
     });
     document.querySelectorAll('#settings .s-tog').forEach(t => t.setAttribute('aria-checked', !!settings[t.dataset.set]));
     document.querySelectorAll('#settings .s-sw[data-xh]').forEach(s => s.setAttribute('aria-checked', s.dataset.xh === settings.crosshair));
+    document.querySelectorAll('#settings .s-xs').forEach(s => s.setAttribute('aria-checked', s.dataset.xs === (settings.xhStyle || 'cross')));
     document.querySelectorAll('#settings .s-cur').forEach(s => s.setAttribute('aria-checked', s.dataset.cur === settings.cursor));
     const counts = {}; Object.values(settings.binds).forEach(c => counts[c] = (counts[c] || 0) + 1);
     document.querySelectorAll('#settings .s-key').forEach(b => {
@@ -2133,6 +2150,7 @@
   }));
   document.addEventListener('fullscreenchange', () => { settings.fullscreen = !!document.fullscreenElement; syncControls(); store.set('ftw-settings', settings); });
   document.querySelectorAll('#settings .s-sw[data-xh]').forEach(s => s.addEventListener('click', () => { settings.crosshair = s.dataset.xh; syncControls(); applySettings(); }));
+  document.querySelectorAll('#settings .s-xs').forEach(s => s.addEventListener('click', () => { settings.xhStyle = s.dataset.xs; syncControls(); applySettings(); }));
   document.querySelectorAll('#settings .s-cur').forEach(s => s.addEventListener('click', () => { settings.cursor = s.dataset.cur; syncControls(); applySettings(); }));
 
   // key rebinding: click, then press a key (Esc cancels). Taking a key used elsewhere swaps the two.
@@ -2354,8 +2372,12 @@
           slot($('p-host'), m.host, 'HOST'); slot($('p-guest'), m.guest, '???');
           $('p-start').style.display = role === 'host' ? '' : 'none';
           $('p-start').disabled = !(m.host && m.guest);
-          msg(role === 'host' ? (m.guest ? 'READY — PRESS START' : 'SEND THE CODE TO YOUR FRIEND')
-                              : 'WAITING FOR THE HOST TO START');
+          const mine = role === 'host' ? m.host : m.guest, other = role === 'host' ? m.guest : m.host;
+          if (mine && mine.rematch && other && other.rematch){ msg('REMATCH — GET READY'); $('p-start').disabled = true; }
+          else if (mine && mine.rematch) msg(other ? (role === 'host' ? 'OPPONENT IS BACK — PRESS START' : 'WAITING FOR THE HOST TO START') : 'WAITING FOR YOUR OPPONENT TO REMATCH…');
+          else if (other && other.rematch) msg(role === 'host' ? 'OPPONENT WANTS A REMATCH — PRESS START' : 'HOST WANTS A REMATCH');
+          else msg(role === 'host' ? (m.guest ? 'READY — PRESS START' : 'SEND THE CODE TO YOUR FRIEND')
+                                   : 'WAITING FOR THE HOST TO START');
           try { window.ftwDesktop && window.ftwDesktop.presence({details: 'In a private lobby', state: (m.host && m.guest) ? '2 / 2 players' : '1 / 2 players', since: 0}); } catch(err){}
         }
         else if (m.t === 'matched'){
@@ -2387,7 +2409,7 @@
     });
     return {
       reset(){ close(); code = ''; role = ''; view('choose'); msg(''); $('p-input').value = ''; },
-      rejoin(c){ showQ('priv'); view('choose'); connect('code=' + c); },
+      rejoin(c, rematch){ showQ('priv'); view('choose'); connect('code=' + c + (rematch ? '&rematch=1' : '')); },
       leave(){ close(); code = ''; role = ''; },
     };
   })();
@@ -2483,7 +2505,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.3.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.4.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2761,7 +2783,7 @@
     const randomMap = () => Math.floor(Math.random() * MAPS.length);
     const P_R = 15;
 
-    let G = null, raf = 0, last = 0, binds = {}, calm = false, crossColor = '#fff';
+    let G = null, raf = 0, last = 0, binds = {}, calm = false, crossColor = '#fff', crossStyle = 'cross';
     const keys = new Set(), mouse = {x: W / 2, y: H / 2, down: false, inside: false};
     const rnd = (a, b) => a + Math.random() * (b - a);
     const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -2823,7 +2845,7 @@
     }
     async function start(diff){
       const D = diff === 'endless' ? endlessD(0) : DIFF[diff]; if (!D) return;
-      const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair;
+      const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair; crossStyle = st.xhStyle || 'cross'; clearFeed(); $m('m-ping').style.display = 'none';
       useMap(randomMap());
       G = {mode: 'solo', pools: [], mines: [], diff, D, state: 'intro', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
            p: {x: W / 2, y: H / 2 + 120, vx: 0, vy: 0, hp: 100, max: 100, inv: 0},
@@ -3466,13 +3488,18 @@
       if (mouse.inside && G.state !== 'end'){
         const w = G.weapons[G.cur], gap = 6 + (w ? (w.spr || 0) * 1.6 : 0) + (G.time - G.lastShot < .08 ? 3 : 0);
         ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.lineWidth = 4; xh(gap); ctx.strokeStyle = crossColor; ctx.lineWidth = 2; xh(gap);
-        ctx.fillStyle = crossColor; ctx.fillRect(mouse.x - 1, mouse.y - 1, 2, 2);
+        if (crossStyle === 'dot'){ ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 3.5, 0, Math.PI * 2); ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fill();
+                                   ctx.beginPath(); ctx.arc(mouse.x, mouse.y, 2.4, 0, Math.PI * 2); ctx.fillStyle = crossColor; ctx.fill(); }
+        else { ctx.fillStyle = crossColor; ctx.fillRect(mouse.x - 1, mouse.y - 1, 2, 2); }
       }
     }
     function xh(g){
       const {x, y} = mouse; ctx.beginPath();
+      if (crossStyle === 'dot') return;
+      if (crossStyle === 'circle'){ ctx.arc(x, y, g + 4, 0, Math.PI * 2); ctx.stroke(); return; }
       ctx.moveTo(x - g - 7, y); ctx.lineTo(x - g, y); ctx.moveTo(x + g, y); ctx.lineTo(x + g + 7, y);
-      ctx.moveTo(x, y - g - 7); ctx.lineTo(x, y - g); ctx.moveTo(x, y + g); ctx.lineTo(x, y + g + 7); ctx.stroke();
+      if (crossStyle !== 't'){ ctx.moveTo(x, y - g - 7); ctx.lineTo(x, y - g); }
+      ctx.moveTo(x, y + g); ctx.lineTo(x, y + g + 7); ctx.stroke();
     }
     let hudT = 0;
     function hud(dt){
@@ -3483,6 +3510,7 @@
         $m('m-wave').textContent = 'YOU ' + s[me] + '  –  ' + s[1 - me] + ' ' + (G.o ? G.o.name.toUpperCase() : '');
         const left = G.endsAt ? Math.max(0, (G.endsAt - performance.now()) / 1000) : 0;
         $m('m-left').textContent = G.state === 'play' ? fmtT(left) + ' LEFT · FIRST TO ' + (G.killsToWin || 3) : G.state === 'connecting' ? 'CONNECTING…' : '';
+        $m('m-left').classList.toggle('warn', G.state === 'play' && left > 0 && left <= 30);
       } else {
         $m('m-wave').textContent = G.endless ? 'WAVE ' + Math.max(1, G.wave + 1) + (G.best ? '  ·  BEST ' + G.best : '') : 'WAVE ' + Math.max(1, G.wave + 1) + ' / ' + D.waves.length;
         const left = G.mode === 'coop' && !G.host ? G.leftN : G.queue.length + G.enemies.filter(e => e.state !== 'death').length;
@@ -3613,7 +3641,7 @@
       if (G && G.mode === 'coop'){ const pc = G.partyCode; const g = G; G = null; try { g.ws && g.ws.close(1000); } catch(e){}
         stageEl.classList.remove('on-match'); presence('In the menu', '', 0); audio.music.mode('menu'); window.coopParty.rejoin(pc); return; }
       if (G && G.mode === 'pvp'){ const pc = G.privCode; G = null; stageEl.classList.remove('on-match'); presence('In the menu', '', 0);
-        if (pc) priv.rejoin(pc); else { showQ('pvp'); pvp.search(); } return; }
+        if (pc) priv.rejoin(pc, true); else { showQ('pvp'); pvp.search(); } return; }
       const d = G.diff; G = null; start(d);
     });
 
@@ -3659,6 +3687,26 @@
       G.parts.push({k: 'flash', x: mx, y: my, life: .05, max: .05, s: pr.splash ? 16 : 10});
       audio.play(pr.snd, .55);
     }
+    /* ---- kill feed ---- */
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+    function feed(html, bad){
+      const box = $m('m-feed'), d = document.createElement('div');
+      d.innerHTML = html; if (bad) d.className = 'bad'; box.prepend(d);
+      while (box.children.length > 4) box.lastChild.remove();
+      setTimeout(() => d.classList.add('fade'), 4200); setTimeout(() => d.remove(), 4700);
+    }
+    function clearFeed(){ $m('m-feed').innerHTML = ''; $m('m-left').classList.remove('warn'); }
+    /* ---- ping (PvP) ---- */
+    function pingTick(g){
+      if (G !== g || g.state === 'end') return;
+      pvpSend({t: 'ping', c: Math.round(performance.now())});
+      g.pingT = setTimeout(() => pingTick(g), 2000);
+    }
+    function showPing(ms){
+      const el = $m('m-ping'); el.style.display = ''; el.querySelector('b').textContent = ms + ' ms';
+      el.className = ms < 80 ? 'ok' : ms < 160 ? 'mid' : 'bad';
+    }
+
     /* ---- PvP map vote ---- */
     function showVote(m){
       const box = $m('m-vote'); G.voteEnds = performance.now() + (m.seconds || 10) * 1000; G.voted = null;
@@ -3704,7 +3752,7 @@
           break;
         }
         case 'start': {
-          hideVote();
+          hideVote(); clearTimeout(G.pingT); pingTick(G);
           G.you = m.you; G.killsToWin = m.killsToWin; G.state = 'intro'; G.t = 0; useMap(m.map | 0);
           G.endsAt = performance.now() + (m.seconds + 3) * 1000;
           const sp = m.spawns[m.you], os = m.spawns[1 - m.you], op = m.players[1 - m.you];
@@ -3740,6 +3788,10 @@
           const victim = m.victim === me ? p : G.o;
           for (let i = 0; i < 14; i++) G.parts.push({k: 'blood', x: victim.x, y: victim.y, vx: rnd(-170, 170), vy: rnd(-170, 170), life: rnd(.3, .7), max: .7, s: rnd(2, 4.5)});
           decal(victim.x, victim.y + 8, rnd(14, 22)); audio.play('die');
+          { const gun = m.gun && TECH[m.gun] ? ' <i>· ' + esc(TECH[m.gun].name) + '</i>' : '';
+            const on = esc(String(G.o.name || 'OPPONENT').toUpperCase());
+            if (m.victim === me) feed('<b>' + on + '</b> eliminated <b>YOU</b>' + gun, true);
+            else feed('<b>YOU</b> eliminated <b>' + on + '</b>' + gun); }
           if (m.victim === me){ p.alive = false; p.hp = 0; mouse.down = false; banner('YOU DIED', 'RESPAWNING'); }
           else { G.o.alive = false; G.o.hp = 0; G.kills++; banner('KILL', G.score[me] + ' / ' + G.killsToWin); }
           break;
@@ -3751,6 +3803,7 @@
           }
           else if (G.o){ Object.assign(G.o, {x: m.x, y: m.y, tx: m.x, ty: m.y, hp: 100, alive: true, inv: 1.2}); }
           break;
+        case 'pong': if (m.c != null) showPing(Math.max(1, Math.round(performance.now() - m.c))); break;
         case 'end': pvpEnd(m); break;
       }
     }
@@ -3778,11 +3831,11 @@
         if (won && !m.reward.silver && !m.reward.private && m.reason !== 'Opponent left') rw.textContent += '   (no silver: match too short or same opponent too often)';
       } else { rw.textContent = m.reason || 'No rewards'; rw.className = 'm-reward bad'; }
       if (m.merit && window.meritLine){ const ml = meritLine(m.merit); if (ml) rw.textContent += '   ·   ' + ml; }
-      $m('m-again').textContent = G.privCode ? 'BACK TO LOBBY' : 'FIND MATCH'; $m('m-again').style.fontSize = G.privCode ? '19px' : '';
+      $m('m-again').textContent = G.privCode ? 'REMATCH' : 'FIND MATCH'; $m('m-again').style.fontSize = G.privCode ? '19px' : '';
       setTimeout(() => { if (G && G.state === 'end') $m('m-result').classList.add('on'); $m('m-again').focus(); }, 1400);
     }
     function startPvp(matchId, opponent, privateCode){
-      const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair;
+      const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair; crossStyle = st.xhStyle || 'cross'; clearFeed(); $m('m-ping').style.display = 'none';
       paintFloor();
       G = {mode: 'pvp', pools: [], mines: [], diff: 'pvp', D: DIFF.normal, state: 'connecting', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
            p: {x: PVP_SPAWN.x, y: PVP_SPAWN.y, vx: 0, vy: 0, hp: 100, max: 100, inv: 0, alive: true},
@@ -3840,7 +3893,7 @@
       p.alive = false; p.hp = 0; mouse.down = false;
       for (let i = 0; i < 14; i++) G.parts.push({k: 'blood', x: p.x, y: p.y, vx: rnd(-170, 170), vy: rnd(-170, 170), life: rnd(.3, .7), max: .7, s: rnd(2, 4.5)});
       decal(p.x, p.y + 8, rnd(14, 22)); audio.play('die');
-      banner('YOU\'RE DOWN', 'BACK NEXT WAVE');
+      banner('YOU\'RE DOWN', 'BACK NEXT WAVE'); feed('<b>YOU</b> are down', true);
       pvpSend({t: 'down'}); sendT = 0;
       coopCheckWipe();
     }
@@ -3951,7 +4004,8 @@
           if (o.alive){ for (let i = 0; i < 12; i++) G.parts.push({k: 'blood', x: o.x, y: o.y, vx: rnd(-170, 170), vy: rnd(-170, 170), life: rnd(.3, .7), max: .7, s: rnd(2, 4.5)});
                         decal(o.x, o.y + 8, rnd(14, 22)); audio.play('die', .7); }
           o.alive = false; o.hp = 0;
-          if (m.t === 'left'){ o.gone = true; banner(o.name.toUpperCase() + ' LEFT', ''); }
+          if (m.t === 'left'){ o.gone = true; banner(o.name.toUpperCase() + ' LEFT', ''); feed('<b>' + esc(o.name.toUpperCase()) + '</b> left the match', true); }
+          else feed('<b>' + esc(o.name.toUpperCase()) + '</b> is down', true);
           coopCheckWipe();
           break;
         }
@@ -3996,7 +4050,7 @@
       setTimeout(() => { if (G && G.state === 'end') $m('m-result').classList.add('on'); $m('m-again').focus(); }, 1400);
     }
     function startCoop(matchId, partyCode, diff){
-      const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair;
+      const st = getSettings(); binds = st.binds; calm = st.calm; crossColor = st.crosshair; crossStyle = st.xhStyle || 'cross'; clearFeed(); $m('m-ping').style.display = 'none';
       paintFloor();
       const D0 = diff === 'endless' ? endlessD(0) : DIFF[diff] || DIFF.normal;
       G = {mode: 'coop', pools: [], mines: [], diff: DIFF[diff] || diff === 'endless' ? diff : 'normal', D: D0, state: 'connecting', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
