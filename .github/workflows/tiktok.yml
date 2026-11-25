@@ -1,0 +1,51 @@
+# Posts a TikTok update to Discord through a webhook (not the bot).
+# Run it: GitHub repo → Actions → "TikTok Post" → Run workflow → pick video or story, paste the link.
+# Works from the GitHub phone app too.
+#
+# One-time setup:
+#   Discord channel → Edit Channel → Integrations → Webhooks → New Webhook → name "Feel The Wrath" + logo → Copy Webhook URL
+#   GitHub repo → Settings → Secrets and variables → Actions:
+#     Secret   TIKTOK_WEBHOOK_URL   = the webhook URL (keep it secret)
+#     Variable TIKTOK_PROFILE       = https://www.tiktok.com/@yourname   (used for stories when no link is given)
+#     Variable TIKTOK_PING_ROLE_ID  = a role ID to ping (optional)
+name: TikTok Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: 'What did you post?'
+        type: choice
+        options: [video, story]
+        default: video
+      link:
+        description: 'TikTok link (needed for a video, optional for a story)'
+        required: false
+        type: string
+
+permissions: {}
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send to Discord
+        env:
+          WEBHOOK: ${{ secrets.TIKTOK_WEBHOOK_URL }}
+          KIND: ${{ inputs.kind }}
+          LINK: ${{ inputs.link }}
+          PROFILE: ${{ vars.TIKTOK_PROFILE }}
+          ROLE: ${{ vars.TIKTOK_PING_ROLE_ID }}
+        run: |
+          set -euo pipefail
+          if [ -z "$WEBHOOK" ]; then echo "::error::Add the TIKTOK_WEBHOOK_URL secret first (Settings → Secrets and variables → Actions)."; exit 1; fi
+          LINK="${LINK//[[:space:]]/}"
+          if [ "$KIND" = "story" ] && [ -z "$LINK" ]; then LINK="$PROFILE"; fi
+          if [ -z "$LINK" ]; then echo "::error::Paste the TikTok link (or set the TIKTOK_PROFILE variable for stories)."; exit 1; fi
+          if ! echo "$LINK" | grep -Eiq '^https?://([a-z]+\.)?tiktok\.com/[^[:space:]]+$'; then echo "::error::That doesn't look like a TikTok link: $LINK"; exit 1; fi
+          if [ "$KIND" = "story" ]; then TITLE="Feel The Wrath added to its story!"; else TITLE="Feel The Wrath has posted a new video!"; fi
+          PING=""; ROLES='[]'
+          if [ -n "$ROLE" ]; then PING="<@&$ROLE>"$'\n'; ROLES="[\"$ROLE\"]"; fi
+          BODY="$(jq -n --arg c "${PING}**${TITLE}**"$'\n\n'"${LINK}" --argjson r "$ROLES" '{content:$c, allowed_mentions:{parse:[], roles:$r}}')"
+          curl -sS --fail-with-body -H 'Content-Type: application/json' -d "$BODY" "$WEBHOOK"
+          echo "Posted: $TITLE $LINK"
