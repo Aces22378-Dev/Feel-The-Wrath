@@ -1024,6 +1024,45 @@
   #unlock .link{background:none;border:0;color:#8d9095;font:600 15px/1 "FTW Serif",Georgia,serif;letter-spacing:.18em;cursor:pointer;padding:6px}
   #unlock .link:hover,#unlock .link:focus-visible{outline:none;color:#ffd9b0}
 
+  /* ---------------- wraps tab ---------------- */
+  #tech.wraps .t-stubs,#tech.wraps>.tier.silver,#tech.wraps .t-page-w,#tech.wraps .t-page-u{display:none!important}
+  .w-sec{position:absolute;left:52px;width:122px;text-align:center;font-size:16px;font-weight:700;line-height:1.15;color:#ffa04a;
+    text-shadow:0 0 10px rgba(255,120,20,.75),0 1px 1px rgba(0,0,0,.9)}
+  .w-sec.sec{color:#c9a6ff;text-shadow:0 0 10px rgba(160,110,255,.7),0 1px 1px #000}
+  .w-sec.staff{color:#7fd0ff;text-shadow:0 0 10px rgba(90,180,255,.7),0 1px 1px #000}
+  .w-sec.silver{color:#dfe6ee;font-size:14px;text-shadow:0 0 10px rgba(190,215,240,.75),0 1px 1px #000}
+  .w-plate{height:86px;justify-content:flex-start;gap:10px;padding:0 30px}
+  .w-plate.sec{border-color:#6e4fa8;box-shadow:0 0 9px rgba(150,100,255,.3),0 4px 10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.18)}
+  .w-plate.staff{border-color:#3f7fae;box-shadow:0 0 9px rgba(90,180,255,.3),0 4px 10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.18)}
+  .w-scroll{position:absolute;left:24px;right:24px;top:0;bottom:0;display:flex;align-items:center;gap:10px;padding:0 6px;
+    overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#c8641a transparent;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 10px),transparent);
+            mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 10px),transparent)}
+  .w-scroll::-webkit-scrollbar{height:5px}.w-scroll::-webkit-scrollbar-thumb{background:#c8641a;border-radius:3px}
+  .w-tile{position:relative;flex:none;width:128px;height:72px;border-radius:10px;cursor:pointer;padding:0;
+    border:1.5px solid rgba(0,0,0,.45);background:linear-gradient(180deg,rgba(20,21,24,.55),rgba(20,21,24,.8));
+    color:#f2e6d6;font:inherit;transition:transform .12s ease,box-shadow .12s ease}
+  .w-tile:hover,.w-tile:focus-visible{outline:none;transform:scale(1.05)}
+  .w-tile.sel{box-shadow:0 0 0 2px rgba(255,170,70,.9),0 0 14px rgba(255,140,30,.6)}
+  .w-tile .gi{position:absolute;left:0;right:0;top:5px;height:34px;display:flex;align-items:center;justify-content:center}
+  .w-tile .gi img{image-rendering:pixelated;filter:drop-shadow(0 2px 1px rgba(0,0,0,.9))}
+  .w-tile .wn{position:absolute;left:0;right:0;top:40px;font-size:12px;font-weight:700;letter-spacing:.05em;text-align:center;white-space:nowrap}
+  .w-tile .wt{position:absolute;left:0;right:0;top:55px;font-size:10px;color:#aab0b6;text-align:center;display:flex;
+    align-items:center;justify-content:center;gap:4px}
+  .w-tile .wt svg{width:12px;height:12px}
+  .w-tile.limited .wt{color:#ffb347}
+  .w-tile.secret .wn{color:#c9a6ff}.w-tile.staff .wn{color:#7fd0ff}
+  .w-tile.hide .gi img{filter:brightness(0) drop-shadow(0 0 6px rgba(160,110,255,.8))}
+  .w-tile.staff.hide .gi img{filter:brightness(0) drop-shadow(0 0 6px rgba(90,180,255,.8))}
+  .w-tile.owned .wt{color:#8fd18a}
+  .w-note{position:absolute;width:250px;font-size:13px;line-height:1.35;color:#aab3bc}
+  .w-note b{color:#f2e6d6}
+  #w-info .ic img{image-rendering:pixelated}
+  #w-info .wi-line{position:absolute;left:18px;right:16px;top:84px;font-size:12.5px;line-height:1.4;color:#c9cdd1}
+  #w-info .wi-line b{color:#ffc34d}
+  #tech.wraps #tl-wrow .lslot.full .x{display:none}
+  #tech.wraps #tl-wrow .lslot.full.wrapped{box-shadow:0 0 0 2px rgba(255,170,70,.75)}
+
   /* ---------------- menu hotspots ---------------- */
   .btn{
     position:absolute;
@@ -1114,7 +1153,7 @@
       <div class="t-rule" style="left:214px;width:342px"></div>
       <div class="t-title">TECH TREE</div>
       <div class="t-rule" style="left:858px;width:36px"></div>
-      <div class="t-tabs" role="tablist"><button class="t-tab on" data-ttab="w" role="tab">WEAPONS</button><button class="t-tab" data-ttab="u" role="tab">UTILITY</button></div>
+      <div class="t-tabs" role="tablist"><button class="t-tab on" data-ttab="w" role="tab">WEAPONS</button><button class="t-tab" data-ttab="u" role="tab">UTILITY</button><button class="t-tab" data-ttab="x" role="tab">WRAPS</button></div>
       <div class="t-page-w"><div class="tier" style="top:154px">TIER I</div><div class="tier" style="top:226px">TIER II</div><div class="tier" style="top:298px">TIER III</div><div class="tier" style="top:370px">TIER IV</div><svg class="t-stubs" viewBox="0 0 1392 752" aria-hidden="true"><path d="M150 382 H166" fill="none" stroke="#9a5a34" stroke-width="2"/></svg></div><div class="t-page-u" hidden><div class="tier" style="top:154px">MELEE</div><div class="tier" style="top:226px">GRENADES</div><div class="tier" style="top:298px">MEDICAL</div></div><div class="tier silver" style="top:484px">PREMIUM</div>
       <div class="t-view" id="t-view">
         <div class="t-track t-page-w" style="width:2868px">
@@ -1144,6 +1183,30 @@
         <div class="chip" id="ti-chip"><span class="ci"></span><span class="cv"></span></div>
         <div class="st" id="ti-st"></div>
         <button class="t-act" id="ti-act"></button>
+      </div>
+
+      <div class="t-page-x" hidden>
+        <div class="w-sec sec" style="top:164px">SECRET</div>
+        <div class="tplate w-plate sec" data-wsec="secret" style="left:188px;top:132px;width:464px"></div>
+        <div class="w-note" style="left:676px;top:156px">Can't be bought. Hidden codes, challenges and events unlock these.</div>
+        <div class="w-sec" style="top:260px">LIMITED</div>
+        <div class="tplate w-plate" data-wsec="limited" style="left:188px;top:228px;width:188px"></div>
+        <div class="w-note" style="left:400px;top:244px;width:420px">Event wraps from codes. <b>Harvest</b> comes from a code posted on our TikTok and Discord, until <b>Nov 30</b>.</div>
+        <div class="w-sec staff" style="top:356px">STAFF<br>GIFTS</div>
+        <div class="tplate w-plate staff" data-wsec="staff" style="left:188px;top:324px;width:878px"></div>
+        <div class="w-note" style="left:1090px;top:336px;width:230px">Only staff can give these. Win events, report bugs, help out.</div>
+        <div class="w-sec silver" style="top:444px">SILVER<br>WRATHS</div>
+        <div class="tplate prem w-plate" data-wsec="silver" style="left:188px;top:420px;width:1112px"><div class="w-scroll"></div></div>
+      </div>
+      <div class="t-info" id="w-info" hidden>
+        <i class="rv" style="left:7px;top:7px"></i><i class="rv" style="right:7px;top:7px"></i>
+        <div class="ic"><img id="wi-icon" alt=""></div>
+        <div class="nm" id="wi-name"></div>
+        <div class="ds" id="wi-desc"></div>
+        <div class="wi-line" id="wi-line"></div>
+        <div class="chip" id="wi-chip"><span class="ci"></span><span class="cv"></span></div>
+        <div class="st" id="wi-st"></div>
+        <button class="t-act" id="wi-act"></button>
       </div>
       <div class="t-load" id="t-load">
         <h3>LOADOUT</h3><div class="hint">Click an item to unequip it</div>
@@ -1280,6 +1343,11 @@
             <label>SILVER WRATHS<input class="s-in num" id="g-silver" type="number" min="0" placeholder="0"></label>
             <label>GUN<select class="s-in" id="g-gun"></select></label>
             <button class="s-btn" id="g-give">GIVE</button>
+          </div>
+          <div class="s-grid">
+            <label>WRAP<select class="s-in" id="g-wrap"></select></label>
+            <button class="s-btn" id="g-wrapgive">GIFT WRAP</button>
+            <button class="s-btn danger" id="g-wraptake">TAKE BACK</button>
           </div>
           <div class="s-grid">
             <label>WINS<input class="s-in num" id="o-wins" type="number" min="0" placeholder="keep"></label>
@@ -1724,7 +1792,7 @@
         b.className = 'lslot' + (k ? ' full' : '');
         if (k){
           const n = TECH[k];
-          b.innerHTML = '<img src="' + n.img + '" style="width:' + Math.min(70, n.w * (n.w < 20 ? 3 : 2)) + 'px" alt=""><span class="x">✕</span>';
+          b.innerHTML = '<img src="' + wrapSrc(k, n.img) + '" style="width:' + Math.min(70, n.w * (n.w < 20 ? 3 : 2)) + 'px" alt=""><span class="x">✕</span>';
           b.title = 'Unequip ' + n.name;
           b.addEventListener('click', () => serverTech('unequip', k));
           b.addEventListener('mouseenter', () => showInfo(k));
@@ -2522,7 +2590,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.5.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.6.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2623,6 +2691,7 @@
     if (st.staff && window.staffRefresh) staffRefresh(st.staff);
     if ('email' in st) account.email = st.email;
     if ('discord' in st) account.discord = !!st.discord;
+    if (st.wraps){ account.wraps = st.wraps; if (window.wrapsChanged) wrapsChanged(); }
     if ('unlocked' in st){ account.unlocked = !!st.unlocked; if (window.unlockCheck) unlockCheck(); }
     if (window.sendStats) setTimeout(sendStats, 0);
     renderTree();
@@ -2854,10 +2923,11 @@
     }
 
     /* ---- setup ---- */
-    function mkWeapon(k){
+    function mkWeapon(k, on){
       const n = TECH[k], pr = {...(PROF[n.cat] || PROF.Pistol), ...(n.u || {})};
-      return {id: k, name: n.name, cat: n.cat, img: img(n.hand || n.img), w: n.hw || n.w, h: n.hh || n.h, rpm: n.stats.rpm, dpb: n.stats.dpb, spr: n.stats.spr,
+      const W = {id: k, name: n.name, cat: n.cat, img: img(wrapSrc(k, n.hand || n.img, on || {})), w: n.hw || n.w, h: n.hh || n.h, rpm: n.stats.rpm, dpb: n.stats.dpb, spr: n.stats.spr,
               prof: pr, ammo: pr.mag, reloadT: 0, cd: 0, spin: 0, swingT: 0, kind: n.kind};
+      wrapLater(W, k, n.hand || n.img, on); return W;
     }
     function buildWeaponBar(){
       // weapons on keys 1-5 (centre bar), utility on keys 6-9 (right bar)
@@ -2868,7 +2938,7 @@
         G.keyMap[key] = i;
         const d = document.createElement('div'); d.className = 'm-wep' + (util ? ' util' : '');
         d.innerHTML = '<span class="k">' + key + '</span><img alt=""><span class="am"></span><div class="rl"><i></i></div>';
-        const im = d.querySelector('img'); im.src = TECH[w.id].img; im.style.width = Math.min(util ? 56 : 96, w.w * (w.w > 40 ? 2 : 3)) + 'px';
+        const im = d.querySelector('img'); im.src = wrapSrc(w.id, TECH[w.id].img); im.style.width = Math.min(util ? 56 : 96, w.w * (w.w > 40 ? 2 : 3)) + 'px';
         d.addEventListener('pointerdown', e => { if (G && G.weapons[i] === w){ G.cur = i; e.stopPropagation(); e.preventDefault(); } });   // tap a slot (touch)
         (util ? ub : wb).appendChild(d); w.el = d;
       });
@@ -2884,7 +2954,7 @@
       useMap(randomMap());
       G = {mode: 'solo', pools: [], mines: [], diff, D, state: 'intro', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
            p: {x: W / 2, y: H / 2 + 120, vx: 0, vy: 0, hp: 100, max: 100, inv: 0},
-           weapons: equipped.map(mkWeapon), cur: 0, enemies: [], bullets: [], orbs: [], parts: [],
+           weapons: equipped.map(k => mkWeapon(k, account.wraps.on)), cur: 0, enemies: [], bullets: [], orbs: [], parts: [],
            wave: -1, queue: [], spawnT: 0, matchId: null, net: '', lastShot: -9, paused: false, endless: diff === 'endless', cleared: 0, eid: 0};
       buildWeaponBar();
       G.since = Date.now();
@@ -3799,7 +3869,7 @@
           const sp = m.spawns[m.you], os = m.spawns[1 - m.you], op = m.players[1 - m.you];
           Object.assign(p, {x: sp.x, y: sp.y, vx: 0, vy: 0, hp: 100, alive: true, inv: 0});
           G.o = {x: os.x, y: os.y, tx: os.x, ty: os.y, a: Math.PI, w: 0, mv: false, hp: 100, alive: true, inv: 0, flash: 0,
-                 name: op.username, character: op.character, weapons: op.loadout.filter(k => TECH[k]).map(mkWeapon), rank: op.rank};
+                 name: op.username, character: op.character, weapons: op.loadout.filter(k => TECH[k]).map(k => mkWeapon(k, otherWraps(op.username))), rank: op.rank};
           G.score = [0, 0];
           const RI = window.rankInfo, rk = RI && op.rank != null ? RI.RANKS[op.rank].name.toUpperCase() : '';
           if (RI && op.rank != null) $m('m-diff').textContent = (G.privCode ? 'PRIVATE · ' : 'PVP · ') + RI.RANK_ABBR[op.rank] + ' ' + op.username.toUpperCase();
@@ -3880,7 +3950,7 @@
       paintFloor();
       G = {mode: 'pvp', pools: [], mines: [], diff: 'pvp', D: DIFF.normal, state: 'connecting', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
            p: {x: PVP_SPAWN.x, y: PVP_SPAWN.y, vx: 0, vy: 0, hp: 100, max: 100, inv: 0, alive: true},
-           weapons: equipped.map(mkWeapon), cur: 0, enemies: [], bullets: [], orbs: [], parts: [], wave: 0, queue: [], spawnT: 0,
+           weapons: equipped.map(k => mkWeapon(k, account.wraps.on)), cur: 0, enemies: [], bullets: [], orbs: [], parts: [], wave: 0, queue: [], spawnT: 0,
            lastShot: -9, paused: false, menu: false, o: null, score: [0, 0], you: 0};
       buildWeaponBar();
       G.privCode = privateCode || '';
@@ -4016,7 +4086,7 @@
             const x = W / 2 + (i - (m.n - 1) / 2) * 80, y = H / 2 + 120;
             if (i === m.you){ Object.assign(p, {x, y, vx: 0, vy: 0, hp: 100, alive: true, inv: 0}); return null; }
             return {slot: i, x, y, tx: x, ty: y, vx: 0, vy: 0, a: -Math.PI / 2, w: 0, mv: false, hp: 100, alive: pl.here, gone: !pl.here, flash: 0,
-                    name: pl.username, character: pl.character, weapons: (pl.loadout || []).filter(k => TECH[k]).map(mkWeapon)};
+                    name: pl.username, character: pl.character, weapons: (pl.loadout || []).filter(k => TECH[k]).map(k => mkWeapon(k, pl.username === account.username ? account.wraps.on : otherWraps(pl.username)))};
           });
           G.state = 'intro'; G.t = 0;
           $m('m-net').textContent = 'CO-OP · ' + m.n + (m.n === 1 ? ' PLAYER' : ' PLAYERS') + ' · REWARDS ' + Math.round(m.mult * 100) + '%';
@@ -4096,7 +4166,7 @@
       const D0 = diff === 'endless' ? endlessD(0) : DIFF[diff] || DIFF.normal;
       G = {mode: 'coop', pools: [], mines: [], diff: DIFF[diff] || diff === 'endless' ? diff : 'normal', D: D0, state: 'connecting', t: 0, time: 0, kills: 0, shots: 0, hits: 0, shake: 0, hurtFlash: 0,
            p: {x: W / 2, y: H / 2 + 120, vx: 0, vy: 0, hp: 100, max: 100, inv: 0, alive: true},
-           weapons: equipped.map(mkWeapon), cur: 0, enemies: [], bullets: [], orbs: [], parts: [], wave: -1, queue: [], spawnT: 0,
+           weapons: equipped.map(k => mkWeapon(k, account.wraps.on)), cur: 0, enemies: [], bullets: [], orbs: [], parts: [], wave: -1, queue: [], spawnT: 0,
            lastShot: -9, paused: false, menu: false, endless: diff === 'endless', cleared: 0, eid: 0,
            allies: [], credit: [], emap: new Map(), n: 1, mult: 1, host: false, you: 0, partyCode, leftN: 0, since: Date.now()};
       buildWeaponBar();
@@ -4984,6 +5054,251 @@
         if (!who()) return m('Enter the player\'s username in PLAYER TOOLS first.');
         const r = await api(path, {username: who()}); if (r.error) return m(r.error); m(r.message, true);
       })); }
+  })();
+
+  /* ================= WRAPS (gun skins) ================= */
+  account.wraps = {owned: [], on: {}};
+  (() => {
+    const $ = id => document.getElementById(id);
+    // ramp/acc: recolor by brightness (acc replaces green/olive parts). pat: a pattern, shaded by the gun's brightness.
+    const R = (ramp, acc) => ({ramp, acc});
+    const WRAPS = [
+      {id:'lava', sec:'secret', name:'Lava', desc:'Molten cracks in black rock.', pat:'lava'},
+      {id:'galaxy', sec:'secret', name:'Galaxy', desc:'Deep space, full of stars.', pat:'galaxy'},
+      {id:'wrath', sec:'secret', name:'Wrath', desc:'Black to blood red. The name says it.', pat:'grad', c:[[20,10,10],[120,10,10],[255,60,30]]},
+      {id:'harvest', sec:'limited', name:'Harvest', desc:'Pumpkin orange, gold and cranberry. Happy Thanksgiving.', tag:'CODE · ENDS NOV 30',
+       ...R([[26,10,5],[70,30,14],[124,54,22],[188,94,30],[238,158,54],[255,214,120]], [[30,12,6],[92,18,22],[150,32,30],[196,60,40],[228,110,70]])},
+      {id:'glitch', sec:'staff', name:'Glitch', desc:'For players who find and report bugs.', pat:'glitch'},
+      {id:'mainframe', sec:'staff', name:'Mainframe', desc:'For testers and helpers.', pat:'circuit'},
+      {id:'champion', sec:'staff', name:'Champion', desc:'For tournament winners.', pat:'shine'},
+      {id:'gifted', sec:'staff', name:'Gifted', desc:'Won in a giveaway.', pat:'gifted'},
+      {id:'ghost', sec:'staff', name:'Ghost', desc:'For event hosts.', pat:'grad', c:[[240,248,255],[170,200,230],[120,150,200]]},
+      {id:'royal', sec:'staff', name:'Royal', desc:'Hand-picked by the team.', pat:'speck', c:[[80,30,130],[255,210,80]], k:.1, s:4},
+      {id:'gold', sec:'silver', name:'Gold', desc:'Solid gold. Says everything about you.', price:400,
+       ...R([[24,16,4],[74,50,10],[140,100,22],[206,160,40],[246,214,90],[255,244,180]], [[24,16,4],[110,70,12],[180,130,30],[230,190,70],[255,236,150]])},
+      {id:'arctic', sec:'silver', name:'Arctic', desc:'Ice white with frozen blue parts.', price:200,
+       ...R([[12,20,32],[46,70,96],[110,150,184],[176,210,232],[226,242,252],[255,255,255]], [[12,20,32],[30,90,140],[60,150,210],[120,200,240],[200,240,255]])},
+      {id:'toxic', sec:'silver', name:'Toxic', desc:'Black body, glowing green bits.', price:200,
+       ...R([[6,10,6],[20,30,18],[40,54,34],[70,90,56],[110,140,80],[150,180,110]], [[6,10,6],[40,120,20],[90,200,30],[150,240,60],[210,255,130]])},
+      {id:'bloodmoon', sec:'silver', name:'Blood Moon', desc:'Deep red with gunmetal parts.', price:250,
+       ...R([[14,4,6],[44,10,14],[86,18,24],[140,26,32],[196,44,44],[240,96,80]], [[14,4,6],[40,40,44],[80,80,86],[130,130,136],[190,190,196]])},
+      {id:'desert', sec:'silver', name:'Desert', desc:'Sand and dust. Matches every map.', price:150,
+       ...R([[30,20,10],[90,66,40],[150,116,74],[198,164,112],[230,204,152],[250,234,196]], [[30,20,10],[70,64,34],[110,100,56],[150,140,84],[190,180,120]])},
+      {id:'obsidian', sec:'silver', name:'Obsidian', desc:'Volcanic black with a purple glow.', price:300,
+       ...R([[4,2,8],[16,10,24],[30,20,44],[52,36,74],[84,60,116],[130,100,170]], [[4,2,8],[90,30,140],[140,60,200],[180,110,240],[220,170,255]])},
+      {id:'neon', sec:'silver', name:'Neon', desc:'Magenta body, cyan glow. Loud on purpose.', price:300,
+       ...R([[10,4,20],[40,10,70],[90,20,140],[170,40,200],[240,90,230],[255,180,250]], [[10,4,20],[0,90,120],[0,170,210],[60,230,255],[180,250,255]])},
+      {id:'woodland', sec:'silver', name:'Woodland', desc:'Classic forest camo.', price:200, pat:'camo', c:[[54,70,34],[96,104,54],[60,44,28],[20,24,16]], s:3, cell:3},
+      {id:'digital', sec:'silver', name:'Digital', desc:'Pixel camo in city greys.', price:200, pat:'camo', c:[[120,126,120],[80,88,84],[170,176,168]], s:8, cell:1},
+      {id:'tiger', sec:'silver', name:'Tiger', desc:'Orange and black stripes.', price:250, pat:'stripes', c:[[230,120,30],[20,14,10]], w:3, a:2},
+      {id:'hazard', sec:'silver', name:'Hazard', desc:'Caution tape. Stand back.', price:200, pat:'stripes', c:[[240,200,30],[24,22,20]], w:3, a:1},
+      {id:'carbon', sec:'silver', name:'Carbon', desc:'Woven carbon fiber.', price:250, pat:'checker', c:[[84,88,96],[40,42,48]]},
+      {id:'sunset', sec:'silver', name:'Sunset', desc:'Orange to pink to purple.', price:300, pat:'grad', c:[[255,170,60],[240,80,120],[110,50,170]]},
+    ];
+    const BY = Object.fromEntries(WRAPS.map(w => [w.id, w]));
+    window.WRAPS = BY;
+    const SHOW = 'g45';                                       // gun shown on the tiles
+    const hsh = (s, a, b) => { let h = Math.imul(s ^ 0x9e3779b9, 0x85ebca6b) ^ Math.imul(a + 7, 0xc2b2ae35) ^ Math.imul(b + 13, 0x27d4eb2f);
+      h ^= h >>> 15; h = Math.imul(h, 0x2c1b3c6d); h ^= h >>> 12; h = Math.imul(h, 0x297a2d39); h ^= h >>> 15; return (h >>> 0) / 4294967296; };
+    const mix = (cs, t) => { t = Math.max(0, Math.min(1, t)) * (cs.length - 1); const i = Math.min(Math.floor(t), cs.length - 2), u = t - i;
+      return cs[i].map((v, k) => v * (1 - u) + cs[i + 1][k] * u); };
+    const PAT = {
+      camo: (w, x, y) => { const v = hsh(w.s, Math.floor(x / w.cell), Math.floor(y / w.cell)) * .5 + hsh(w.s + 7, Math.floor((x + 1) / (w.cell + 2)), Math.floor(y / (w.cell + 2))) * .5;
+                           return w.c[Math.floor(v * w.c.length) % w.c.length]; },
+      stripes: (w, x, y) => Math.floor((x + w.a * y) / w.w) % 2 ? w.c[0] : w.c[1],
+      checker: (w, x, y) => (Math.floor(x / 2) + Math.floor(y / 2)) % 2 ? w.c[0] : w.c[1],
+      grad: (w, x, y, W) => mix(w.c, x / Math.max(1, W - 1)),
+      speck: (w, x, y) => hsh(w.s, x, y) < w.k ? w.c[1] : w.c[0],
+      lava: (w, x, y) => { const v = hsh(11, x >> 1, y >> 1) * .4 + hsh(4, x >> 2, y >> 2) * .6; return v > .78 ? [255,170,40] : v > .62 ? [220,60,20] : [40,12,10]; },
+      galaxy: (w, x, y) => { if (hsh(9, x, y) < .08) return [255,255,255]; const n = hsh(2, Math.floor(x / 5), Math.floor(y / 5));
+                             return n > .6 ? [60,30,120] : n > .3 ? [20,24,80] : [14,10,40]; },
+      glitch: (w, x, y) => { const rc = [[255,40,200],[30,230,255],[30,30,40],[30,30,40],[240,240,250]][Math.floor(hsh(3, y, 0) * 5)];
+                             return Math.floor((x + (y % 4 === 0 ? 3 : 0)) / 5) % 2 ? rc : [24,24,34]; },
+      circuit: (w, x, y) => (x % 6 === 0 || y % 5 === 0) ? [60,255,120] : [8,22,12],
+      shine: (w, x, y) => { const m = (x + y) % 14; return m < 2 ? [255,250,220] : m < 8 ? [220,170,40] : [190,140,30]; },
+      gifted: (w, x, y, W) => Math.abs(x - (W >> 1)) <= 1 ? [250,210,60] : [200,30,40],
+    };
+    function hsv(r, g, b){ const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let h = 0;
+      if (d){ h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h /= 6; if (h < 0) h += 1; }
+      return [h, mx ? d / mx : 0]; }
+    const cache = {}, pend = {};
+    // returns a promise for the wrapped picture (data URL)
+    window.wrapImg = (src, w) => {
+      if (!w) return Promise.resolve(src);
+      const key = w.id + '|' + src;
+      if (cache[key]) return Promise.resolve(cache[key]);
+      return pend[key] || (pend[key] = new Promise(res => {
+        const im = new Image(); im.onload = () => {
+          const c = document.createElement('canvas'); c.width = im.width; c.height = im.height;
+          const x = c.getContext('2d'); x.drawImage(im, 0, 0); const d = x.getImageData(0, 0, c.width, c.height), p = d.data, W = c.width;
+          const pick = (r, l) => r[Math.min(r.length - 1, Math.floor(l * r.length * 1.25))];
+          for (let i = 0; i < p.length; i += 4){
+            if (!p[i + 3]) continue;
+            const l = (.3 * p[i] + .59 * p[i + 1] + .11 * p[i + 2]) / 255, px = (i / 4) % W, py = Math.floor(i / 4 / W);
+            let col;
+            if (w.pat){
+              if (l < .05) col = [10, 6, 6];
+              else { const k = .45 + 1.1 * l; col = PAT[w.pat](w, px, py, W).map(v => Math.min(255, v * k)); }
+            } else {
+              const [h, s] = hsv(p[i] / 255, p[i + 1] / 255, p[i + 2] / 255);
+              col = l < .05 ? w.ramp[0] : (h > .12 && h < .45 && s > .3) ? pick(w.acc, l) : (h < .1 && s > .4) ? w.acc[2] : pick(w.ramp, l);
+            }
+            p[i] = col[0]; p[i + 1] = col[1]; p[i + 2] = col[2];
+          }
+          x.putImageData(d, 0, 0); res(cache[key] = c.toDataURL());
+        }; im.onerror = () => res(src); im.src = src;
+      }));
+    };
+    // the picture to show right now for gun k (wrapped if ready; original otherwise)
+    window.wrapSrc = (k, src, on) => { const w = BY[(on || account.wraps.on || {})[k]]; return (w && cache[w.id + '|' + src]) || src; };
+    // in-match weapon: swap in the wrapped picture when it's ready. on = {gun: wrap} or a pending map from otherWraps()
+    window.wrapLater = (W, k, src, on) => {
+      if (!on) return;
+      if (on.__pending && !on.__done){ on.__pending.push([W, k, src]); return; }
+      const w = BY[on[k]]; if (w) wrapImg(src, w).then(u => { if (u !== src){ const i = new Image(); i.src = u; W.img = i; } });
+    };
+    // other players' wraps, fetched once per match
+    const OW = {};
+    window.otherWraps = name => {
+      if (OW[name] && Date.now() - OW[name].__at < 60000) return OW[name];
+      const o = OW[name] = {__pending: [], __at: Date.now()};
+      api('/api/wraps/of', {usernames: [name]}).then(r => {
+        Object.assign(o, (r.wraps && r.wraps[name]) || {}); o.__done = true;
+        o.__pending.forEach(([W, k, src]) => wrapLater(W, k, src, o)); o.__pending = [];
+      });
+      return o;
+    };
+    // after the server sends wraps: make every wrapped picture we need, then refresh what's on screen
+    window.wrapsChanged = async () => {
+      const on = account.wraps.on || {}, jobs = [];
+      for (const k in on){ const n = TECH[k], w = BY[on[k]]; if (!n || !w) continue;
+        jobs.push(wrapImg(n.img, w)); if (n.hand) jobs.push(wrapImg(n.hand, w)); }
+      await Promise.all(jobs);
+      if (document.getElementById('tech').classList.contains('wraps')) { refreshTiles(); select(sel); }
+      else if (stageEl.classList.contains('on-tech')) renderLoadout();
+    };
+
+    let sel = BY.harvest;
+    const owns = id => (account.wraps.owned || []).includes(id);
+    async function tile(w){
+      const b = document.createElement('button'); b.className = 'w-tile ' + w.sec; b.dataset.w = w.id;
+      const n = TECH[SHOW];
+      b.innerHTML = '<div class="gi"><img alt=""></div><div class="wn"></div><div class="wt"></div>';
+      const im = b.querySelector('img'); im.style.width = n.w * 2 + 'px'; im.style.height = n.h * 2 + 'px';
+      im.src = await wrapImg(n.img, w);
+      b.addEventListener('click', () => select(w));
+      return b;
+    }
+    function refreshTiles(){
+      document.querySelectorAll('.w-tile').forEach(b => {
+        const w = BY[b.dataset.w], own = owns(w.id), hidden = !own && (w.sec === 'secret' || w.sec === 'staff');
+        b.classList.toggle('owned', own); b.classList.toggle('hide', hidden);
+        b.querySelector('.wn').textContent = hidden && w.sec === 'secret' ? '???' : w.name.toUpperCase();
+        b.querySelector('.wt').innerHTML = own ? 'OWNED' : w.sec === 'silver' ? ICON.silver + ' ' + w.price
+          : w.sec === 'secret' ? 'LOCKED' : w.sec === 'staff' ? 'STAFF GIFT' : w.tag;
+        b.classList.toggle('sel', w === sel);
+      });
+    }
+    async function build(){
+      for (const sec of ['secret', 'limited', 'staff', 'silver']){
+        const plate = document.querySelector('[data-wsec="' + sec + '"]'), box = plate.querySelector('.w-scroll') || plate;
+        box.innerHTML = '';
+        for (const w of WRAPS.filter(w => w.sec === sec)) box.appendChild(await tile(w));
+      }
+      const sc = document.querySelector('[data-wsec="silver"] .w-scroll');
+      sc.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)){ sc.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive: false});
+    }
+    const equippedGuns = () => equipped.filter(k => !isUtil(k));
+    async function select(w){
+      sel = w; refreshTiles();
+      const own = owns(w.id), hidden = !own && (w.sec === 'secret' || w.sec === 'staff');
+      const n = TECH[SHOW], ic = $('wi-icon');
+      ic.src = await wrapImg(n.img, w); ic.style.width = n.w * n.pk + 'px'; ic.style.height = n.h * n.pk + 'px';
+      ic.style.filter = hidden ? 'brightness(0) drop-shadow(0 0 8px rgba(160,110,255,.8))' : '';
+      $('wi-name').textContent = hidden && w.sec === 'secret' ? '???' : w.name;
+      $('wi-desc').textContent = hidden && w.sec === 'secret' ? 'A secret wrap. Nobody knows how to get it yet.' : w.desc;
+      const chip = $('wi-chip'), btn = $('wi-act'), st = $('wi-st');
+      chip.style.visibility = !own && w.sec === 'silver' ? 'visible' : 'hidden';
+      if (w.sec === 'silver'){ chip.querySelector('.ci').innerHTML = ICON.silver; chip.querySelector('.cv').textContent = w.price;
+        chip.classList.add('silv'); chip.classList.toggle('short', silverWraths.get() < w.price); }
+      btn.className = 't-act' + (!own && w.sec === 'silver' ? ' silv' : ''); st.className = 'st'; st.textContent = '';
+      if (own){
+        const on = equippedGuns().filter(k => account.wraps.on[k] === w.id).length;
+        $('wi-line').innerHTML = 'Click a gun in your <b>loadout</b> to put it on or take it off.';
+        btn.textContent = on === equippedGuns().length && on ? 'REMOVE ALL' : 'WEAR ON ALL'; btn.disabled = !equippedGuns().length;
+        st.textContent = on ? 'ON ' + on + ' GUN' + (on > 1 ? 'S' : '') : 'OWNED'; st.className = 'st ok';
+      } else {
+        $('wi-line').innerHTML = w.sec === 'silver' ? 'Buy once, use it on <b>every gun</b> you own.'
+          : w.sec === 'limited' ? 'Redeem the event code in <b>Settings → CODES</b> before Nov 30.'
+          : w.sec === 'staff' ? 'Only staff can give this one.' : 'Can\'t be bought.';
+        btn.textContent = w.sec === 'silver' ? 'BUY' : 'LOCKED'; btn.disabled = w.sec !== 'silver';
+      }
+      // loadout: show your real wraps once you own this one, a preview of it otherwise
+      const row = document.querySelectorAll('#tl-wrow .lslot'), list = equippedGuns();
+      row.forEach(async (b, i) => {
+        const k = list[i], im = b.querySelector('img'); if (!k || !im) return;
+        const cur = BY[account.wraps.on[k]];
+        b.classList.toggle('wrapped', own && account.wraps.on[k] === w.id);
+        b.title = own ? (account.wraps.on[k] === w.id ? 'Take ' + w.name + ' off ' : 'Put ' + w.name + ' on ') + TECH[k].name : TECH[k].name;
+        im.src = await wrapImg(TECH[k].img, own || hidden ? cur : w);
+      });
+    }
+    async function act(){
+      const w = sel, btn = $('wi-act'), st = $('wi-st'); btn.disabled = true;
+      let r;
+      if (!owns(w.id) && w.sec === 'silver') r = await api('/api/wraps/buy', {wrap: w.id});
+      else if (owns(w.id)){
+        const list = equippedGuns(), all = list.every(k => account.wraps.on[k] === w.id);
+        for (const k of list) r = await api('/api/wraps/apply', {gun: k, wrap: all ? '' : w.id});
+      }
+      if (r && r.error){ st.textContent = r.error; st.className = 'st'; btn.disabled = false; return; }
+      if (r){ if (r.progress) applyServerState(r); else { account.wraps = r.wraps; await wrapsChanged(); } }
+    }
+    $('wi-act').addEventListener('click', act);
+    // in the WRAPS tab, clicking a loadout gun puts the selected wrap on it / takes it off (instead of unequipping)
+    $('tl-wrow').addEventListener('click', async e => {
+      if (!$('tech').classList.contains('wraps')) return;
+      e.stopImmediatePropagation(); e.preventDefault();
+      const b = e.target.closest('.lslot'); if (!b || !owns(sel.id)) return;
+      const k = equippedGuns()[[...$('tl-wrow').children].indexOf(b)]; if (!k) return;
+      const r = await api('/api/wraps/apply', {gun: k, wrap: account.wraps.on[k] === sel.id ? '' : sel.id});
+      if (r.error){ $('wi-st').textContent = r.error; return; }
+      account.wraps = r.wraps; await wrapsChanged();
+    }, true);
+    let built = false;
+    document.querySelectorAll('#tech .t-tab').forEach(b => b.addEventListener('click', async () => {
+      const x = b.dataset.ttab === 'x';
+      $('tech').classList.toggle('wraps', x);
+      document.querySelectorAll('#tech .t-page-x').forEach(e => e.hidden = !x);
+      ['t-view', 't-left', 't-right', 't-bar', 't-info'].forEach(id => $(id).hidden = x);
+      $('w-info').hidden = !x;
+      document.querySelector('#t-load .hint').textContent = x ? 'Click a gun to put the wrap on it' : 'Click an item to unequip it';
+      if (x){ if (!built){ built = true; await build(); } select(sel); }
+      else renderLoadout();
+    }));
+    document.querySelector('.b-tech') && document.querySelector('.b-tech').addEventListener('click', () => {
+      if ($('tech').classList.contains('wraps')) document.querySelector('#tech .t-tab[data-ttab="w"]').click();
+    });
+
+    // Owner: gift a wrap
+    const gw = $('g-wrap');
+    if (gw){
+      const grp = {secret: 'SECRET', limited: 'LIMITED', staff: 'STAFF GIFTS', silver: 'SILVER WRATHS'};
+      for (const sec in grp){ const og = document.createElement('optgroup'); og.label = grp[sec];
+        WRAPS.filter(w => w.sec === sec).forEach(w => { const o = document.createElement('option'); o.value = w.id; o.textContent = w.name; og.appendChild(o); });
+        gw.appendChild(og); }
+      const say = (t, ok) => { $('o-msg').textContent = t; $('o-msg').className = 's-msg ' + (ok ? 'ok' : 'bad'); };
+      const go = async remove => {
+        const u = $('o-user').value.trim(); if (!u) return say('Enter a username first.', false);
+        say('Working…', true);
+        const r = await api('/api/owner/wrap', {username: u, wrap: gw.value, remove});
+        if (r.error) return say(r.error, false);
+        if (r.wraps){ account.wraps = r.wraps; wrapsChanged(); }
+        say(r.message, true);
+      };
+      $('g-wrapgive').addEventListener('click', () => go(false));
+      $('g-wraptake').addEventListener('click', () => go(true));
+    }
   })();
 
   /* menu -> placeholder panels (swap these for real scene changes) */
