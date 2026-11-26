@@ -826,6 +826,7 @@
   #a-ppv .pp-box{flex:1;overflow:auto;padding-right:10px;scrollbar-width:thin;scrollbar-color:#c8641a #151619}
   #a-ppv .pp-close{align-self:center;margin-top:14px}
   .s-email-val{color:#ffc34d}.s-email-val.none{color:#ff8a7a}
+  .s-dc-code{font-size:28px;letter-spacing:3px;color:#ffc34d;margin:6px 0 10px;user-select:all}
 
   /* ================= QUESTS ================= */
   .qsbtn{position:absolute;left:250px;top:42px;width:50px;height:50px;border-radius:14px;z-index:4;padding:0;cursor:pointer;
@@ -1214,7 +1215,7 @@
           <div class="s-row"><div class="lb">Reset settings<small>Restore audio, video and control defaults</small></div><div class="s-ctl"><button class="s-btn" id="s-reset-settings">RESET</button></div></div>
           <div class="s-row"><div class="lb">Reset progress<small>Wipes coins, research, guns and loadout. Silver Wraths and redeemed codes are kept</small></div><div class="s-ctl"><button class="s-btn danger" id="s-reset-progress">RESET PROGRESS</button></div></div>
           <h3 style="margin-top:22px">ACCOUNT</h3>
-          <div class="s-row"><div class="lb">Logged in as <b id="s-user" style="color:#ffc34d"></b><small>Your progress is saved to your account</small></div><div class="s-ctl"><button class="s-btn" id="s-logout">LOG OUT</button></div></div><div class="s-row"><div class="lb">Username: <span class="s-email-val" id="s-uname"></span><small>Letters, numbers, _ and spaces. You can change it once a week.</small></div><div class="s-ctl"><button class="s-btn" id="s-uname-btn">CHANGE</button></div></div><div class="s-row"><div class="lb">Recovery email: <span class="s-email-val" id="s-email"></span><small>Needed to reset your password if you forget it. Never shown to other players.</small></div><div class="s-ctl"><button class="s-btn" id="s-email-btn">CHANGE</button></div></div>
+          <div class="s-row"><div class="lb">Logged in as <b id="s-user" style="color:#ffc34d"></b><small>Your progress is saved to your account</small></div><div class="s-ctl"><button class="s-btn" id="s-logout">LOG OUT</button></div></div><div class="s-row"><div class="lb">Username: <span class="s-email-val" id="s-uname"></span><small>Letters, numbers, _ and spaces. You can change it once a week.</small></div><div class="s-ctl"><button class="s-btn" id="s-uname-btn">CHANGE</button></div></div><div class="s-row"><div class="lb">Recovery email: <span class="s-email-val" id="s-email"></span><small>Needed to reset your password if you forget it. Never shown to other players.</small></div><div class="s-ctl"><button class="s-btn" id="s-email-btn">CHANGE</button></div></div><div class="s-row"><div class="lb">Discord: <span class="s-email-val" id="s-dc"></span><small>Link your account to get your rank as a role in the Feel The Wrath Discord.</small></div><div class="s-ctl"><button class="s-btn" id="s-dc-btn">LINK</button></div></div>
           <h3 style="margin-top:22px;color:#ff7a6a">DANGER ZONE</h3>
           <div class="s-row"><div class="lb">Delete account<small>Permanently deletes your account and everything on it</small></div><div class="s-ctl"><button class="s-btn danger" id="s-delacc">DELETE ACCOUNT</button></div></div>
         </div>
@@ -1229,6 +1230,7 @@
 <li><b>Game progress:</b> coins, research points, Silver Wraths, researched / owned / equipped weapons, your character, and codes you've redeemed.</li>
 <li><b>PvP and ranked:</b> match results (who played, who won, when), your Merit, wins, losses and any title you have.</li>
 <li><b>Friends and safety:</b> your friends list and friend requests, what you're doing while online (shown only to friends, e.g. "In the menu"), invites, past usernames, reports you send or receive, and bans.</li>
+<li><b>Discord link (optional):</b> only if you link it in Settings → DATA. We store your Discord user ID so our bot can give you your rank role. Unlink any time.</li>
 <li><b>Login sessions:</b> a login token so you stay signed in (stored on the server only as a hash).</li>
 <li><b>On your device only:</b> settings (volume, keys, video) are saved locally and never sent to us.</li>
 </ul>
@@ -1239,11 +1241,11 @@
 <li><b>Cloudflare</b> runs the game server and database. Like any web service it handles your IP address to deliver traffic and block abuse.</li>
 <li><b>EmailJS</b> and <b>Gmail</b> deliver password reset emails from feelthewrath.dev@gmail.com (only if you added an email).</li>
 <li><b>GitHub</b> hosts desktop updates; the desktop app checks it for new versions.</li>
-<li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence.</li>
+<li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence. If you link your account, our Discord bot reads your rank to set your role.</li>
 </ul>
 <p>We don't sell your data, show ads, or send marketing email.</p>
 <h4>How long we keep it</h4>
-<p>Until you delete your account. <b>Settings → DATA → Delete Account</b> permanently removes your account, progress, rank, title and email. Past match results may remain, but no longer linked to a username.</p>
+<p>Until you delete your account. <b>Settings → DATA → Delete Account</b> permanently removes your account, progress, rank, title, email and Discord link. Past match results may remain, but no longer linked to a username.</p>
 <h4>Children</h4>
 <p>The game isn't meant for children under 13. If you're under 13, don't create an account.</p>
 <h4>Your choices</h4>
@@ -1329,6 +1331,11 @@
         <input class="s-in s-del-in" id="s-empw" type="password" placeholder="Your password" autocomplete="current-password">
         <div class="s-msg bad" id="s-emmsg"></div>
         <div class="row"><button class="s-btn" id="s-emno">CANCEL</button><button class="s-btn" id="s-emyes">SAVE</button></div></div></div>
+      <div class="s-confirm" id="s-dcc"><div class="box" style="border-color:#5865f2;box-shadow:0 0 30px rgba(88,101,242,.4)"><h4 style="color:#aab4ff">Link Discord</h4>
+        <p>In the Feel The Wrath Discord, type this command. The code works for 10 minutes.</p>
+        <div class="s-dc-code" id="s-dc-code">······</div>
+        <div class="s-msg" id="s-dcmsg"></div>
+        <div class="row"><button class="s-btn" id="s-dcno">CLOSE</button><button class="s-btn" id="s-dccopy">COPY</button><button class="s-btn" id="s-dcjoin">OPEN DISCORD</button></div></div></div>
       <div class="s-confirm" id="s-delc"><div class="box"><h4>Delete your account?</h4>
         <p>This permanently deletes your account, progress, guns, Silver Wraths, rank and redeemed codes. It can't be undone.</p>
         <input class="s-in s-del-in" id="s-delpw" type="password" placeholder="Type your password to confirm" autocomplete="current-password">
@@ -1477,6 +1484,7 @@
 <li><b>Game progress:</b> coins, research points, Silver Wraths, researched / owned / equipped weapons, your character, and codes you've redeemed.</li>
 <li><b>PvP and ranked:</b> match results (who played, who won, when), your Merit, wins, losses and any title you have.</li>
 <li><b>Friends and safety:</b> your friends list and friend requests, what you're doing while online (shown only to friends, e.g. "In the menu"), invites, past usernames, reports you send or receive, and bans.</li>
+<li><b>Discord link (optional):</b> only if you link it in Settings → DATA. We store your Discord user ID so our bot can give you your rank role. Unlink any time.</li>
 <li><b>Login sessions:</b> a login token so you stay signed in (stored on the server only as a hash).</li>
 <li><b>On your device only:</b> settings (volume, keys, video) are saved locally and never sent to us.</li>
 </ul>
@@ -1487,11 +1495,11 @@
 <li><b>Cloudflare</b> runs the game server and database. Like any web service it handles your IP address to deliver traffic and block abuse.</li>
 <li><b>EmailJS</b> and <b>Gmail</b> deliver password reset emails from feelthewrath.dev@gmail.com (only if you added an email).</li>
 <li><b>GitHub</b> hosts desktop updates; the desktop app checks it for new versions.</li>
-<li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence.</li>
+<li><b>Discord</b> (desktop app only): if Discord is open, the game shows what you're playing on your Discord profile using Rich Presence. If you link your account, our Discord bot reads your rank to set your role.</li>
 </ul>
 <p>We don't sell your data, show ads, or send marketing email.</p>
 <h4>How long we keep it</h4>
-<p>Until you delete your account. <b>Settings → DATA → Delete Account</b> permanently removes your account, progress, rank, title and email. Past match results may remain, but no longer linked to a username.</p>
+<p>Until you delete your account. <b>Settings → DATA → Delete Account</b> permanently removes your account, progress, rank, title, email and Discord link. Past match results may remain, but no longer linked to a username.</p>
 <h4>Children</h4>
 <p>The game isn't meant for children under 13. If you're under 13, don't create an account.</p>
 <h4>Your choices</h4>
@@ -2514,7 +2522,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.5.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.5.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2614,6 +2622,7 @@
     if (st.ranked && window.rankRefresh) rankRefresh(st.ranked);
     if (st.staff && window.staffRefresh) staffRefresh(st.staff);
     if ('email' in st) account.email = st.email;
+    if ('discord' in st) account.discord = !!st.discord;
     if ('unlocked' in st){ account.unlocked = !!st.unlocked; if (window.unlockCheck) unlockCheck(); }
     if (window.sendStats) setTimeout(sendStats, 0);
     renderTree();
@@ -4507,6 +4516,31 @@
       account.email = r.email; emailRefresh(); $('s-emc').classList.remove('on');
     };
     $('s-emyes').addEventListener('click', save);
+    // Discord link in Settings → DATA (the bot gives the rank role)
+    window.discordRefresh = () => {
+      const v = $('s-dc'); v.textContent = account.discord ? 'LINKED' : 'NOT LINKED'; v.className = 's-email-val' + (account.discord ? '' : ' none');
+      $('s-dc-btn').textContent = account.discord ? 'UNLINK' : 'LINK';
+    };
+    $('gear').addEventListener('click', () => { discordRefresh(); api('/api/discord/status').then(r => { if (!r.error){ account.discord = r.discord; discordRefresh(); } }); });
+    let dcCmd = '';
+    $('s-dc-btn').addEventListener('click', async () => {
+      if (account.discord){
+        const r = await api('/api/discord/unlink', {});
+        if (!r.error){ account.discord = false; discordRefresh(); }
+        return;
+      }
+      $('s-dc-code').textContent = '······'; $('s-dcmsg').textContent = ''; $('s-dcmsg').className = 's-msg'; $('s-dcc').classList.add('on');
+      const r = await api('/api/discord/code', {});
+      if (r.error){ $('s-dcmsg').textContent = r.error; $('s-dcmsg').className = 's-msg bad'; return; }
+      dcCmd = '/link ' + r.code; $('s-dc-code').textContent = dcCmd;
+    });
+    $('s-dcno').addEventListener('click', () => { $('s-dcc').classList.remove('on'); api('/api/discord/status').then(r => { if (!r.error){ account.discord = r.discord; discordRefresh(); } }); });
+    $('s-dccopy').addEventListener('click', async () => {
+      if (!dcCmd) return;
+      try { await navigator.clipboard.writeText(dcCmd); $('s-dcmsg').textContent = 'Copied'; $('s-dcmsg').className = 's-msg'; }
+      catch(err){ $('s-dcmsg').textContent = 'Copy failed, type it instead'; $('s-dcmsg').className = 's-msg bad'; }
+    });
+    $('s-dcjoin').addEventListener('click', () => window.open('https://discord.gg/zEzJUzzAPj', '_blank', 'noopener'));
     ['s-emin', 's-empw'].forEach(id => $(id).addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') save(); if (e.key === 'Escape') $('s-emc').classList.remove('on'); }));
   })();
 
