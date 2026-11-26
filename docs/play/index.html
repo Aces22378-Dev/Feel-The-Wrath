@@ -1054,6 +1054,8 @@
   .w-tile.secret .wn{color:#c9a6ff}.w-tile.staff .wn{color:#7fd0ff}
   .w-tile.hide .gi img{filter:brightness(0) drop-shadow(0 0 6px rgba(160,110,255,.8))}
   .w-tile.staff.hide .gi img{filter:brightness(0) drop-shadow(0 0 6px rgba(90,180,255,.8))}
+  .w-tile.limited.hide .gi img{filter:brightness(0) drop-shadow(0 0 6px rgba(255,150,50,.8))}
+  .w-tile.limited.hide .wt{color:#aab0b6}
   .w-tile.owned .wt{color:#8fd18a}
   .w-note{position:absolute;width:250px;font-size:13px;line-height:1.35;color:#aab3bc}
   .w-note b{color:#f2e6d6}
@@ -1186,15 +1188,14 @@
       </div>
 
       <div class="t-page-x" hidden>
-        <div class="w-sec sec" style="top:164px">SECRET</div>
-        <div class="tplate w-plate sec" data-wsec="secret" style="left:188px;top:132px;width:464px"></div>
-        <div class="w-note" style="left:676px;top:156px">Can't be bought. Hidden codes, challenges and events unlock these.</div>
-        <div class="w-sec" style="top:260px">LIMITED</div>
-        <div class="tplate w-plate" data-wsec="limited" style="left:188px;top:228px;width:188px"></div>
-        <div class="w-note" style="left:400px;top:244px;width:420px">Event wraps from codes. <b>Harvest</b> comes from a code posted on our TikTok and Discord, until <b>Nov 30</b>.</div>
-        <div class="w-sec staff" style="top:356px">STAFF<br>GIFTS</div>
-        <div class="tplate w-plate staff" data-wsec="staff" style="left:188px;top:324px;width:878px"></div>
-        <div class="w-note" style="left:1090px;top:336px;width:230px">Only staff can give these. Win events, report bugs, help out.</div>
+        <div class="w-sec staff" style="top:156px">STAFF<br>GIFTS</div>
+        <div class="tplate w-plate staff" data-wsec="staff" style="left:188px;top:132px;width:1016px"></div>
+        <div class="w-sec sec" style="top:260px">SECRET</div>
+        <div class="tplate w-plate sec" data-wsec="secret" style="left:188px;top:228px;width:326px"></div>
+        <div class="w-note" style="left:538px;top:252px">Can't be bought. Hidden codes, challenges and events unlock these.</div>
+        <div class="w-sec" style="top:356px">LIMITED</div>
+        <div class="tplate w-plate" data-wsec="limited" style="left:188px;top:324px;width:188px"></div>
+        <div class="w-note" style="left:400px;top:340px;width:420px">Event wraps from codes. Watch our <b>TikTok</b> and <b>Discord</b> so you don't miss one.</div>
         <div class="w-sec silver" style="top:444px">SILVER<br>WRATHS</div>
         <div class="tplate prem w-plate" data-wsec="silver" style="left:188px;top:420px;width:1112px"><div class="w-scroll"></div></div>
       </div>
@@ -2590,7 +2591,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.6.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.6.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -5065,7 +5066,7 @@
     const WRAPS = [
       {id:'lava', sec:'secret', name:'Lava', desc:'Molten cracks in black rock.', pat:'lava'},
       {id:'galaxy', sec:'secret', name:'Galaxy', desc:'Deep space, full of stars.', pat:'galaxy'},
-      {id:'wrath', sec:'secret', name:'Wrath', desc:'Black to blood red. The name says it.', pat:'grad', c:[[20,10,10],[120,10,10],[255,60,30]]},
+      {id:'wrath', sec:'staff', name:'Wrath', desc:'Black to blood red. The name says it.', pat:'grad', c:[[20,10,10],[120,10,10],[255,60,30]]},
       {id:'harvest', sec:'limited', name:'Harvest', desc:'Pumpkin orange, gold and cranberry. Happy Thanksgiving.', tag:'CODE · ENDS NOV 30',
        ...R([[26,10,5],[70,30,14],[124,54,22],[188,94,30],[238,158,54],[255,214,120]], [[30,12,6],[92,18,22],[150,32,30],[196,60,40],[228,110,70]])},
       {id:'glitch', sec:'staff', name:'Glitch', desc:'For players who find and report bugs.', pat:'glitch'},
@@ -5178,7 +5179,7 @@
       else if (stageEl.classList.contains('on-tech')) renderLoadout();
     };
 
-    let sel = BY.harvest;
+    let sel = BY.gold;
     const owns = id => (account.wraps.owned || []).includes(id);
     async function tile(w){
       const b = document.createElement('button'); b.className = 'w-tile ' + w.sec; b.dataset.w = w.id;
@@ -5191,19 +5192,23 @@
     }
     function refreshTiles(){
       document.querySelectorAll('.w-tile').forEach(b => {
-        const w = BY[b.dataset.w], own = owns(w.id), hidden = !own && (w.sec === 'secret' || w.sec === 'staff');
+        const w = BY[b.dataset.w], own = owns(w.id), hidden = !own && w.sec !== 'silver';
         b.classList.toggle('owned', own); b.classList.toggle('hide', hidden);
-        b.querySelector('.wn').textContent = hidden && w.sec === 'secret' ? '???' : w.name.toUpperCase();
+        b.querySelector('.wn').textContent = hidden ? '???' : w.name.toUpperCase();
         b.querySelector('.wt').innerHTML = own ? 'OWNED' : w.sec === 'silver' ? ICON.silver + ' ' + w.price
-          : w.sec === 'secret' ? 'LOCKED' : w.sec === 'staff' ? 'STAFF GIFT' : w.tag;
+          : w.sec === 'staff' ? 'STAFF GIFT' : 'LOCKED';
         b.classList.toggle('sel', w === sel);
       });
     }
     async function build(){
-      for (const sec of ['secret', 'limited', 'staff', 'silver']){
+      for (const sec of ['staff', 'secret', 'limited', 'silver']){
         const plate = document.querySelector('[data-wsec="' + sec + '"]'), box = plate.querySelector('.w-scroll') || plate;
         box.innerHTML = '';
-        for (const w of WRAPS.filter(w => w.sec === sec)) box.appendChild(await tile(w));
+        // rarest first: staff/secret by hand, Silver Wraths by price (most expensive first)
+        const RARE = ['wrath', 'champion', 'royal', 'ghost', 'mainframe', 'glitch', 'gifted', 'galaxy', 'lava'];
+        const list = WRAPS.filter(w => w.sec === sec).map((w, i) => [w, i])
+          .sort((a, b) => (b[0].price || 0) - (a[0].price || 0) || (RARE.indexOf(a[0].id) - RARE.indexOf(b[0].id)) || a[1] - b[1]);
+        for (const [w] of list) box.appendChild(await tile(w));
       }
       const sc = document.querySelector('[data-wsec="silver"] .w-scroll');
       sc.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)){ sc.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive: false});
@@ -5211,12 +5216,14 @@
     const equippedGuns = () => equipped.filter(k => !isUtil(k));
     async function select(w){
       sel = w; refreshTiles();
-      const own = owns(w.id), hidden = !own && (w.sec === 'secret' || w.sec === 'staff');
+      const own = owns(w.id), hidden = !own && w.sec !== 'silver';
+      const GLOW = {secret: '160,110,255', staff: '90,180,255', limited: '255,150,50'};
       const n = TECH[SHOW], ic = $('wi-icon');
       ic.src = await wrapImg(n.img, w); ic.style.width = n.w * n.pk + 'px'; ic.style.height = n.h * n.pk + 'px';
-      ic.style.filter = hidden ? 'brightness(0) drop-shadow(0 0 8px rgba(160,110,255,.8))' : '';
-      $('wi-name').textContent = hidden && w.sec === 'secret' ? '???' : w.name;
-      $('wi-desc').textContent = hidden && w.sec === 'secret' ? 'A secret wrap. Nobody knows how to get it yet.' : w.desc;
+      ic.style.filter = hidden ? 'brightness(0) drop-shadow(0 0 8px rgba(' + GLOW[w.sec] + ',.8))' : '';
+      $('wi-name').textContent = hidden ? '???' : w.name;
+      $('wi-desc').textContent = !hidden ? w.desc : w.sec === 'secret' ? 'A secret wrap. Nobody knows how to get it yet.'
+        : w.sec === 'staff' ? 'A staff gift. You\'ll see it when you earn it.' : 'An event wrap. Find the code to see it.';
       const chip = $('wi-chip'), btn = $('wi-act'), st = $('wi-st');
       chip.style.visibility = !own && w.sec === 'silver' ? 'visible' : 'hidden';
       if (w.sec === 'silver'){ chip.querySelector('.ci').innerHTML = ICON.silver; chip.querySelector('.cv').textContent = w.price;
@@ -5229,7 +5236,7 @@
         st.textContent = on ? 'ON ' + on + ' GUN' + (on > 1 ? 'S' : '') : 'OWNED'; st.className = 'st ok';
       } else {
         $('wi-line').innerHTML = w.sec === 'silver' ? 'Buy once, use it on <b>every gun</b> you own.'
-          : w.sec === 'limited' ? 'Redeem the event code in <b>Settings → CODES</b> before Nov 30.'
+          : w.sec === 'limited' ? 'Redeem the event code in <b>Settings → CODES</b> before the event ends.'
           : w.sec === 'staff' ? 'Only staff can give this one.' : 'Can\'t be bought.';
         btn.textContent = w.sec === 'silver' ? 'BUY' : 'LOCKED'; btn.disabled = w.sec !== 'silver';
       }
