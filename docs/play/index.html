@@ -1026,28 +1026,40 @@
 
   /* ---------------- wraps tab ---------------- */
   #tech.wraps .t-stubs,#tech.wraps>.tier.silver,#tech.wraps .t-page-w,#tech.wraps .t-page-u{display:none!important}
-  .w-sec{position:absolute;left:52px;width:122px;text-align:center;font-size:16px;font-weight:700;line-height:1.15;color:#ffa04a;
+  .w-rows{position:absolute;left:52px;right:52px;top:128px;height:394px;display:flex;flex-direction:column;gap:8px}
+  .w-row{display:flex;align-items:center;gap:14px;height:72px;flex:none}
+  .w-row[hidden]{display:none}
+  .w-sec{flex:none;width:122px;text-align:center;font-size:15px;font-weight:700;line-height:1.15;color:#ffa04a;
     text-shadow:0 0 10px rgba(255,120,20,.75),0 1px 1px rgba(0,0,0,.9)}
   .w-sec.sec{color:#c9a6ff;text-shadow:0 0 10px rgba(160,110,255,.7),0 1px 1px #000}
   .w-sec.staff{color:#7fd0ff;text-shadow:0 0 10px rgba(90,180,255,.7),0 1px 1px #000}
+  .w-sec.issue{color:#ff6b5e;text-shadow:0 0 10px rgba(255,60,40,.75),0 1px 1px #000}
   .w-sec.silver{color:#dfe6ee;font-size:14px;text-shadow:0 0 10px rgba(190,215,240,.75),0 1px 1px #000}
-  .w-plate{height:86px;justify-content:flex-start;gap:10px;padding:0 30px}
+  .w-row .tplate{position:relative;left:auto;top:auto;flex:none;height:72px;padding:0}
   .w-plate.sec{border-color:#6e4fa8;box-shadow:0 0 9px rgba(150,100,255,.3),0 4px 10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.18)}
   .w-plate.staff{border-color:#3f7fae;box-shadow:0 0 9px rgba(90,180,255,.3),0 4px 10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.18)}
+  .w-plate.issue{border-color:#a8382c;box-shadow:0 0 10px rgba(255,60,40,.4),0 4px 10px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.18)}
   .w-scroll{position:absolute;left:24px;right:24px;top:0;bottom:0;display:flex;align-items:center;gap:10px;padding:0 6px;
     overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#c8641a transparent;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 10px),transparent);
             mask-image:linear-gradient(90deg,transparent 0,#000 10px,#000 calc(100% - 10px),transparent)}
-  .w-scroll::-webkit-scrollbar{height:5px}.w-scroll::-webkit-scrollbar-thumb{background:#c8641a;border-radius:3px}
-  .w-tile{position:relative;flex:none;width:128px;height:72px;border-radius:10px;cursor:pointer;padding:0;
+  .w-scroll::-webkit-scrollbar{height:4px}.w-scroll::-webkit-scrollbar-thumb{background:#c8641a;border-radius:3px}
+  .w-row .w-note{flex:1;min-width:0;max-width:300px;font-size:13px;line-height:1.35;color:#aab3bc}
+  .w-row .w-note b{color:#f2e6d6}
+  #w-toast{position:absolute;left:50%;top:22px;transform:translate(-50%,-160%);z-index:72;padding:12px 26px;border-radius:999px;
+    background:linear-gradient(180deg,#2a1d3e,#170f24);border:2px solid #8f6ad8;box-shadow:0 0 22px rgba(150,100,255,.55);
+    color:#e6dcff;font-size:16px;font-weight:700;letter-spacing:.04em;transition:transform .35s cubic-bezier(.2,.9,.3,1.2);pointer-events:none}
+  #w-toast.on{transform:translate(-50%,0)}
+  #w-toast b{color:#fff}
+  .w-tile{position:relative;flex:none;width:120px;height:60px;border-radius:10px;cursor:pointer;padding:0;
     border:1.5px solid rgba(0,0,0,.45);background:linear-gradient(180deg,rgba(20,21,24,.55),rgba(20,21,24,.8));
     color:#f2e6d6;font:inherit;transition:transform .12s ease,box-shadow .12s ease}
   .w-tile:hover,.w-tile:focus-visible{outline:none;transform:scale(1.05)}
   .w-tile.sel{box-shadow:0 0 0 2px rgba(255,170,70,.9),0 0 14px rgba(255,140,30,.6)}
-  .w-tile .gi{position:absolute;left:0;right:0;top:5px;height:34px;display:flex;align-items:center;justify-content:center}
+  .w-tile .gi{position:absolute;left:0;right:0;top:3px;height:28px;display:flex;align-items:center;justify-content:center}
   .w-tile .gi img{image-rendering:pixelated;filter:drop-shadow(0 2px 1px rgba(0,0,0,.9))}
-  .w-tile .wn{position:absolute;left:0;right:0;top:40px;font-size:12px;font-weight:700;letter-spacing:.05em;text-align:center;white-space:nowrap}
-  .w-tile .wt{position:absolute;left:0;right:0;top:55px;font-size:10px;color:#aab0b6;text-align:center;display:flex;
+  .w-tile .wn{position:absolute;left:0;right:0;top:31px;font-size:11.5px;font-weight:700;letter-spacing:.05em;text-align:center;white-space:nowrap}
+  .w-tile .wt{position:absolute;left:0;right:0;top:45px;font-size:9.5px;color:#aab0b6;text-align:center;display:flex;
     align-items:center;justify-content:center;gap:4px}
   .w-tile .wt svg{width:12px;height:12px}
   .w-tile.limited .wt{color:#ffb347}
@@ -1057,8 +1069,6 @@
   .w-tile.limited.hide .gi img{filter:brightness(0) drop-shadow(0 0 6px rgba(255,150,50,.8))}
   .w-tile.limited.hide .wt{color:#aab0b6}
   .w-tile.owned .wt{color:#8fd18a}
-  .w-note{position:absolute;width:250px;font-size:13px;line-height:1.35;color:#aab3bc}
-  .w-note b{color:#f2e6d6}
   #w-info .ic img{image-rendering:pixelated}
   #w-info .wi-line{position:absolute;left:18px;right:16px;top:84px;font-size:12.5px;line-height:1.4;color:#c9cdd1}
   #w-info .wi-line b{color:#ffc34d}
@@ -1188,17 +1198,9 @@
       </div>
 
       <div class="t-page-x" hidden>
-        <div class="w-sec staff" style="top:156px">STAFF<br>GIFTS</div>
-        <div class="tplate w-plate staff" data-wsec="staff" style="left:188px;top:132px;width:1016px"></div>
-        <div class="w-sec sec" style="top:260px">SECRET</div>
-        <div class="tplate w-plate sec" data-wsec="secret" style="left:188px;top:228px;width:326px"></div>
-        <div class="w-note" style="left:538px;top:252px">Can't be bought. Hidden codes, challenges and events unlock these.</div>
-        <div class="w-sec" style="top:356px">LIMITED</div>
-        <div class="tplate w-plate" data-wsec="limited" style="left:188px;top:324px;width:188px"></div>
-        <div class="w-note" style="left:400px;top:340px;width:420px">Event wraps from codes. Watch our <b>TikTok</b> and <b>Discord</b> so you don't miss one.</div>
-        <div class="w-sec silver" style="top:444px">SILVER<br>WRATHS</div>
-        <div class="tplate prem w-plate" data-wsec="silver" style="left:188px;top:420px;width:1112px"><div class="w-scroll"></div></div>
+        <div class="w-rows" id="w-rows"></div>
       </div>
+      <div id="w-toast" role="status"></div>
       <div class="t-info" id="w-info" hidden>
         <i class="rv" style="left:7px;top:7px"></i><i class="rv" style="right:7px;top:7px"></i>
         <div class="ic"><img id="wi-icon" alt=""></div>
@@ -2591,7 +2593,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.6.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.7.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -2692,7 +2694,7 @@
     if (st.staff && window.staffRefresh) staffRefresh(st.staff);
     if ('email' in st) account.email = st.email;
     if ('discord' in st) account.discord = !!st.discord;
-    if (st.wraps){ account.wraps = st.wraps; if (window.wrapsChanged) wrapsChanged(); }
+    if (st.wraps){ account.wraps = st.wraps; if (window.wrapsChanged) wrapsChanged(); if (st.wraps.fresh && window.wrapToast) wrapToast(st.wraps.fresh); }
     if ('unlocked' in st){ account.unlocked = !!st.unlocked; if (window.unlockCheck) unlockCheck(); }
     if (window.sendStats) setTimeout(sendStats, 0);
     renderTree();
@@ -5064,11 +5066,26 @@
     // ramp/acc: recolor by brightness (acc replaces green/olive parts). pat: a pattern, shaded by the gun's brightness.
     const R = (ramp, acc) => ({ramp, acc});
     const WRAPS = [
-      {id:'lava', sec:'secret', name:'Lava', desc:'Molten cracks in black rock.', pat:'lava'},
-      {id:'galaxy', sec:'secret', name:'Galaxy', desc:'Deep space, full of stars.', pat:'galaxy'},
-      {id:'wrath', sec:'staff', name:'Wrath', desc:'Black to blood red. The name says it.', pat:'grad', c:[[20,10,10],[120,10,10],[255,60,30]]},
+      {id:'lava', sec:'secret', name:'Lava', desc:'Reach wave 20 in Endless.', pat:'lava'},
+      {id:'galaxy', sec:'secret', name:'Galaxy', desc:'Win 50 PvP matches.', pat:'galaxy'},
+      {id:'wrath', sec:'issue', name:'Wrath', desc:'Owner and Founder only. Black to blood red.', pat:'grad', c:[[20,10,10],[120,10,10],[255,60,30]]},
+      {id:'command', sec:'issue', name:'Command', desc:'Issued to Admins.', pat:'command'},
+      {id:'source', sec:'issue', name:'Source', desc:'Issued to Developers.', pat:'circuit', c:[[90,180,255],[8,18,40]]},
+      {id:'warden', sec:'issue', name:'Warden', desc:'Issued to Moderators.', pat:'warden'},
+      {id:'beta', sec:'issue', name:'Beta', desc:'Issued to Testers.', pat:'stripes', c:[[250,210,40],[40,34,10]], w:2, a:-1},
+      {id:'lifeline', sec:'issue', name:'Lifeline', desc:'Issued to Helpers.', pat:'speck', c:[[70,40,130],[200,160,255]], k:.12, s:7},
+      {id:'void', sec:'secret', name:'Void', desc:'Reach General of the Army.', pat:'void'},
+      {id:'hellfire', sec:'secret', name:'Hellfire', desc:'Reach wave 30 in Endless.', pat:'hellfire'},
+      {id:'plasma', sec:'secret', name:'Plasma', desc:'Win 10 PvP matches in a row.', pat:'plasma'},
+      {id:'ruby', sec:'secret', name:'Ruby', desc:'A rare red gem.', pat:'ruby'},
+      {id:'prism', sec:'secret', name:'Prism', desc:'Every color at once.', pat:'prism'},
+      {id:'static', sec:'secret', name:'Static', desc:'From a hidden code.', pat:'static'},
+      {id:'bone', sec:'secret', name:'Bone', desc:'Bleached and cracked.', pat:'bone'},
+      {id:'rust', sec:'secret', name:'Rust', desc:'Play 100 matches.', pat:'rust'},
       {id:'harvest', sec:'limited', name:'Harvest', desc:'Pumpkin orange, gold and cranberry. Happy Thanksgiving.', tag:'CODE · ENDS NOV 30',
        ...R([[26,10,5],[70,30,14],[124,54,22],[188,94,30],[238,158,54],[255,214,120]], [[30,12,6],[92,18,22],[150,32,30],[196,60,40],[228,110,70]])},
+      {id:'candycane', sec:'limited', name:'Candy Cane', desc:'Red and white stripes for the holidays.', pat:'stripes', c:[[230,30,40],[250,245,240]], w:2, a:1},
+      {id:'frostbite', sec:'limited', name:'Frostbite', desc:'Ice blue with snow.', pat:'speck', c:[[120,190,235],[255,255,255]], k:.12, s:5},
       {id:'glitch', sec:'staff', name:'Glitch', desc:'For players who find and report bugs.', pat:'glitch'},
       {id:'mainframe', sec:'staff', name:'Mainframe', desc:'For testers and helpers.', pat:'circuit'},
       {id:'champion', sec:'staff', name:'Champion', desc:'For tournament winners.', pat:'shine'},
@@ -5106,7 +5123,7 @@
     const PAT = {
       camo: (w, x, y) => { const v = hsh(w.s, Math.floor(x / w.cell), Math.floor(y / w.cell)) * .5 + hsh(w.s + 7, Math.floor((x + 1) / (w.cell + 2)), Math.floor(y / (w.cell + 2))) * .5;
                            return w.c[Math.floor(v * w.c.length) % w.c.length]; },
-      stripes: (w, x, y) => Math.floor((x + w.a * y) / w.w) % 2 ? w.c[0] : w.c[1],
+      stripes: (w, x, y) => ((Math.floor((x + w.a * y) / w.w) % 2) + 2) % 2 ? w.c[0] : w.c[1],
       checker: (w, x, y) => (Math.floor(x / 2) + Math.floor(y / 2)) % 2 ? w.c[0] : w.c[1],
       grad: (w, x, y, W) => mix(w.c, x / Math.max(1, W - 1)),
       speck: (w, x, y) => hsh(w.s, x, y) < w.k ? w.c[1] : w.c[0],
@@ -5115,7 +5132,18 @@
                              return n > .6 ? [60,30,120] : n > .3 ? [20,24,80] : [14,10,40]; },
       glitch: (w, x, y) => { const rc = [[255,40,200],[30,230,255],[30,30,40],[30,30,40],[240,240,250]][Math.floor(hsh(3, y, 0) * 5)];
                              return Math.floor((x + (y % 4 === 0 ? 3 : 0)) / 5) % 2 ? rc : [24,24,34]; },
-      circuit: (w, x, y) => (x % 6 === 0 || y % 5 === 0) ? [60,255,120] : [8,22,12],
+      circuit: (w, x, y) => (x % 6 === 0 || y % 5 === 0) ? (w.c ? w.c[0] : [60,255,120]) : (w.c ? w.c[1] : [8,22,12]),
+      command: (w, x, y) => (x + y) % 10 < 2 ? [235,40,40] : (Math.floor(x / 5) + Math.floor(y / 5)) % 2 ? [60,8,10] : [40,6,8],
+      warden: (w, x, y) => Math.abs((((x - y) % 12) + 12) % 12 - 6) < 1.5 ? [90,230,90] : [12,50,16],
+      void: (w, x, y) => (x % 9 === 0 && y % 7 === 3) ? [90,40,160] : [6,4,10],
+      hellfire: (w, x, y) => { const v = y / 20 + hsh(21, x >> 1, y >> 1) * .6; return v > 1.1 ? [255,230,90] : v > .8 ? [250,140,30] : v > .5 ? [200,40,20] : [40,8,6]; },
+      plasma: (w, x, y) => { const n = hsh(33, x >> 1, y >> 1); return Math.abs(Math.sin(x / 3 + n * 3) - (y / 30 % 1)) < .12 ? [220,250,255] : n > .5 ? [20,40,120] : [10,16,60]; },
+      ruby: (w, x, y) => [[150,10,30],[220,30,60],[255,110,130],[110,0,20]][((x >> 2) + Math.floor(y / 3)) % 4],
+      prism: (w, x, y) => { const h = ((x + y) / 40) % 1, i = Math.floor(h * 6), f = h * 6 - i, p = .3, q = 1 - .7 * f, t = 1 - .7 * (1 - f);
+        return [[1,t,p],[q,1,p],[p,1,t],[p,q,1],[t,p,1],[1,p,q]][i % 6].map(v => v * 255); },
+      static: (w, x, y) => { const v = 40 + 200 * hsh(31, x, y); return [v, v, v]; },
+      bone: (w, x, y) => hsh(5, Math.floor(x / 3), Math.floor(y / 3)) > .82 && (x + y) % 3 === 0 ? [60,52,40] : [226,214,186],
+      rust: (w, x, y) => { const n = hsh(14, x >> 1, y >> 1), m = hsh(2, x >> 2, y >> 2); return n * .5 + m * .5 > .55 ? [150,70,30] : n > .4 ? [100,50,30] : [70,72,76]; },
       shine: (w, x, y) => { const m = (x + y) % 14; return m < 2 ? [255,250,220] : m < 8 ? [220,170,40] : [190,140,30]; },
       gifted: (w, x, y, W) => Math.abs(x - (W >> 1)) <= 1 ? [250,210,60] : [200,30,40],
     };
@@ -5175,7 +5203,10 @@
       for (const k in on){ const n = TECH[k], w = BY[on[k]]; if (!n || !w) continue;
         jobs.push(wrapImg(n.img, w)); if (n.hand) jobs.push(wrapImg(n.hand, w)); }
       await Promise.all(jobs);
-      if (document.getElementById('tech').classList.contains('wraps')) { refreshTiles(); select(sel); }
+      if (document.getElementById('tech').classList.contains('wraps')){
+        if (issueNow() !== issueKey){ issueKey = issueNow(); await build(); }
+        refreshTiles(); select(sel);
+      }
       else if (stageEl.classList.contains('on-tech')) renderLoadout();
     };
 
@@ -5185,7 +5216,7 @@
       const b = document.createElement('button'); b.className = 'w-tile ' + w.sec; b.dataset.w = w.id;
       const n = TECH[SHOW];
       b.innerHTML = '<div class="gi"><img alt=""></div><div class="wn"></div><div class="wt"></div>';
-      const im = b.querySelector('img'); im.style.width = n.w * 2 + 'px'; im.style.height = n.h * 2 + 'px';
+      const im = b.querySelector('img'); const z = Math.min(2, 26 / n.h); im.style.width = n.w * z + 'px'; im.style.height = n.h * z + 'px';
       im.src = await wrapImg(n.img, w);
       b.addEventListener('click', () => select(w));
       return b;
@@ -5200,24 +5231,51 @@
         b.classList.toggle('sel', w === sel);
       });
     }
+    // rows top to bottom. Staff Issue only shows wraps you own, and the whole row hides when you own none.
+    const ROWS = [
+      {sec: 'issue', label: 'STAFF<br>ISSUE', cls: 'issue', note: 'Your staff wraps. Only staff see this row.'},
+      {sec: 'staff', label: 'STAFF<br>GIFTS', cls: 'staff', note: 'Only staff can give these. Win events, report bugs, help out.'},
+      {sec: 'secret', label: 'SECRET', cls: 'sec', note: 'Can\'t be bought. Play, find hidden codes and events to unlock them.'},
+      {sec: 'limited', label: 'LIMITED', cls: '', note: 'Event wraps from codes. Watch our <b>TikTok</b> and <b>Discord</b> so you don\'t miss one.'},
+      {sec: 'silver', label: 'SILVER<br>WRATHS', cls: 'silver', plate: 'prem', note: 'Buy once, use it on <b>every gun</b>.'},
+    ];
+    const RARE = ['wrath', 'command', 'source', 'warden', 'beta', 'lifeline', 'champion', 'royal', 'ghost', 'mainframe', 'glitch', 'gifted',
+                  'void', 'hellfire', 'plasma', 'ruby', 'prism', 'galaxy', 'static', 'bone', 'lava', 'rust', 'frostbite', 'candycane', 'harvest'];
     async function build(){
-      for (const sec of ['staff', 'secret', 'limited', 'silver']){
-        const plate = document.querySelector('[data-wsec="' + sec + '"]'), box = plate.querySelector('.w-scroll') || plate;
-        box.innerHTML = '';
-        // rarest first: staff/secret by hand, Silver Wraths by price (most expensive first)
-        const RARE = ['wrath', 'champion', 'royal', 'ghost', 'mainframe', 'glitch', 'gifted', 'galaxy', 'lava'];
-        const list = WRAPS.filter(w => w.sec === sec).map((w, i) => [w, i])
-          .sort((a, b) => (b[0].price || 0) - (a[0].price || 0) || (RARE.indexOf(a[0].id) - RARE.indexOf(b[0].id)) || a[1] - b[1]);
-        for (const [w] of list) box.appendChild(await tile(w));
+      const box = $('w-rows'); box.innerHTML = '';
+      const W = box.clientWidth || 1288;
+      for (const R of ROWS){
+        let list = WRAPS.filter(w => w.sec === R.sec).map((w, i) => [w, i])
+          .sort((a, b) => (b[0].price || 0) - (a[0].price || 0) || (RARE.indexOf(a[0].id) - RARE.indexOf(b[0].id)) || a[1] - b[1]).map(x => x[0]);
+        if (R.sec === 'issue') list = list.filter(w => owns(w.id));
+        if (!list.length) continue;
+        const row = document.createElement('div'); row.className = 'w-row'; row.dataset.row = R.sec;
+        const pw = Math.min(list.length * 120 + (list.length - 1) * 10 + 60, W - 136);
+        row.innerHTML = '<div class="w-sec ' + R.cls + '">' + R.label + '</div><div class="tplate w-plate ' + (R.plate || R.cls) + '" data-wsec="' + R.sec +
+          '" style="width:' + pw + 'px"><div class="w-scroll"></div></div>' + (W - 136 - pw >= 190 ? '<div class="w-note">' + R.note + '</div>' : '');
+        box.appendChild(row);
+        const sc = row.querySelector('.w-scroll');
+        for (const w of list) sc.appendChild(await tile(w));
+        sc.addEventListener('wheel', e => { if (sc.scrollWidth > sc.clientWidth && Math.abs(e.deltaY) > Math.abs(e.deltaX)){ sc.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive: false});
       }
-      const sc = document.querySelector('[data-wsec="silver"] .w-scroll');
-      sc.addEventListener('wheel', e => { if (Math.abs(e.deltaY) > Math.abs(e.deltaX)){ sc.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive: false});
+      if (!document.querySelector('.w-tile[data-w="' + sel.id + '"]')) sel = BY.gold;
+      refreshTiles();
     }
+    let issueKey = '';
+    const issueNow = () => WRAPS.filter(w => w.sec === 'issue' && owns(w.id)).map(w => w.id).join();
+    // a secret wrap unlocked by playing: show a pop-up
+    let toastT = 0;
+    window.wrapToast = ids => {
+      const names = ids.map(id => BY[id] && BY[id].name).filter(Boolean); if (!names.length) return;
+      const t = $('w-toast'); t.innerHTML = 'SECRET WRAP UNLOCKED: <b>' + names.join(', ').toUpperCase() + '</b>';
+      t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 5000);
+      try { audio.play('wave'); } catch(e){}
+    };
     const equippedGuns = () => equipped.filter(k => !isUtil(k));
     async function select(w){
       sel = w; refreshTiles();
       const own = owns(w.id), hidden = !own && w.sec !== 'silver';
-      const GLOW = {secret: '160,110,255', staff: '90,180,255', limited: '255,150,50'};
+      const GLOW = {secret: '160,110,255', staff: '90,180,255', limited: '255,150,50', issue: '255,60,40'};
       const n = TECH[SHOW], ic = $('wi-icon');
       ic.src = await wrapImg(n.img, w); ic.style.width = n.w * n.pk + 'px'; ic.style.height = n.h * n.pk + 'px';
       ic.style.filter = hidden ? 'brightness(0) drop-shadow(0 0 8px rgba(' + GLOW[w.sec] + ',.8))' : '';
@@ -5280,7 +5338,7 @@
       ['t-view', 't-left', 't-right', 't-bar', 't-info'].forEach(id => $(id).hidden = x);
       $('w-info').hidden = !x;
       document.querySelector('#t-load .hint').textContent = x ? 'Click a gun to put the wrap on it' : 'Click an item to unequip it';
-      if (x){ if (!built){ built = true; await build(); } select(sel); }
+      if (x){ if (!built || issueNow() !== issueKey){ built = true; issueKey = issueNow(); await build(); } select(sel); }
       else renderLoadout();
     }));
     document.querySelector('.b-tech') && document.querySelector('.b-tech').addEventListener('click', () => {
@@ -5290,7 +5348,7 @@
     // Owner: gift a wrap
     const gw = $('g-wrap');
     if (gw){
-      const grp = {secret: 'SECRET', limited: 'LIMITED', staff: 'STAFF GIFTS', silver: 'SILVER WRATHS'};
+      const grp = {issue: 'STAFF ISSUE', staff: 'STAFF GIFTS', secret: 'SECRET', limited: 'LIMITED', silver: 'SILVER WRATHS'};
       for (const sec in grp){ const og = document.createElement('optgroup'); og.label = grp[sec];
         WRAPS.filter(w => w.sec === sec).forEach(w => { const o = document.createElement('option'); o.value = w.id; o.textContent = w.name; og.appendChild(o); });
         gw.appendChild(og); }
