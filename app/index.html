@@ -1700,7 +1700,7 @@
       <div id="c-embers" class="c-deco"></div>
       <h2 class="c-title">CREDITS</h2>
       <div class="c-rule"></div>
-      <div class="c-roll" id="c-roll"><div class="c-track"><div class="c-sec"><div class="c-role">LEAD DEVELOPER, FOUNDER</div><div class="c-names"><div class="c-name">Aces</div></div></div><div class="c-sec"><div class="c-role">ARTISTS</div><div class="c-names"><div class="c-name">5yvalia</div><div class="c-name">gabl18</div><div class="c-name">jestan</div><div class="c-name">Kipperfalcon</div><div class="c-name">timirytochca93</div><div class="c-name">zerie</div></div></div><div class="c-sec"><div class="c-role">MUSIC</div><div class="c-names"><div class="c-name">yd</div><div class="c-name">kindland</div><div class="c-name">pauliuw</div><div class="c-name">Écrivain</div></div></div><div class="c-sec"><div class="c-role">SOUND EFFECTS</div><div class="c-names"><div class="c-name">qubodup</div><div class="c-name">Mobeyee Sounds</div><div class="c-name">vdsounds</div></div></div></div></div>
+      <div class="c-roll" id="c-roll"><div class="c-track"><div class="c-sec"><div class="c-role">LEAD DEVELOPER, FOUNDER</div><div class="c-names"><div class="c-name">Aces</div></div></div><div class="c-sec"><div class="c-role">ARTISTS</div><div class="c-names"><div class="c-name">5yvalia</div><div class="c-name">gabl18</div><div class="c-name">gelidus-canimons</div><div class="c-name">jestan</div><div class="c-name">Kipperfalcon</div><div class="c-name">timirytochca93</div><div class="c-name">zerie</div></div></div><div class="c-sec"><div class="c-role">MUSIC</div><div class="c-names"><div class="c-name">yd</div><div class="c-name">kindland</div><div class="c-name">pauliuw</div><div class="c-name">Écrivain</div></div></div><div class="c-sec"><div class="c-role">SOUND EFFECTS</div><div class="c-names"><div class="c-name">qubodup</div><div class="c-name">Mobeyee Sounds</div><div class="c-name">vdsounds</div></div></div></div></div>
       <div class="c-foot" style="left:179px">FEEL THE WRATH</div>
       <button class="c-back" id="c-back">BACK</button>
     </section>
@@ -2584,7 +2584,7 @@
 
   /* ================= ACCOUNTS (Cloudflare Worker API) ================= */
   const FTW_CLIENT = window.ftwDesktop ? 'app' : 'web';   // the browser / mobile version needs an unlocked account
-  const GAME_VERSION = '1.7.0';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
+  const GAME_VERSION = '1.7.1';       // must match ftw-app/package.json "version"; the server refuses versions below MIN_CLIENT_VERSION
   const API_BASE = 'https://ftw-server.minecraftmobileexplorer.workers.dev';   // ← change to your Worker URL, e.g. https://ftw-server.<you>.workers.dev
   const account = {username: '', token: '', codes: [], character: 0};
   try { account.token = localStorage.getItem('ftw-token') || ''; } catch(e){}
@@ -3131,7 +3131,7 @@
       if (pr.splash || pr.pellets > 2 || w.dpb > 60) G.shake = Math.max(G.shake, pr.splash ? 5 : 3);
       audio.play(pr.snd, pr.flame ? .6 : 1);
       if (!pr.splash && !pr.flame && !pr.nade && Math.random() < .5) setTimeout(() => audio.play('shell'), 320);   // brass hitting the floor
-      if (G.mode !== 'solo') pvpSend({t: 'fire', w: G.cur, a: ang, x: Math.round(p.x), y: Math.round(p.y)});
+      if (G.mode !== 'solo') pvpSend({t: 'fire', w: G.cur, a: ang, x: Math.round(p.x), y: Math.round(p.y), d: pr.lob ? Math.round(Math.hypot(mouse.x - mx, mouse.y - my)) : 0});
       return true;
     }
     // fire pools (Molotov / Incendiary)
@@ -3528,6 +3528,15 @@
       const actors = [...G.enemies.map(e => ({y: e.y, f: () => drawEnemy(e)})), {y: G.p.y, f: drawPlayer}];
       if (G.mode === 'pvp' && G.o) actors.push({y: G.o.y, f: drawOpponent});
       if (G.mode === 'coop') for (const o of G.allies) if (o && !o.gone) actors.push({y: o.y, f: () => drawAlly(o)});
+      for (const b of G.bullets){                       // mortar landing spot: red circle that tightens as the shell comes down
+        if (b.kind !== 'mortar' || !b.toTarget) continue;
+        const k = Math.min(1, b.trav / Math.max(1, b.dist)), r = Math.max(30, b.splash || 115), pulse = .5 + .5 * Math.sin(performance.now() / 90);
+        ctx.save(); ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = `rgba(220,30,30,${.10 + .12 * k})`; ctx.beginPath(); ctx.arc(b.tx, b.ty, r, 0, 7); ctx.fill();
+        ctx.strokeStyle = `rgba(255,60,50,${.55 + .35 * pulse})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(b.tx, b.ty, r, 0, 7); ctx.stroke();
+        ctx.strokeStyle = 'rgba(255,90,70,.8)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(b.tx, b.ty, r * (1 - .8 * k), 0, 7); ctx.stroke();
+        ctx.restore();
+      }
       actors.sort((a, b) => a.y - b.y).forEach(a => a.f());
       // projectiles
       ctx.globalCompositeOperation = 'lighter';
@@ -3787,7 +3796,7 @@
         G.bullets.push({opp: true, x: mx, y: my, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, dmg: 0, life: (pr.range || 1100) / sp, max: (pr.range || 1100) / sp,
           pierce: 0, splash: pr.splash || 0, molotov: pr.fire, dur: pr.dur, w: m.w,
           kind: pr.nade ? 'nade' : pr.flame ? 'flame' : pr.splash ? (pr.lob ? 'mortar' : 'rocket') : n > 1 ? 'pellet' : 'bullet',
-          toTarget: pr.toTarget, dist: 420, trav: 0, tx: mx + Math.cos(a) * 420, ty: my + Math.sin(a) * 420, hitSet: new Set()});
+          toTarget: pr.toTarget, dist: m.d || 420, trav: 0, tx: mx + Math.cos(a) * (m.d || 420), ty: my + Math.sin(a) * (m.d || 420), hitSet: new Set()});
       }
       G.parts.push({k: 'flash', x: mx, y: my, life: .05, max: .05, s: pr.splash ? 16 : 10});
       audio.play(pr.snd, .55);
